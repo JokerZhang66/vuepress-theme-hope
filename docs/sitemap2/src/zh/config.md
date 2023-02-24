@@ -1,6 +1,6 @@
 ---
 title: 选项
-icon: config
+icon: gears
 ---
 
 ## 插件选项
@@ -39,6 +39,20 @@ icon: config
 
 输出的文件名，相对于输出目录。
 
+### sitemapXSLFilename
+
+- 类型: `string`
+- 默认值: `"sitemap.xsl"`
+
+输出的 xsl 文件名，相对于输出目录。
+
+### sitemapXSLTemplate
+
+- 类型: `string`
+- 默认值: `"vuepress-plugin-sitemap2/templates/sitemap.xsl"`
+
+用作模板的 XSL 文件路径
+
 ### changefreq
 
 - 类型: `"always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never"`
@@ -67,6 +81,13 @@ icon: config
 
 ## Frontmatter 选项
 
+### sitemap
+
+- 类型: `SitemapFrontmatterOptions | false`
+- 必填: 否
+
+`false` 代表不输出此页面到 Sitemap
+
 ### sitemap.changefreq
 
 - 类型: `"always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never"`
@@ -78,8 +99,6 @@ icon: config
 
 - 类型: `boolean`
 - 默认值: `false`
-
-是否不输出此页面到 Sitemap
 
 ### sitemap.priority
 

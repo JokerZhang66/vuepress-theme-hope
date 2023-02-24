@@ -1,33 +1,15 @@
-import { lang2PathConfig, path2langConfig, supportedLangs } from "./config.js";
-import { Logger } from "../helpers/index.js";
-import { deepAssign } from "../../shared/index.js";
+import { type App, type LocaleConfig } from "@vuepress/core";
+import { type LocaleData } from "@vuepress/shared";
 
-import type { App, LocaleConfig } from "@vuepress/core";
-import type { LocaleData } from "@vuepress/shared";
-import type { HopeLang } from "./types.js";
-import type { ConvertLocaleConfig } from "../../shared/index.js";
-
-const reportStatus: Record<string, boolean> = {};
-
-/** Check if the lang is supported */
-export const checkLang = (lang = ""): boolean => supportedLangs.includes(lang);
-
-export const showLangError = (lang: string, plugin = ""): void => {
-  if (!reportStatus[lang]) {
-    console.warn(
-      `${lang} locates config is missing, and will return 'en-US' instead.
-${
-  lang === "root"
-    ? ""
-    : `You can contribute to https://github.com/vuepress-theme-hope/vuepress-theme-hope/blob/main/packages/${
-        plugin || "<YOUR PLUGIN>"
-      }/src/node/locales.ts in this repository.
-`
-}Note: This warning will be shown only once`
-    );
-    reportStatus[lang] = true;
-  }
-};
+import { lang2PathConfig, path2langConfig } from "./config.js";
+import { type HopeLang } from "./types.js";
+import {
+  type RequiredLocaleConfig,
+  deepAssign,
+  fromEntries,
+  keys,
+} from "../../shared/index.js";
+import { Logger } from "../utils/index.js";
 
 /** Get language from path */
 export const path2Lang = (path = "", debug = false): HopeLang => {
@@ -35,7 +17,7 @@ export const path2Lang = (path = "", debug = false): HopeLang => {
 
   if (debug)
     console.warn(
-      `${path} isn’t assign with a lang, and will return 'en-US' instead.`
+      `${path} isn’t assign with a lang, and will return "en-US" instead.`
     );
 
   return "en-US";
@@ -46,7 +28,7 @@ export const lang2Path = (lang = "", debug = false): string => {
   if (lang in lang2PathConfig) return lang2PathConfig[lang as HopeLang];
 
   if (debug)
-    console.warn(`${lang} has no path config, and will return '/' instead.`);
+    console.warn(`${lang} has no path config, and will return "/" instead.`);
 
   return "/";
 };
@@ -77,11 +59,11 @@ export const getRootLangPath = (app: App): string =>
   lang2Path(getRootLang(app), app.env.isDebug);
 
 export const getLocalePaths = (app: App): string[] =>
-  Array.from(new Set([...Object.keys(app.siteData.locales)]));
+  Array.from(new Set(keys(app.siteData.locales)));
 
 export interface GetLocalesOptions<T extends LocaleData> {
   app: App;
-  default: ConvertLocaleConfig<T>;
+  default: RequiredLocaleConfig<T>;
   config?: LocaleConfig<T> | undefined;
   name?: string;
 }
@@ -99,11 +81,11 @@ export const getLocales = <T extends LocaleData>({
   name,
   default: defaultLocalesConfig,
   config: userLocalesConfig = {},
-}: GetLocalesOptions<T>): ConvertLocaleConfig<T> => {
+}: GetLocalesOptions<T>): RequiredLocaleConfig<T> => {
   const rootPath = getRootLangPath(app);
   const logger = new Logger(name);
 
-  return Object.fromEntries([
+  return fromEntries([
     ...getLocalePaths(app)
       .filter((localePath) => localePath !== "/")
       .map<[string, T]>((localePath) => {

@@ -1,31 +1,28 @@
 import { usePageData, usePageFrontmatter } from "@vuepress/client";
-import { computed, inject, reactive } from "vue";
+import { type GitData } from "@vuepress/plugin-git";
+import { type ComputedRef, computed, inject } from "vue";
+import { type ReadingTime } from "vuepress-plugin-reading-time2";
 import {
+  type AuthorInfo,
+  type BasePageFrontMatter,
+  type DateInfo,
   getAuthor,
   getCategory,
   getDate,
   getTag,
 } from "vuepress-shared/client";
 
-import { useThemeLocaleData } from "./themeData.js";
+import { type CategoryMapRef } from "@theme-hope/modules/blog/composables/index";
+import { type PageInfoProps } from "@theme-hope/modules/info/components/PageInfo";
+import {
+  type PageCategory,
+  type PageTag,
+} from "@theme-hope/modules/info/utils/index";
 
-import type {
-  AuthorInfo,
-  BasePageFrontMatter,
-  DateInfo,
-} from "vuepress-shared";
-import type { GitData } from "@vuepress/plugin-git";
-import type { ComputedRef } from "vue";
-import type { ReadingTime } from "vuepress-plugin-reading-time2";
-import type { CategoryMapRef } from "@theme-hope/modules/blog/composables/index.js";
-import type { PageInfoProps } from "@theme-hope/modules/info/components/PageInfo.js";
-import type {
-  PageCategory,
-  PageTag,
-} from "@theme-hope/modules/info/utils/index.js";
-import type {
-  ThemeNormalPageFrontmatter,
-  PageInfo,
+import { useThemeLocaleData } from "./themeData.js";
+import {
+  type PageInfo,
+  type ThemeNormalPageFrontmatter,
 } from "../../shared/index.js";
 
 declare const ENABLE_BLOG: boolean;
@@ -92,7 +89,7 @@ export const usePageDate = (): ComputedRef<DateInfo | null> => {
 };
 
 export const usePageInfo = (): {
-  config: PageInfoProps;
+  info: ComputedRef<PageInfoProps>;
   items: ComputedRef<PageInfo[] | false | null>;
 } => {
   const themeLocale = useThemeLocaleData();
@@ -107,7 +104,7 @@ export const usePageInfo = (): {
   const tag = usePageTag();
   const date = usePageDate();
 
-  const config = reactive<PageInfoProps>({
+  const info = computed<PageInfoProps>(() => ({
     author: author.value,
     category: category.value,
     date: date.value,
@@ -117,7 +114,7 @@ export const usePageInfo = (): {
     readingTime: page.value.readingTime || null,
     pageview:
       "pageview" in frontmatter.value ? frontmatter.value.pageview : true,
-  });
+  }));
 
   const items = computed(() =>
     "pageInfo" in frontmatter.value
@@ -127,5 +124,5 @@ export const usePageInfo = (): {
       : null
   );
 
-  return { config, items };
+  return { info, items };
 };

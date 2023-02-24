@@ -1,6 +1,6 @@
 ---
 title: Markdown
-icon: markdown
+icon: fab fa-markdown
 order: 3
 category:
   - Get Started
@@ -41,7 +41,7 @@ For these extended syntax, please see [Built-in Markdown Features](../../cookboo
 
 ### Theme Enhancement
 
-By using [`vuepress-plugin-md-enhance`][md-enhance], the theme extends more Markdown syntax and provides richer writing functions.
+By using <ProjectLink name="md-enhance">`vuepress-plugin-md-enhance`</ProjectLink>, the theme extends more Markdown syntax and provides richer writing functions.
 
 #### Custom Container
 
@@ -302,6 +302,9 @@ cond(no)->e
 #### Mermaid
 
 ```mermaid
+---
+title: Flowchart
+---
 flowchart TB
     c1-->a2
     subgraph one
@@ -331,7 +334,7 @@ $$
 
 #### Include files
 
-@include(../markdown/demo.snippet.md{5-9})
+@include(../markdown/demo.snippet.md{9-13})
 
 - [View Detail](../markdown/include.md)
 
@@ -441,5 +444,3 @@ $$
 @slideend
 
 - [View Detail](../markdown/presentation.md)
-
-[md-enhance]: https://vuepress-theme-hope.github.io/v2/md-enhance/

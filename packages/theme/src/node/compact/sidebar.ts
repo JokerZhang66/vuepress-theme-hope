@@ -1,42 +1,44 @@
-import { droppedLogger, deprecatedLogger } from "./utils.js";
+import { isArray, isPlainObject, isString } from "@vuepress/shared";
+import { colors } from "@vuepress/utils";
+import { entries, fromEntries } from "vuepress-shared/node";
+
+import { deprecatedLogger, droppedLogger } from "./utils.js";
+import {
+  type SidebarArrayOptions,
+  type SidebarItem,
+  type SidebarOptions,
+} from "../../shared/index.js";
 import { logger } from "../utils.js";
 
-import type {
-  SidebarOptions,
-  SidebarArrayOptions,
-  SidebarItem,
-} from "../../shared/index.js";
-
-const handleArraySidebarConfig = (config: unknown[]): SidebarArrayOptions =>
+const handleArraySidebarOptions = (
+  config: SidebarArrayOptions
+): SidebarArrayOptions =>
   config
     .map((item) => {
-      if (typeof item === "string") return item;
+      if (isString(item)) return item;
 
-      if (typeof item === "object") {
+      if (isPlainObject(item)) {
         const convertConfig: [string, string][] = [
           ["title", "text"],
           ["path", "link"],
+          ["collapsable", "collapsible"],
         ];
 
         convertConfig.forEach(([deprecatedOption, newOption]) =>
           deprecatedLogger({
-            options: item as Record<string, unknown>,
+            // @ts-ignore
+            options: item,
             deprecatedOption,
             newOption,
             scope: "sidebar",
           })
         );
 
-        droppedLogger(
-          item as Record<string, unknown>,
-          "sidebarDepth",
-          "Found in sidebar"
-        );
-
         // @ts-ignore
-        if (Array.isArray(item.children))
-          // @ts-ignore
-          handleArraySidebarConfig(item.children as unknown[]);
+        droppedLogger(item, "sidebarDepth", "Found in sidebar");
+
+        if ("children" in item && isArray(item.children))
+          handleArraySidebarOptions(item.children);
 
         return item as SidebarItem;
       }
@@ -48,31 +50,38 @@ const handleArraySidebarConfig = (config: unknown[]): SidebarArrayOptions =>
 /**
  * @deprecated You should use V2 standard sidebar config and avoid using it
  */
-export const convertSidebarConfig = (
-  config: unknown
+export const convertSidebarOptions = (
+  config: SidebarOptions | unknown
 ): SidebarOptions | false => {
-  if (config === false) return false;
-  if (Array.isArray(config)) return handleArraySidebarConfig(config);
+  if (config === false || config === "structure") return config;
 
-  if (typeof config === "object" && config)
-    return Object.fromEntries(
-      Object.entries(config).map<
-        [string, SidebarArrayOptions | "structure" | false]
+  if (isArray(config))
+    return handleArraySidebarOptions(config as SidebarArrayOptions);
+
+  if (isPlainObject(config) && config)
+    return fromEntries(
+      entries(config).map<
+        [string, SidebarArrayOptions | "structure" | "heading" | false]
       >(([key, value]) => {
-        if (Array.isArray(value)) return [key, handleArraySidebarConfig(value)];
+        if (isArray(value))
+          return [key, handleArraySidebarOptions(value as SidebarArrayOptions)];
 
-        if (value === "structure" || value === false)
-          return [key, <"structure" | false>value];
+        if (value === "structure" || value === "heading" || value === false)
+          return [key, <"structure" | "heading" | false>value];
 
         logger.error(
-          '"sidebar" value should be an array, "structure" or false when setting as an object'
+          '"sidebar" value should be an array, "structure", "heading" or false when setting as an object'
         );
 
         return [key, false];
       })
     );
 
-  logger.error('"sidebar" config should be an array or object');
+  logger.error(
+    `${colors.magenta(
+      "sidebar"
+    )} config should be: an array, an object, "structure", "heading" or false`
+  );
 
   return false;
 };

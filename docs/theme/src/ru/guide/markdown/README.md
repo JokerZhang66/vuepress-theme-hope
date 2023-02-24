@@ -1,12 +1,12 @@
 ---
 title: Расширение Markdown
-icon: markdown
+icon: fab fa-markdown
 index: false
 dir:
   order: 3
 ---
 
-Помимо синтаксисов Markdown, добавленных самим VuePress, `vuepress-theme-hope` включает дополнительный синтаксис в Markdown с помощью плагина [vuepress-plugin-md-enhance][md-enhance].
+Помимо синтаксисов Markdown, добавленных самим VuePress, `vuepress-theme-hope` включает дополнительный синтаксис в Markdown с помощью плагина <ProjectLink name="md-enhance">vuepress-plugin-md-enhance</ProjectLink>.
 
 <!-- more -->
 
@@ -65,5 +65,3 @@ dir:
 ## Другие
 
 - [Внешний импорт](external.md)
-
-[md-enhance]: https://vuepress-theme-hope.github.io/v2/md-enhance/

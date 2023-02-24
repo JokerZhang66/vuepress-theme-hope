@@ -1,15 +1,15 @@
-import { chalk, fs, path } from "@vuepress/utils";
-import { generateSW } from "workbox-build";
-import { logger } from "./utils.js";
-
-import type {
-  ManifestEntry,
-  ManifestTransform,
-  ManifestTransformResult,
+import { type App } from "@vuepress/core";
+import { colors, fs, path } from "@vuepress/utils";
+import { endsWith } from "vuepress-shared/node";
+import {
+  type ManifestEntry,
+  type ManifestTransform,
+  type ManifestTransformResult,
+  generateSW,
 } from "workbox-build";
 
-import type { App } from "@vuepress/core";
-import type { PWAOptions } from "./options.js";
+import { type PWAOptions } from "./options.js";
+import { logger } from "./utils.js";
 
 const imageFilter =
   (outDir: string, maxSize = 1024): ManifestTransform =>
@@ -21,7 +21,7 @@ const imageFilter =
     const imageExtensions = [".png", ".jpg", ".jpeg", "webp", "bmp", "gif"];
 
     for (const entry of manifestEntries)
-      if (imageExtensions.some((ext) => entry.url.endsWith(ext))) {
+      if (imageExtensions.some((ext) => endsWith(entry.url, ext))) {
         const stats = fs.statSync(path.resolve(outDir, entry.url));
 
         if (stats.size > maxSize * 1024)
@@ -29,7 +29,9 @@ const imageFilter =
             `Skipped ${entry.url}, as it's ${Math.ceil(stats.size / 1024)} KB.`
           );
         else manifest.push(entry);
-      } else manifest.push(entry);
+      } else {
+        manifest.push(entry);
+      }
 
     return { warnings, manifest };
   };
@@ -64,7 +66,7 @@ export const generateServiceWorker = async (
     logger.succeed();
 
     logger.info(
-      `Precache ${chalk.cyan(`${count} files`)}, totaling ${chalk.cyan(
+      `Precache ${colors.cyan(`${count} files`)}, totaling ${colors.cyan(
         `${(size / 1024 / 1024).toFixed(2)} Mb.`
       )}.`
     );
@@ -76,13 +78,13 @@ export const generateServiceWorker = async (
 
     if (size > 104857600)
       logger.error(
-        `Cache Size is larger than 100MB, so that it can not be registered on all browsers.\n${chalk.blue(
+        `Cache Size is larger than 100MB, so that it can not be registered on all browsers.\n${colors.blue(
           "Please consider disable `cacheHTML` and `cachePic`, or set `maxSize` and `maxPicSize` option.\n"
         )}`
       );
     else if (size > 52428800)
       logger.warn(
-        `\nCache Size is larger than 50MB, which will not be registered on Safari.\n${chalk.blue(
+        `\nCache Size is larger than 50MB, which will not be registered on Safari.\n${colors.blue(
           "Please consider disable `cacheHTML` and `cachePic`, or set `maxSize` and `maxPicSize` option.\n"
         )}`
       );

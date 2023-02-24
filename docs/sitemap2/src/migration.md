@@ -1,11 +1,19 @@
 ---
 title: V2 Migration
-icon: change
+icon: code-compare
 ---
+
+## New Feature
+
+Now sitemap page has a readable outlook.
 
 ## New Options
 
 - New `priority` option setting default value for priority
+
+- New `sitemapXSLFilename` controlling xsl filename
+
+- New `sitemapXSLTemplate` controlling xsl template
 
 ## Changed Options
 

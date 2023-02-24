@@ -1,6 +1,6 @@
 ---
 title: 指南
-icon: creative
+icon: lightbulb
 ---
 
 此插件可以在访问者从你的站点复制内容时，自动追加版权信息，也可以禁止站点的复制或者选择。
@@ -15,8 +15,8 @@ icon: creative
 
 ## 禁用复制和选择
 
-- 如果你不希望用户复制你的整个站点或特定页面文字，你可以在插件选项或在页面 frontmatter 中设置 `disableCopy` 来禁用复制，后者具有更高优先级。
-- 如果你不希望用户选择你的整个站点或特定页面文字，你可以在插件选项或在页面 frontmatter 中设置 `disableSelection` 来禁用选择，后者具有更高优先级。
+- 如果你不希望用户复制你的整个站点或特定页面文字，你可以在插件选项中设置 `disableCopy` 或在页面 frontmatter 中设置 `copy.disableCopy` 来禁用复制，后者具有更高优先级。
+- 如果你不希望用户选择你的整个站点或特定页面文字，你可以在插件选项中设置 `disableSelection` 或在页面 frontmatter 中设置 `copy.disableSelection` 来禁用选择，后者具有更高优先级。
 
 ## 版权信息获取
 

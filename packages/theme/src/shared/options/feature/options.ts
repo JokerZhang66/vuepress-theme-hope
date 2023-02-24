@@ -1,13 +1,13 @@
-import type {
-  BlogLocaleConfig,
-  BlogLocaleData,
-  BlogLocaleOptions,
-  PaginationLocaleData,
+import {
+  type BlogLocaleConfig,
+  type BlogLocaleData,
+  type BlogLocaleOptions,
+  type PaginationLocaleData,
 } from "./blog.js";
-import type {
-  EncryptConfig,
-  EncryptLocaleData,
-  EncryptOptions,
+import {
+  type EncryptConfig,
+  type EncryptLocaleData,
+  type EncryptOptions,
 } from "./encrypt.js";
 
 export interface FeatureLocaleData {
@@ -43,7 +43,7 @@ export interface FeatureLocaleOptions {
 }
 
 export interface FeatureLocaleConfig {
-  blog: BlogLocaleConfig;
+  blog?: BlogLocaleConfig;
 }
 
 /**
@@ -51,29 +51,28 @@ export interface FeatureLocaleConfig {
  */
 export interface FeatureOptions {
   /**
-   * Add This 的公开 ID
-   *
-   * Public ID for add this
-   */
-  addThis?: string;
-
-  /**
    * Encrypt config
    *
    * 加密配置
    */
   encrypt?: EncryptOptions;
+
+  /**
+   * Whether enable hotReload for features that requires app to restart
+   *
+   * @description These features includes blog support and structure sidebar feature
+   *
+   * 是否为需要重启整个 app 的功能启用热更新
+   *
+   * @description 这些功能包括博客支持和结构侧边栏功能
+   *
+   * @default app.env.isDebug
+   */
+  hotReload?: boolean;
 }
 
-export interface FeatureConfig {
-  /**
-   * Blog feature options
-   *
-   * 博客功能配置
-   */
-  // for config size consideration, blog options can be held in root and merged in client side
-  blog: BlogLocaleConfig;
-
+// for config size consideration, blog options can be held in root and merged in client side
+export interface FeatureConfig extends FeatureLocaleConfig {
   /**
    * Encrypt config
    *

@@ -16,13 +16,15 @@ export default defineUserConfig({
     repo: "vuepress-theme-hope/vuepress-theme-hope/tree/main/demo/copyright2/",
 
     navbar: ["/", "/demo", "/disable-copy", "/disable-select"],
+
+    sidebar: false,
   }),
 
   plugins: [
     copyrightPlugin({
       author: "Mr.Hope",
       license: "MIT",
-      hostname: "https://vuepress-theme-hope.github.io",
+      canonical: "https://plugin-copyright2-demo.vuejs.press",
       global: true,
     }),
   ],

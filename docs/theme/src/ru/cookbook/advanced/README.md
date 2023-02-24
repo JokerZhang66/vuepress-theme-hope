@@ -1,6 +1,8 @@
 ---
 title: Продвинутый
-icon: advance
+icon: gem
+dir:
+  order: 5
 category:
   - Учебник с примерами
   - Продвинутый
@@ -37,8 +39,6 @@ article: false
 ## Каталог
 
 - [Использование компонентов](component.md)
-
-- [Кастомизация стиля](style.md)
 
 - [Замена компонента](replace.md)
 

@@ -1,16 +1,15 @@
-import { useStorage, useSessionStorage } from "@vueuse/core";
+import { useSessionStorage, useStorage } from "@vueuse/core";
 import { compareSync } from "bcrypt-ts/browser";
-import { computed } from "vue";
+import { type ComputedRef, computed } from "vue";
 
 import { useEncryptData } from "./utils.js";
-
-import type { ComputedRef } from "vue";
 
 const STORAGE_KEY = "VUEPRESS_HOPE_GLOBAL_TOKEN";
 
 export interface GlobalEncrypt {
-  isGlobalEncrypted: ComputedRef<boolean>;
-  validateGlobalToken: (token: string, keep?: boolean) => void;
+  isEncrypted: ComputedRef<boolean>;
+  isDecrypted: ComputedRef<boolean>;
+  validate: (token: string, keep?: boolean) => void;
 }
 
 export const useGlobalEncrypt = (): GlobalEncrypt => {
@@ -19,33 +18,39 @@ export const useGlobalEncrypt = (): GlobalEncrypt => {
   const localToken = useStorage(STORAGE_KEY, "");
   const sessionToken = useSessionStorage(STORAGE_KEY, "");
 
-  const isGlobalEncrypted = computed(() => {
-    // is globally encrypted
-    if (encryptData.value.global && encryptData.value.admin) {
+  // is globally encrypted
+  const isEncrypted = computed(() => {
+    const { global = false, admin = [] } = encryptData.value;
+
+    return global && admin.length > 0;
+  });
+
+  // valid token exists
+  const isDecrypted = computed(() => {
+    if (isEncrypted.value) {
       if (localToken.value)
         // none of the token matches
-        return encryptData.value.admin.every(
-          (hash) => !compareSync(localToken.value, hash)
+        return encryptData.value.admin!.some((hash) =>
+          compareSync(localToken.value, hash)
         );
 
       if (sessionToken.value)
         // none of the token matches
-        return encryptData.value.admin.every(
-          (hash) => !compareSync(sessionToken.value, hash)
+        return encryptData.value.admin!.some((hash) =>
+          compareSync(sessionToken.value, hash)
         );
-
-      return true;
     }
 
     return false;
   });
 
-  const validateGlobalToken = (inputToken: string, keep = false): void => {
+  const validate = (inputToken: string, keep = false): void => {
     (keep ? localToken : sessionToken).value = inputToken;
   };
 
   return {
-    isGlobalEncrypted,
-    validateGlobalToken,
+    isEncrypted,
+    isDecrypted,
+    validate,
   };
 };

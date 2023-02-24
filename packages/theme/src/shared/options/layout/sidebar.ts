@@ -1,6 +1,6 @@
-import type { ThemeNormalPageFrontmatter } from "../../frontmatter/index.js";
-import type { SidebarOptions } from "../../sidebar.js";
-import type { ThemePageData } from "../../page.js";
+import { type ThemeNormalPageFrontmatter } from "../../frontmatter/index.js";
+import { type ThemePageData } from "../../page.js";
+import { type SidebarOptions } from "../../sidebar.js";
 
 export interface SidebarFileInfo {
   type: "file";
@@ -8,6 +8,7 @@ export interface SidebarFileInfo {
 
   title: string;
   order: number | null;
+  permalink?: string | null;
 
   frontmatter: ThemeNormalPageFrontmatter;
   pageData: ThemePageData;
@@ -48,6 +49,7 @@ export type SidebarSorterFunction = (
 
 export type SidebarSorter =
   | SidebarSorterFunction
+  | SidebarSorterFunction[]
   | SidebarSorterKeyword
   | SidebarSorterKeyword[];
 
@@ -56,14 +58,14 @@ export interface SidebarLocaleOptions {
    * sidebar config
    *
    * @description Set to `false` to disable sidebar in current locale
-   * @see https://vuepress-theme-hope.github.io/v2/guide/layout/sidebar.html
+   * @see https://theme-hope.vuejs.press/guide/layout/sidebar.html
    *
    * 侧边栏配置
    *
    * @description 设置为 `false` 以在当前语言中禁用侧边栏
-   * @see https://vuepress-theme-hope.gitee.io/v2/zh/guide/layout/sidebar.html
+   * @see https://theme-hope.vuejs.press/zh/guide/layout/sidebar.html
    */
-  sidebar?: SidebarOptions | "structure" | "heading" | false;
+  sidebar?: SidebarOptions;
 
   /**
    * Whether show icons in the sidebar

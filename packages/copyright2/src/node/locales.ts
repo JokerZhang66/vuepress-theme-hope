@@ -1,4 +1,4 @@
-import type { CopyrightLocaleConfig } from "../shared/index.js";
+import { type CopyrightLocaleConfig } from "../shared/index.js";
 
 /** Multi language config for copyright */
 export const copyrightLocales: CopyrightLocaleConfig = {
@@ -12,6 +12,12 @@ export const copyrightLocales: CopyrightLocaleConfig = {
     author: "著作权归:author所有",
     license: "基于:license协议",
     link: "原文链接：:link",
+  },
+
+  "/zh-tw/": {
+    author: "著作權歸:author所有",
+    license: "基於:license協議",
+    link: "原文鏈接：:link",
   },
 
   "/ru/": {
@@ -59,6 +65,30 @@ export const copyrightLocales: CopyrightLocaleConfig = {
   "/ko/": {
     author: "저작권자 :author",
     license: ":license 프로토콜에 따라",
+    link: ":link",
+  },
+
+  "/fi/": {
+    author: "Tekijänoikeus :author",
+    license: "Lisenssi :license",
+    link: ":link",
+  },
+
+  "/de/": {
+    author: "Copyright by :author",
+    license: "Lizenziert unter :license",
+    link: ":link",
+  },
+
+  "/de-AT/": {
+    author: "Copyright by :author",
+    license: "Lizenziert unter :license",
+    link: ":link",
+  },
+
+  "/hu/": {
+    author: "Szerzői jog :author",
+    license: "Licensz: :license",
     link: ":link",
   },
 };

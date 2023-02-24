@@ -1,25 +1,24 @@
-import { chalk } from "@vuepress/utils";
-import { stripTags } from "vuepress-shared/node";
+import { type Plugin, type PluginFunction } from "@vuepress/core";
+import { colors } from "@vuepress/utils";
 
 import { convertOptions } from "./compact/index.js";
+import { generateDescription } from "./description.js";
+import { type SeoOptions } from "./options.js";
 import { appendSEO, generateRobotsTxt } from "./seo.js";
-import { extractContent, logger } from "./utils.js";
-
-import type { Plugin, PluginFunction } from "@vuepress/core";
-import type { SeoOptions } from "./options.js";
-import type { ExtendPage } from "./typings/index.js";
+import { type ExtendPage } from "./typings/index.js";
+import { logger } from "./utils.js";
 
 export const seoPlugin =
-  (options: SeoOptions, legacy = false): PluginFunction =>
+  (options: SeoOptions, legacy = true): PluginFunction =>
   (app) => {
     // TODO: Remove this in v2 stable
     if (legacy) convertOptions(options as SeoOptions & Record<string, unknown>);
-    if (app.env.isDebug) logger.info(`Options: ${options.toString()}`);
+    if (app.env.isDebug) logger.info("Options:", options);
 
     const plugin: Plugin = { name: "vuepress-plugin-seo2" };
 
     if (!options.hostname) {
-      logger.error(`Option ${chalk.magenta("hostname")} is required!`);
+      logger.error(`Option ${colors.magenta("hostname")} is required!`);
 
       return plugin;
     }
@@ -27,30 +26,13 @@ export const seoPlugin =
     return {
       ...plugin,
 
-      extendsPage: (page: ExtendPage, app): void => {
-        // generate summary
-        if (
-          !page.frontmatter.description &&
-          options.autoDescription !== false
-        ) {
-          if (page.excerpt)
-            page.frontmatter.description = stripTags(page.excerpt)
-              // convert link breaks into spaces
-              .replace(/(?:\r?\n)+/g, " ")
-              // convert 2 or more spaces into 1
-              .replace(/ +/g, " ")
-              .trim();
-          else {
-            const pageContent = extractContent(page.content);
+      extendsPage: (page: ExtendPage): void => {
+        if (page.frontmatter.seo !== false)
+          generateDescription(page, options.autoDescription !== false);
+      },
 
-            page.frontmatter.description =
-              pageContent.length > 180
-                ? `${pageContent.slice(0, 177)}...`
-                : pageContent;
-          }
-        }
-
-        appendSEO(page, options, app);
+      onInitialized: (app): void => {
+        appendSEO(app, options);
       },
 
       onGenerated: (app): Promise<void> => generateRobotsTxt(app.dir),

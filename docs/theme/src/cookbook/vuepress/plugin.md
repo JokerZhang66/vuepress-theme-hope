@@ -1,6 +1,7 @@
 ---
 title: Plugins
-icon: plugin
+icon: puzzle-piece
+order: 5
 category:
   - Cookbook
   - VuePress

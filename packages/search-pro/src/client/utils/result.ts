@@ -1,7 +1,7 @@
-import { getMatchedContent } from "./matchContent.js";
+import { entries, keys } from "vuepress-shared/client";
 
-import type { Word } from "./matchContent.js";
-import type { LocaleIndex } from "../../shared/index.js";
+import { type Word, getMatchedContent } from "./matchContent.js";
+import { type LocaleIndex } from "../../shared/index.js";
 
 export interface TitleMatchedItem {
   type: "title";
@@ -60,7 +60,7 @@ export const getResults = (
 ): Result[] => {
   const suggestions = <Record<string, MatchedItem[]>>{};
 
-  for (const [path, pageIndex] of Object.entries(localeIndex)) {
+  for (const [path, pageIndex] of entries(localeIndex)) {
     const parentPageTitle =
       localeIndex[path.replace(/\/[^\\]*$/, "")]?.title || "";
     const title = `${parentPageTitle ? `${parentPageTitle} > ` : ""}${
@@ -69,7 +69,7 @@ export const getResults = (
 
     const titleContent = getMatchedContent(pageIndex.title, queryString);
 
-    if (titleContent) {
+    if (titleContent)
       suggestions[title] = [
         ...(suggestions[title] || []),
         {
@@ -78,35 +78,32 @@ export const getResults = (
           display: titleContent,
         },
       ];
-    }
 
     if (pageIndex.customFields)
-      Object.entries(pageIndex.customFields).forEach(
-        ([index, customFields]) => {
-          customFields.forEach((customField) => {
-            const customFieldContent = getMatchedContent(
-              customField,
-              queryString
-            );
+      entries(pageIndex.customFields).forEach(([index, customFields]) => {
+        customFields.forEach((customField) => {
+          const customFieldContent = getMatchedContent(
+            customField,
+            queryString
+          );
 
-            if (customFieldContent)
-              suggestions[title] = [
-                ...(suggestions[title] || []),
-                {
-                  type: "custom",
-                  path,
-                  index,
-                  display: customFieldContent,
-                },
-              ];
-          });
-        }
-      );
+          if (customFieldContent)
+            suggestions[title] = [
+              ...(suggestions[title] || []),
+              {
+                type: "custom",
+                path,
+                index,
+                display: customFieldContent,
+              },
+            ];
+        });
+      });
 
     for (const headerIndex of pageIndex.contents) {
       const headerContent = getMatchedContent(headerIndex.header, queryString);
 
-      if (headerContent) {
+      if (headerContent)
         suggestions[title] = [
           ...(suggestions[title] || []),
           {
@@ -115,12 +112,11 @@ export const getResults = (
             display: headerContent,
           },
         ];
-      }
 
       for (const content of headerIndex.contents) {
         const matchedContent = getMatchedContent(content, queryString);
 
-        if (matchedContent) {
+        if (matchedContent)
           suggestions[title] = [
             ...(suggestions[title] || []),
             {
@@ -130,12 +126,11 @@ export const getResults = (
               display: matchedContent,
             },
           ];
-        }
       }
     }
   }
 
-  return Object.keys(suggestions)
+  return keys(suggestions)
     .sort(
       (titleA, titleB) =>
         getResultsWeight(suggestions[titleA]) -

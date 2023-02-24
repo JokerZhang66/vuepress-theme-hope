@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import type { Dayjs, default as dayjs } from "dayjs";
-import type { Locale } from "./locale.js";
+import { type Dayjs, type default as dayjs } from "dayjs";
+
+import { type Locale } from "./locale.js";
 
 const monthFormat =
   "січня_лютого_березня_квітня_травня_червня_липня_серпня_вересня_жовтня_листопада_грудня".split(
@@ -98,6 +98,6 @@ const locale: Partial<Locale> = {
   },
 };
 
-export const loadUkLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("uk", locale);
+export const loadUkLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("uk", locale);
 };

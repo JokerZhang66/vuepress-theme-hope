@@ -1,6 +1,6 @@
 ---
 title: 主题布局选项
-icon: config
+icon: object-group
 order: 3
 category:
   - 配置
@@ -45,13 +45,13 @@ tag:
     | "Repo";
 
   interface HopeNavbarLayoutOptions {
-    left: NavbarComponent[];
+    start: NavbarComponent[];
     center: NavbarComponent[];
-    right: NavbarComponent[];
+    end: NavbarComponent[];
   }
   ```
 
-- 默认值: `{ left: ["Brand"], center: ["Links"], right: ["Language", "Repo", "Outlook", "Search"] }`
+- 默认值: `{ start: ["Brand"], center: ["Links"], end: ["Language", "Repo", "Outlook", "Search"] }`
 
 自定义导航栏布局
 
@@ -179,6 +179,7 @@ tag:
 
   type SidebarSorter =
     | SidebarSorterFunction
+    | SidebarSorterFunction[]
     | SidebarSorterKeyword
     | SidebarSorterKeyword[];
   ```
@@ -190,7 +191,8 @@ tag:
 你可以:
 
 - 填写自定义函数
-- 提供一个或一组排序器关键字
+- 提供一个排序器关键字
+- 提供一组自定义函数或排序器关键字
 
 可用的关键字有:
 
@@ -332,7 +334,7 @@ tag:
 
 ### copyright
 
-- 类型: `string | boolean`
+- 类型: `string | false`
 - 默认值: `"Copyright © <作者>"`
 
 默认的版权信息，设置为 `false` 来默认禁用它。
@@ -352,6 +354,13 @@ tag:
 - 默认值: 当前 `locale` 的键名
 
 当前语言的主页路径，用于导航栏图标和返回主页按钮的链接。
+
+### rtl
+
+- 类型: `boolean`
+- 默认值: `false`
+
+是否使用 RTL 布局
 
 ### toc {#toc-heading}
 

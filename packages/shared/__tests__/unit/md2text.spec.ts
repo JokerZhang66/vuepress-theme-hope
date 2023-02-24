@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { md2text } from "../../src/node/markdown/md2text";
+import { describe, expect, it } from "vitest";
+
+import { md2text } from "../../src/node/markdown/md2text.js";
 
 describe("md2text", () => {
   it("Should remove code blocks", () => {
@@ -86,7 +87,7 @@ Some information.\
   it("Should remove footnote reference", () => {
     expect(
       md2text(`\
-This is a footnote reference,[^1] and another.[^longnote]
+This is a footnote reference,[^1] and another.[^long-note]
 `)
     ).toEqual(`\
 This is a footnote reference, and another.\
@@ -130,11 +131,11 @@ This is a paragraph with ~ markers with  and  deleted.\
       md2text(`\
 Hello World!
 
-Grettings with everyone.\
+Greetings with everyone.\
 `)
     ).toEqual(`\
 Hello World!
-Grettings with everyone.\
+Greetings with everyone.\
 `);
   });
 
@@ -206,11 +207,11 @@ subitem b;\
       md2text(`\
 > Hello World!
 >
-> > Grettings with everyone.\
+> > Greetings with everyone.\
 `)
     ).toEqual(`\
 Hello World!
-Grettings with everyone.\
+Greetings with everyone.\
 `);
   });
 

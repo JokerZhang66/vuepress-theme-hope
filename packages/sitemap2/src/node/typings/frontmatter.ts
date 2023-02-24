@@ -1,7 +1,9 @@
-import type {
-  SitemapImageOption,
-  SitemapNewsOption,
-  SitemapVideoOption,
+import { type PageFrontmatter } from "@vuepress/shared";
+
+import {
+  type SitemapImageOption,
+  type SitemapNewsOption,
+  type SitemapVideoOption,
 } from "./sitemap.js";
 
 export interface SitemapFrontmatterOption {
@@ -18,13 +20,6 @@ export interface SitemapFrontmatterOption {
     | "monthly"
     | "yearly"
     | "never";
-
-  /**
-   * Whether to exclude this page from sitemap
-   *
-   * 是否不包含此页面
-   */
-  exclude?: boolean;
 
   /**
    * Priority of this page, supports 0.0 -1.0
@@ -53,4 +48,8 @@ export interface SitemapFrontmatterOption {
    * 新闻配置
    */
   news?: SitemapNewsOption[];
+}
+
+export interface SitemapPluginFrontmatter extends PageFrontmatter {
+  sitemap?: SitemapFrontmatterOption | false;
 }

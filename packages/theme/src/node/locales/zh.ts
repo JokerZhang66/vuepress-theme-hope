@@ -1,4 +1,4 @@
-import type { ThemeLocaleData } from "../../shared/index.js";
+import { type ThemeLocaleData } from "../../shared/index.js";
 
 export const zhLocale: ThemeLocaleData = {
   lang: "zh-CN",
@@ -35,8 +35,6 @@ export const zhLocale: ThemeLocaleData = {
     all: "全部",
     intro: "个人介绍",
     star: "收藏",
-    slides: "幻灯片",
-    encrypt: "加密",
   },
 
   paginationLocales: {
@@ -62,6 +60,7 @@ export const zhLocale: ThemeLocaleData = {
 
   routeLocales: {
     skipToContent: "跳至主要內容",
+    notFoundTitle: "页面不存在",
     notFoundMsg: [
       "这里什么也没有",
       "我们是怎么来到这儿的？",

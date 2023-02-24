@@ -1,18 +1,26 @@
-import { ensureEndingSlash, removeLeadingSlash } from "@vuepress/shared";
+import { type App } from "@vuepress/core";
+import {
+  ensureEndingSlash,
+  isArray,
+  isPlainObject,
+  removeLeadingSlash,
+} from "@vuepress/shared";
+import { entries, fromEntries } from "vuepress-shared/node";
 
 import { getSidebarInfo } from "./info.js";
-import { getSorter } from "./sorter.js";
+import { getSidebarSorter } from "./sorter.js";
+import {
+  type SidebarArrayOptions,
+  type SidebarGroupItem,
+  type SidebarInfo,
+  type SidebarOptions,
+  type SidebarSorter,
+  type ThemeData,
+} from "../../../shared/index.js";
 import { logger } from "../../utils.js";
 
-import type { App } from "@vuepress/core";
-import type {
-  ThemeConfig,
-  SidebarArrayOptions,
-  SidebarOptions,
-  SidebarGroupItem,
-  SidebarSorter,
-  SidebarInfo,
-} from "../../../shared/index.js";
+const removeExtension = (path: string): string =>
+  path.replace(/README\.md$/, "").replace(/\.md$/, "");
 
 const getGeneratePaths = (
   sidebarConfig: SidebarArrayOptions,
@@ -20,7 +28,7 @@ const getGeneratePaths = (
 ): string[] => {
   const result: string[] = [];
 
-  if (!Array.isArray(sidebarConfig)) {
+  if (!isArray(sidebarConfig)) {
     logger.error(
       `Expecting array, but getting invalid sidebar config${
         prefix ? ` under ${prefix}` : ""
@@ -32,7 +40,7 @@ const getGeneratePaths = (
 
   sidebarConfig.forEach((item) => {
     // it’s a sidebar group config
-    if (typeof item === "object" && "children" in item) {
+    if (isPlainObject(item) && "children" in item) {
       const childPrefix = `${prefix}${item.prefix || ""}`;
 
       // the children needs to be generated
@@ -46,7 +54,8 @@ const getGeneratePaths = (
 
 const getSidebarItems = (infos: SidebarInfo[]): (SidebarGroupItem | string)[] =>
   infos.map((info) => {
-    if (info.type === "file") return info.filename;
+    if (info.type === "file")
+      return info.permalink ?? removeExtension(info.filename);
 
     return {
       text: info.title,
@@ -56,30 +65,33 @@ const getSidebarItems = (infos: SidebarInfo[]): (SidebarGroupItem | string)[] =>
     };
   });
 
+/**
+ * @private
+ */
 export const getSidebarData = (
   app: App,
-  themeConfig: ThemeConfig,
+  themeData: ThemeData,
   sorter?: SidebarSorter
 ): SidebarOptions => {
   const generatePaths: string[] = [];
-  const sorters = getSorter(sorter);
+  const sorters = getSidebarSorter(sorter);
 
   // exact generate sidebar paths
-  Object.entries(themeConfig.locales).forEach(([localePath, { sidebar }]) => {
-    if (Array.isArray(sidebar))
-      generatePaths.push(...getGeneratePaths(sidebar));
-    else if (typeof sidebar === "object")
-      Object.entries(sidebar).forEach(([prefix, config]) => {
+  entries(themeData.locales).forEach(([localePath, { sidebar }]) => {
+    if (isArray(sidebar)) generatePaths.push(...getGeneratePaths(sidebar));
+    else if (isPlainObject(sidebar))
+      entries(sidebar).forEach(([prefix, config]) => {
         if (config === "structure") generatePaths.push(prefix);
-        else if (Array.isArray(config))
+        else if (isArray(config))
           generatePaths.push(
             ...getGeneratePaths(config).map((item) => `${prefix}${item}`)
           );
       });
-    else if (sidebar === "structure") generatePaths.push(localePath);
+    // sidebar is default "structure"
+    else if (sidebar !== false) generatePaths.push(localePath);
   });
 
-  const sidebarData = Object.fromEntries(
+  const sidebarData = fromEntries(
     generatePaths.map((path) => [
       path,
       getSidebarItems(
@@ -100,12 +112,15 @@ export const getSidebarData = (
   return sidebarData;
 };
 
+/**
+ * @private
+ */
 export const prepareSidebarData = async (
   app: App,
-  themeConfig: ThemeConfig,
+  themeData: ThemeData,
   sorter?: SidebarSorter
 ): Promise<void> => {
-  const sidebarData = getSidebarData(app, themeConfig, sorter);
+  const sidebarData = getSidebarData(app, themeData, sorter);
 
   await app.writeTemp(
     "theme-hope/sidebar.js",

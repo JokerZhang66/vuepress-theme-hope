@@ -1,11 +1,17 @@
-import { useEventListener, useDebounceFn } from "@vueuse/core";
-import { atou } from "vuepress-shared/client";
-import { computed, defineComponent, h, onMounted, ref } from "vue";
-import { LoadingIcon } from "./icons.js";
-import presets from "../flowchart-preset/index.js";
+import { useDebounceFn, useEventListener } from "@vueuse/core";
+import { type Chart } from "flowchart.ts";
+import {
+  type PropType,
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  onMounted,
+  ref,
+} from "vue";
+import { LoadingIcon, atou } from "vuepress-shared/client";
 
-import type * as Flowchart from "flowchart.js";
-import type { PropType, VNode } from "vue";
+import presets from "../flowchart-preset/index.js";
 
 import "../styles/flowchart.scss";
 
@@ -15,8 +21,25 @@ export default defineComponent({
   name: "FlowChart",
 
   props: {
+    /**
+     * Flowchart code content
+     *
+     * 流程图代码内容
+     */
     code: { type: String, required: true },
+
+    /**
+     * Flowchart id
+     *
+     * 流程图 id
+     */
     id: { type: String, required: true },
+
+    /**
+     * Flowchart preset
+     *
+     * 流程图预设
+     */
     preset: {
       type: String as PropType<"ant" | "pie" | "vue">,
       default: "vue",
@@ -24,7 +47,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    let svg: Flowchart.Instance;
+    let flowchart: Chart | null = null;
     const element = ref<HTMLDivElement>();
 
     const loading = ref(true);
@@ -47,13 +70,11 @@ export default defineComponent({
 
     onMounted(() => {
       void Promise.all([
-        import(
-          /* webpackChunkName: "flowchart" */ "flowchart.js/src/flowchart.parse.js"
-        ),
+        import(/* webpackChunkName: "flowchart" */ "flowchart.ts"),
         // delay
         new Promise((resolve) => setTimeout(resolve, MARKDOWN_ENHANCE_DELAY)),
-      ]).then(([{ default: parse }]) => {
-        svg = parse(atou(props.code));
+      ]).then(([{ parse }]) => {
+        flowchart = parse(atou(props.code));
 
         // update scale
         scale.value = getScale(window.innerWidth);
@@ -61,26 +82,28 @@ export default defineComponent({
         loading.value = false;
 
         // draw svg to #id
-        svg.drawSVG(props.id, { ...preset.value, scale: scale.value });
+        flowchart.draw(props.id, { ...preset.value, scale: scale.value });
+      });
 
-        useEventListener(
-          "resize",
-          useDebounceFn(() => {
+      useEventListener(
+        "resize",
+        useDebounceFn(() => {
+          if (flowchart) {
             const newScale = getScale(window.innerWidth);
 
             if (scale.value !== newScale) {
               scale.value = newScale;
 
-              svg.drawSVG(props.id, { ...preset.value, scale: newScale });
+              flowchart.draw(props.id, { ...preset.value, scale: newScale });
             }
-          }, 100)
-        );
-      });
+          }
+        }, 100)
+      );
     });
 
     return (): (VNode | null)[] => [
       loading.value
-        ? h("div", { class: "flowchart-loading-wrapper" }, h(LoadingIcon))
+        ? h(LoadingIcon, { class: "flowchart-loading", height: 192 })
         : null,
       h("div", {
         ref: element,

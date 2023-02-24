@@ -1,30 +1,37 @@
-import { fs, getDirname, path } from "@vuepress/utils";
+import { fs, path } from "@vuepress/utils";
+import { endsWith, fromEntries } from "vuepress-shared/node";
 
-const __dirname = getDirname(import.meta.url);
+import { CLIENT_FOLDER } from "./utils.js";
 
 const getDirAlias = (dir: string): [string, string][] =>
   fs
-    .readdirSync(path.resolve(__dirname, "../client", dir))
+    .readdirSync(path.resolve(CLIENT_FOLDER, dir))
     .filter(
       (file) =>
-        file.endsWith(".js") || file.endsWith(".vue") || !file.includes(".")
+        // js files
+        endsWith(file, ".js") ||
+        // folder
+        !file.includes(".")
     )
     .map<[string, string]>((file) => [
-      `@theme-hope/${dir}/${file}`,
-      path.resolve(__dirname, "../client", dir, file),
+      `@theme-hope/${dir}/${file.replace(/\.js$/, "")}`,
+      path.resolve(CLIENT_FOLDER, dir, file),
     ]);
 
 const getEntryAlias = (entry: string): [string, string] | null =>
-  fs.existsSync(path.resolve(__dirname, "../client", entry, "index.js"))
+  fs.existsSync(path.resolve(CLIENT_FOLDER, entry, "index.js"))
     ? [
-        `@theme-hope/${entry}/index.js`,
-        path.resolve(__dirname, "../client", entry, "index.js"),
+        `@theme-hope/${entry}/index`,
+        path.resolve(CLIENT_FOLDER, entry, "index.js"),
       ]
     : null;
 
-export const resolveAlias = (isDebug: boolean): Record<string, string> => {
+/**
+ * @private
+ */
+export const getAlias = (isDebug: boolean): Record<string, string> => {
   // use alias to make all components replaceable
-  const alias = Object.fromEntries([
+  const alias = fromEntries([
     // define components
     ...getDirAlias("components"),
     // define composables and utils
@@ -35,7 +42,7 @@ export const resolveAlias = (isDebug: boolean): Record<string, string> => {
       ),
     // define modules
     ...fs
-      .readdirSync(path.resolve(__dirname, "../client/modules"))
+      .readdirSync(path.resolve(CLIENT_FOLDER, "modules"))
       .map((folder) => `modules/${folder}`)
       .map((file) => [
         // define module components

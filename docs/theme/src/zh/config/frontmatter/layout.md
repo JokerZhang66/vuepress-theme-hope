@@ -1,6 +1,6 @@
 ---
 title: 布局 Frontmatter 配置
-icon: config
+icon: object-group
 order: 2
 category:
   - 配置
@@ -100,14 +100,14 @@ Page order in sidebar.
 ### dir.text
 
 - 类型: `string`
-- 默认值: README.md 的标题
+- 默认值: `README.md` 的标题
 
 分组标题。
 
 ### dir.icon
 
 - 类型: `string`
-- 默认值: README.md 的图标
+- 默认值: `README.md` 的图标
 
 分组图标。
 
@@ -127,7 +127,7 @@ Page order in sidebar.
 
 ::: note
 
-设置为 `true` 意味着将分组链接设置为 README.md 链接。
+设置为 `true` 意味着将分组链接设置为 `README.md` 链接。
 
 :::
 
@@ -138,7 +138,7 @@ Page order in sidebar.
 
 是否索引当前目录
 
-## dir.order
+### dir.order
 
 - 类型: `number`
 

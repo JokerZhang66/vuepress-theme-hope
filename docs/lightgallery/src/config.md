@@ -1,12 +1,12 @@
 ---
 title: Plugin Options
-icon: config
+icon: gears
 ---
 
 ## selector
 
 - Type: `string`
-- Default: `".theme-default-content :not(a) > img"`
+- Default: `".theme-default-content :not(a) > img:not(no-view)"`
 
 Image selector
 
@@ -34,7 +34,7 @@ Optional values:
 ## delay
 
 - Type: `number`
-- Default: `500`
+- Default: `800`
 
 The delay of lightgallery fetching page images, in ms.
 

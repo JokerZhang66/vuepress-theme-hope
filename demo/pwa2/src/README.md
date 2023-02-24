@@ -6,9 +6,9 @@ heroText: vuepress-plugin-pwa2
 tagline: Turning on Progressive Web App Support
 actions:
   - text: Docs
-    link: https://vuepress-theme-hope.github.io/v2/pwa/
+    link: https://plugin-pwa2.vuejs.press
 
-footer: Theme by <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
+footer: MIT Licensed, Copyright © 2019-present Mr.Hope
 ---
 
 ## How to use
@@ -16,7 +16,7 @@ footer: Theme by <a href="https://vuepress-theme-hope.github.io/v2/" target="_bl
 ### Install
 
 ```bash
-pnpm add -D vuepress-plugin-pwa2@next
+pnpm add -D vuepress-plugin-pwa2
 ```
 
 ### Usage

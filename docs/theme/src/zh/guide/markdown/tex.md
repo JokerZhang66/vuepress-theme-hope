@@ -1,6 +1,6 @@
 ---
 title: Tex 语法
-icon: tex
+icon: square-root-variable
 category:
   - Markdown
 tag:
@@ -59,13 +59,13 @@ export default {
 
 :::
 
-您只能启用其中一个，并且 katex 具有更高的优先级。
+你只能启用其中一个，并且 katex 具有更高的优先级。
 
 ## 语法
 
 ### 行内语法
 
-使用 `$codes$` 来表示。
+使用 `$tex expression$` 来表示。
 
 ```md
 Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
@@ -75,7 +75,7 @@ Euler’s identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
 
 ### 块语法
 
-使用 `$$codes$$` 来表示。
+使用 `$$tex expression$$` 来表示。
 
 ```md
 $$
@@ -97,8 +97,8 @@ $$
 
 Katex:
 
-- [$\KaTeX$ 支持功能](https://katex.org/docs/supported.html)
-- [$\KaTeX$ 支持列表](https://katex.org/docs/support_table.html)
+- [KaTeX 支持功能](https://katex.org/docs/supported.html)
+- [KaTeX 支持列表](https://katex.org/docs/support_table.html)
 
 Mathjax:
 
@@ -108,19 +108,19 @@ Mathjax:
 
 ::: info KaTeX
 
-使用 KaTeX 时，您可以将对象作为 `KatexOptions` 传递给 `katex`。 它将被传递给 KaTeX 有关可用选项，请参阅 [KaTeX Docs](https://katex.org/docs/options.html)。
+使用 KaTeX 时，你可以将对象作为 `KatexOptions` 传递给 `katex`。 它将被传递给 KaTeX 有关可用选项，请参阅 [KaTeX Docs](https://katex.org/docs/options.html)。
 
-此外，我们还支持一个特殊选项 `mhchem`，您可以通过将其设置为 `true` 来启用 mhchem 扩展。
+此外，我们还支持一个特殊选项 `mhchem`，你可以通过将其设置为 `true` 来启用 mhchem 扩展。
 
 :::
 
 ::: info Mathjax
 
-使用 mathjax 时，您可以将对象传递给 `mathjax`。
+使用 mathjax 时，你可以将对象传递给 `mathjax`。
 
-您可以将 `output` 选项设置为 `svg` (默认) 或 `chtml` 以更改 SVG 和 HTML 输出。
+你可以将 `output` 选项设置为 `svg` (默认) 或 `chtml` 以更改 SVG 和 HTML 输出。
 
-此外，您可以通过 `tex` 选项将设置传递给 TeX 输入解析器，并且可以根据出书格式，通过 `chtml` 或 `svg` 选项传递给通用 HTML 输出解析器和 SVG 输出解析器的输出语法设置 。
+此外，你可以通过 `tex` 选项将设置传递给 TeX 输入解析器，并且可以根据出书格式，通过 `chtml` 或 `svg` 选项传递给通用 HTML 输出解析器和 SVG 输出解析器的输出语法设置 。
 
 :::
 
@@ -156,14 +156,12 @@ Mathjax:
 - 多重积分:
   - `\iint`: $\iint$
   - `\iiint`: $\iiint$
-  - `\liiiint`: $\liiiint$ (块级公式正常使用 `\iiiint`)
+  - `\iiiint`: $\iiiint$
   - `\idotsint` $\idotsint$
 
 ::: tip
 
 连加、连乘、极限、积分等大型运算符可以用 `\limits` 和 `\nolimits` 来强制显式地指定是否压缩这些上下标。
-
-`\iiiint`($\liiiint$) 是使用 hack 实现的，由于间距问题对于行公式需要使用 `\liiiint` 命令。
 
 `\varoiint`, `\sqint`, `\sqiint`, `\ointctrclockwise`, `\ointclockwise`, `\varointclockwise`, `\varointctrclockwise`, `\fint`, `\landupint`, `\landdownint` 目前不被支持。
 
@@ -177,9 +175,9 @@ $\sum_{i=1}^n i\; \prod_{i=1}^n$
 
 $\sum\limits _{i=1}^n i\; \prod\limits_{i=1}^n$
 
-$\iint_1^2 x^2\; \iiint_1^2 x^2\; \liiiint_1^2 x^2\; \idotsint_1^2 x^2$
+$\iint_1^2 x^2\; \iiint_1^2 x^2\; \iiiint_1^2 x^2\; \idotsint_1^2 x^2$
 
-$\iint\limits_1^2 x^2\; \iiint\limits_1^2 x^2\; \liiiint\limits_1^2 x^2\; \idotsint\limits_1^2 x^2$
+$\iint\limits_1^2 x^2\; \iiint\limits_1^2 x^2\; \iiiint\limits_1^2 x^2\; \idotsint\limits_1^2 x^2$
 
 $$
 \iint_1^2 x^2\; \iiint_1^2 x^2\; \iiiint_1^2 x^2\; \idotsint_1^2 x^2
@@ -192,9 +190,9 @@ $\sum_{i=1}^n i\; \prod_{i=1}^n$
 
 $\sum\limits _{i=1}^n i\; \prod\limits _{i=1}^n$
 
-$\iint_1^2 x^2\; \iiint_1^2 x^2\; \liiiint_1^2 x^2\; \idotsint_1^2 x^2$
+$\iint_1^2 x^2\; \iiint_1^2 x^2\; \iiiint_1^2 x^2\; \idotsint_1^2 x^2$
 
-$\iint\limits_1^2 x^2\; \iiint\limits_1^2 x^2\; \liiiint\limits_1^2 x^2\; \idotsint\limits_1^2 x^2$
+$\iint\limits_1^2 x^2\; \iiint\limits_1^2 x^2\; \iiiint\limits_1^2 x^2\; \idotsint\limits_1^2 x^2$
 
 $$\iint_1^2 x^2\; \iiint_1^2 x^2\; \iiiint_1^2 x^2\; \idotsint_1^2 x^2$$
 ```

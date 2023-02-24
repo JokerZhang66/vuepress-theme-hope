@@ -8,7 +8,7 @@ tag:
   - 搜索
 ---
 
-主题对 [`vuepress-plugin-search-pro`][search-pro]、 [`@vuepress/plugin-docsearch`][docsearch] 和 [`@vuepress/plugin-search`][search] 提供了内置支持。你只需要添加并配置所需的搜索插件，就能够在导航栏获得一个搜索框。
+主题对 <ProjectLink name="search-pro" path="/zh/">`vuepress-plugin-search-pro`</ProjectLink>、 [`@vuepress/plugin-docsearch`][docsearch] 和 [`@vuepress/plugin-search`][search] 提供了内置支持。你只需要添加并配置所需的搜索插件，就能够在导航栏获得一个搜索框。
 
 如果你需要搜索插件，请通过 [**VuePress 配置文件**](../../cookbook/vuepress/config.md) 的 `plugins` 选项应用它。
 
@@ -37,19 +37,19 @@ tag:
    @tab pnpm
 
    ```bash
-   pnpm add -D vuepress-plugin-search-pro@next
+   pnpm add -D vuepress-plugin-search-pro
    ```
 
    @tab yarn
 
    ```bash
-   yarn add -D vuepress-plugin-search-pro@next
+   yarn add -D vuepress-plugin-search-pro
    ```
 
    @tab npm
 
    ```bash
-   npm i -D vuepress-plugin-search-pro@next
+   npm i -D vuepress-plugin-search-pro
    ```
 
    :::
@@ -62,8 +62,8 @@ tag:
 
    ```ts
    // .vuepress/config.ts
-   import { searchProPlugin } from "vuepress-plugin-search-pro";
    import { defineUserConfig } from "vuepress";
+   import { searchProPlugin } from "vuepress-plugin-search-pro";
 
    export default defineUserConfig({
      plugins: [
@@ -73,12 +73,10 @@ tag:
          // 为分类和标签添加索引
          customFields: [
            {
-             name: "category",
              getter: (page) => page.frontmatter.category,
              formatter: "分类：$content",
            },
            {
-             name: "tag",
              getter: (page) => page.frontmatter.tag,
              formatter: "标签：$content",
            },
@@ -102,12 +100,10 @@ tag:
          // 为分类和标签添加索引
          customFields: [
            {
-             name: "category",
              getter: (page) => page.frontmatter.category,
              formatter: "分类：$content",
            },
            {
-             name: "tag",
              getter: (page) => page.frontmatter.tag,
              formatter: "标签：$content",
            },
@@ -121,7 +117,7 @@ tag:
 
 ::: info 更多
 
-关于搜索插件的可用选项，详见 [插件文档][search-pro]。
+关于搜索插件的可用选项，详见 <ProjectLink name="search-pro" path="/zh/">插件文档</ProjectLink>。
 
 :::
 
@@ -600,4 +596,3 @@ export default {
 
 [docsearch]: https://v2.vuepress.vuejs.org/zh/reference/plugin/docsearch.html
 [search]: https://v2.vuepress.vuejs.org/zh/reference/plugin/search.html
-[search-pro]: https://vuepress-theme-hope.github.io/v2/search-pro/zh/

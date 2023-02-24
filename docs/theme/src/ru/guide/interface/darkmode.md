@@ -1,6 +1,6 @@
 ---
 title: Темный режим
-icon: contrast
+icon: circle-half-stroke
 order: 1
 category:
   - Интерфейс
@@ -33,8 +33,8 @@ tag:
 
 ## Глобальные переменные
 
-`$isDarkMode` доступен во всех маркдаун файлах.
+`$isDarkmode` доступен во всех маркдаун файлах.
 
 <script setup lang="ts">
-import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch.js"
+import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch"
 </script>

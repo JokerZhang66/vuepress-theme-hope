@@ -1,19 +1,25 @@
-import type { LocaleConfig } from "@vuepress/core";
-import type {
-  AttrsOptions,
-  ImageMarkOptions,
-  IncludeOptions,
-  KatexOptions,
-  MarkdownEnhanceLocaleData,
-  MathJaxOptions,
-  StylizeOptions,
-  PlaygroundOptions,
-  PresentationOptions,
-  TaskListOptions,
-  TSPresetPlaygroundOptions,
-  VuePresetPlaygroundOptions,
+import { type LocaleConfig } from "@vuepress/core";
+import { type MermaidConfig } from "mermaid";
+
+import {
+  type AttrsOptions,
+  type FigureOptions,
+  type ImgMarkOptions,
+  type IncludeOptions,
+  type KatexOptions,
+  type MarkdownEnhanceLocaleData,
+  type MathjaxOptions,
+  type PlaygroundOptions,
+  type PresentationOptions,
+  type StylizeOptions,
+  type TSPresetPlaygroundOptions,
+  type TasklistOptions,
+  type VuePresetPlaygroundOptions,
 } from "./typings/index.js";
-import type { CodeDemoOptions, VuePlaygroundOptions } from "../shared/index.js";
+import {
+  type CodeDemoOptions,
+  type VuePlaygroundOptions,
+} from "../shared/index.js";
 
 /**
  * md-enhance plugin configuration
@@ -22,9 +28,9 @@ export interface MarkdownEnhanceOptions {
   /**
    * Whether check dead links in markdown
    *
-   * @description `true` equals to `'always'`, `false` equals to `'never'`
+   * @description `true` equals to `"always"`, `false` equals to `"never"`
    *
-   * @default 'dev'
+   * @default "dev"
    */
   linkCheck?: "always" | "dev" | "build" | "never" | boolean;
 
@@ -128,6 +134,15 @@ export interface MarkdownEnhanceOptions {
   sub?: boolean;
 
   /**
+   * Whether render figure with standalone imag
+   *
+   * 是否将单独的图片渲染为 figure
+   *
+   * @default false
+   */
+  figure?: FigureOptions | boolean;
+
+  /**
    * Whether to enable footnote format support
    *
    * 是否启用脚注格式支持。
@@ -143,16 +158,7 @@ export interface MarkdownEnhanceOptions {
    *
    * @default false
    */
-  imageLazyload?: boolean;
-
-  /**
-   * Whether render figure when title is set
-   *
-   * 是否在设置标题时渲染 figure
-   *
-   * @default false
-   */
-  imageTitle?: boolean;
+  imgLazyload?: boolean;
 
   /**
    * Whether to enable gfm image id mark support
@@ -161,7 +167,7 @@ export interface MarkdownEnhanceOptions {
    *
    * @default false
    */
-  imageMark?: ImageMarkOptions | boolean;
+  imgMark?: ImgMarkOptions | boolean;
 
   /**
    * Whether to enable image size mark support
@@ -170,7 +176,16 @@ export interface MarkdownEnhanceOptions {
    *
    * @default false
    */
-  imageSize?: ImageMarkOptions | boolean;
+  imgSize?: boolean;
+
+  /**
+   * Whether to enable obsidian image size mark support
+   *
+   * 是否启用 obsidian 图片大小标记支持。
+   *
+   * @default false
+   */
+  obsidianImgSize?: boolean;
 
   /**
    * Whether to enable mark format support
@@ -188,7 +203,7 @@ export interface MarkdownEnhanceOptions {
    *
    * @default false
    */
-  tasklist?: TaskListOptions | boolean;
+  tasklist?: TasklistOptions | boolean;
 
   /**
    * Whether to enable include syntax support
@@ -197,7 +212,7 @@ export interface MarkdownEnhanceOptions {
    *
    * @default false
    */
-  include?: IncludeOptions | boolean;
+  include?: Partial<IncludeOptions> | boolean;
 
   /**
    * Whether to enable katex support
@@ -223,7 +238,7 @@ export interface MarkdownEnhanceOptions {
    *
    * @default false
    */
-  mathjax?: MathJaxOptions | boolean;
+  mathjax?: MathjaxOptions | boolean;
 
   /**
    * Whether to enable chart support
@@ -259,7 +274,7 @@ export interface MarkdownEnhanceOptions {
    *
    * @default false
    */
-  mermaid?: boolean;
+  mermaid?: MermaidConfig | boolean;
 
   /**
    * Whether to enable code-demo support
@@ -319,7 +334,7 @@ export interface MarkdownEnhanceOptions {
    *
    * 如果你使用的主题有切换动画，建议配置此选项为 `切换动画时长 + 200`
    *
-   * @default 500
+   * @default 800
    */
   delay?: number;
 

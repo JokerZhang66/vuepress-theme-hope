@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { fs, pwa, theme } from "docs-shared";
+import { fs, theme } from "docs-shared";
 
 const { version } = fs.readJsonSync(
   createRequire(import.meta.url).resolve("vuepress-plugin-seo2/package.json")
@@ -16,7 +16,7 @@ export default theme("seo2", {
         "/demo",
         {
           text: version,
-          icon: "note",
+          icon: "bookmark",
           children: [
             {
               text: "V1 Docs",
@@ -38,7 +38,7 @@ export default theme("seo2", {
         "/zh/demo",
         {
           text: version,
-          icon: "note",
+          icon: "bookmark",
           children: [
             {
               text: "V1 文档",
@@ -56,11 +56,5 @@ export default theme("seo2", {
     mdEnhance: {
       codetabs: true,
     },
-
-    pwa: pwa({
-      name: "vuepress-plugin-seo2",
-      shortName: "VuePress2 SEO plugin",
-      guide: "/guide/",
-    }),
   },
 });

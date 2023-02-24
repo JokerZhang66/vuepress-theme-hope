@@ -1,7 +1,9 @@
-import type { HeadConfig } from "@vuepress/core";
-import type { PWAOptions } from "./options.js";
+import { type HeadConfig } from "@vuepress/core";
+import { isPlainObject } from "@vuepress/shared";
 
-export const injectLinkstoHead = (
+import { type PWAOptions } from "./options.js";
+
+export const injectLinksToHead = (
   options: PWAOptions,
   base = "/",
   head: HeadConfig[] = []
@@ -54,10 +56,7 @@ export const injectLinkstoHead = (
   });
   setMeta("theme-color", options.themeColor || "#46bd87");
 
-  if (
-    typeof options.apple === "object" &&
-    (options.apple.icon || fallBackIcon)
-  ) {
+  if (isPlainObject(options.apple) && (options.apple.icon || fallBackIcon)) {
     setLink("apple-touch-icon", options.apple.icon || fallBackIcon);
     setMeta("apple-mobile-web-app-capable", "yes");
     setMeta(
@@ -74,10 +73,7 @@ export const injectLinkstoHead = (
     setMeta("apple-mobile-web-app-status-bar-style", "black");
   }
 
-  if (
-    typeof options.msTile === "object" &&
-    (options.msTile.image || fallBackIcon)
-  ) {
+  if (isPlainObject(options.msTile) && (options.msTile.image || fallBackIcon)) {
     setMeta("msapplication-TileImage", options.msTile.image || fallBackIcon);
     setMeta(
       "msapplication-TileColor",

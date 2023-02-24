@@ -1,16 +1,9 @@
 ---
 title: Options
-icon: config
+icon: gears
 ---
 
 ## Plugin Options
-
-### hostname
-
-- Type: `string`
-- Required: No
-
-Deploy hostname
 
 ### author
 
@@ -54,6 +47,26 @@ Disable copy
 
 Disable selection
 
+### canonical
+
+- Type: `string`
+- Required: No
+
+Canonical hostname with base.
+
+This is useful when your content are deploying in multiple places.
+
+::: note Example
+
+If you are deploying same content under `https://myblog.com` and `https://blog.com/username/`, you may want to prefer one site as reference link.
+
+- If you prefer the first one, you should set `canonical` to `https://myblog.com`
+- If you prefer the second one, you should set `canonical` to `https://blog.com/username/`
+
+So copyright message triggered by copying content on another site also points to your preferred site.
+
+:::
+
 ### locales
 
 - Type: `CopyrightLocaleConfig`
@@ -96,7 +109,8 @@ Locale config for copyright plugin.
 - **Simplified Chinese** (zh-CN)
 - **Traditional Chinese** (zh-TW)
 - **English (United States)** (en-US)
-- **German** (de-AT)
+- **German** (de-DE)
+- **German (Australia)** (de-AT)
 - **Russian** (ru-RU)
 - **Ukrainian** (uk-UA)
 - **Vietnamese** (vi-VN)
@@ -108,6 +122,7 @@ Locale config for copyright plugin.
 - **Japanese** (ja-JP)
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
+- **Finnish** (fi-FI)
 
 :::
 

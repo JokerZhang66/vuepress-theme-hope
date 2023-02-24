@@ -1,6 +1,6 @@
 ---
 title: 插件配置
-icon: config
+icon: gears
 ---
 
 ## hostname
@@ -52,7 +52,7 @@ icon: config
 
 如果你的站点文章很多，你应该考虑设置这个选项以减少 feed 文件大小。
 
-## customElements
+## removedElements
 
 - 类型: `string[]`
 - 默认值: `["ExternalLinkIcon"]`
@@ -101,23 +101,51 @@ icon: config
 ## atomOutputFilename
 
 - 类型: `string`
-- 默认值: `atom.xml`
+- 默认值: `"atom.xml"`
 
 Atom 格式输出路径，相对于输出路径。
+
+## atomXslTemplate
+
+- 类型: `string`
+- 默认值: `"vuepress-plugin-feed2/templates/atom.xsl"`
+
+Atom xsl 模板文件路径
+
+## atomXslFilename
+
+- 类型: `string`
+- 默认值: `"atom.xsl"`
+
+Atom xsl 输出路径，相对于输出路径。
 
 ## jsonOutputFilename
 
 - 类型: `string`
-- 默认值: `feed.json`
+- 默认值: `"feed.json"`
 
 JSON 格式输出路径，相对于输出路径。
 
 ## rssOutputFilename
 
 - 类型: `string`
-- 默认值: `rss.xml`
+- 默认值: `"rss.xml"`
 
 RSS 格式输出路径，相对于输出路径。
+
+## rssXslTemplate
+
+- 类型: `string`
+- 默认值: `"vuepress-plugin-feed2/templates/rss.xsl"`
+
+RSS xsl 模板文件路径。
+
+## rssXslFilename
+
+- 类型: `string`
+- 默认值: `"rss.xsl"`
+
+RSS xsl 输出路径，相对于输出路径。
 
 ## getter
 

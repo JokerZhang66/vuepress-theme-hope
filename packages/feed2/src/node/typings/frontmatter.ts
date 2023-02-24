@@ -1,5 +1,10 @@
-import type { BasePageFrontMatter } from "vuepress-shared";
-import type { FeedAuthor, FeedContributor, FeedCategory } from "./feed.js";
+import { type BasePageFrontMatter } from "vuepress-shared/node";
+
+import {
+  type FeedAuthor,
+  type FeedCategory,
+  type FeedContributor,
+} from "./feed.js";
 
 export interface FeedFrontmatterOption {
   /**
@@ -9,8 +14,17 @@ export interface FeedFrontmatterOption {
 
   /**
    * Feed description
+   *
+   * @description Should be plain text
    */
   description?: string;
+
+  /**
+   * Feed summary
+   *
+   * @description Should be html content
+   */
+  summary?: string;
 
   /**
    * Feed content

@@ -6,7 +6,7 @@ heroText: vuepress-plugin-sass-palette
 tagline: Sass palette plugin for VuePress2
 actions:
   - text: Docs
-    link: https://vuepress-theme-hope.github.io/v2/sass-palette/
+    link: https://plugin-sass-palette.vuejs.press
 
 footer: MIT Licensed | Copyright © 2021-present Mr.Hope
 ---
@@ -16,7 +16,7 @@ footer: MIT Licensed | Copyright © 2021-present Mr.Hope
 ### 安装
 
 ```bash
-pnpm add -D vuepress-plugin-sass-palette@next
+pnpm add -D vuepress-plugin-sass-palette
 ```
 
 ### Usage

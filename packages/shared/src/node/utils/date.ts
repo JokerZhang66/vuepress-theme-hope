@@ -1,9 +1,20 @@
+import { type Page } from "@vuepress/core";
+import { type GitPluginPageData } from "@vuepress/plugin-git";
+
 import { dayjs, getLocale } from "./dayjs/index.js";
 import { getDate } from "../../shared/index.js";
 
-import type { Page } from "@vuepress/core";
-import type { GitPluginPageData } from "@vuepress/plugin-git";
-import type { DateOptions } from "../../shared/index.js";
+export interface DateOptions {
+  /**
+   * @default "en"
+   */
+  lang?: string;
+  timezone?: string;
+  /**
+   * @default "full"
+   */
+  type?: "date" | "time" | "full";
+}
 
 export const timeTransformer = (
   date: string | Date | undefined,
@@ -32,7 +43,7 @@ export const injectLocalizedDate = (
   page: Page<{ localizedDate?: string | null } & Partial<GitPluginPageData>>,
   timezone?: string
 ): void => {
-  if (!page.data.localizedDate) {
+  if (!page.data.localizedDate)
     if (page.frontmatter.date) {
       const date = getDate(page.frontmatter.date, timezone)?.value;
 
@@ -41,7 +52,7 @@ export const injectLocalizedDate = (
           lang: page.lang,
           type: "date",
         });
-    } else if (page.data.git?.createdTime)
+    } else if (page.data.git?.createdTime) {
       page.data.localizedDate = timeTransformer(
         new Date(page.data.git?.createdTime),
         {
@@ -49,5 +60,5 @@ export const injectLocalizedDate = (
           type: "date",
         }
       );
-  }
+    }
 };

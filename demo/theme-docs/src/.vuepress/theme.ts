@@ -3,7 +3,7 @@ import { enNavbar, zhNavbar } from "./navbar/index.js";
 import { enSidebar, zhSidebar } from "./sidebar/index.js";
 
 const hostname =
-  process.env.HOSTNAME || "https://vuepress-theme-hope-docs-demo.netlify.app";
+  process.env.HOSTNAME || "https://theme-hope-docs-demo.vuejs.press";
 
 export default hopeTheme({
   hostname,
@@ -20,8 +20,6 @@ export default hopeTheme({
   repo: "vuepress-theme-hope/vuepress-theme-hope",
 
   docsDir: "demo/theme-docs/src",
-
-  pageInfo: ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"],
 
   locales: {
     "/": {
@@ -69,33 +67,15 @@ export default hopeTheme({
   },
 
   plugins: {
-    // If you don’t need comment feature, you can remove following option
-    // The following config is for demo ONLY, if you need comment feature, please generate and use your own config, see comment plugin documentation for details.
-    // To avoid disturbing the theme developer and consuming his resources, please DO NOT use the following config directly in your production environment!!!!!
     comment: {
-      /**
-       * Using Giscus
-       */
-      // provider: "Giscus",
-      // repo: "vuepress-theme-hope/giscus-discussions",
-      // repoId: "R_kgDOG_Pt2A",
-      // category: "Announcements",
-      // categoryId: "DIC_kwDOG_Pt2M4COD69",
-
-      /**
-       * Using Twikoo
-       */
-      // provider: "Twikoo",
-      // envId: "https://twikoo.ccknbc.vercel.app",
-
-      /**
-       * Using Waline
-       */
-      provider: "Waline",
-      serverURL: "https://vuepress-theme-hope-comment.vercel.app",
+      provider: "Giscus",
+      repo: "vuepress-theme-hope/giscus-discussions",
+      repoId: "R_kgDOG_Pt2A",
+      category: "Announcements",
+      categoryId: "DIC_kwDOG_Pt2M4COD69",
     },
 
-    // Disable features you don’t want here
+    // All features are enabled for demo, only preserve features you need here
     mdEnhance: {
       align: true,
       attrs: true,
@@ -104,11 +84,11 @@ export default hopeTheme({
       container: true,
       demo: true,
       echarts: true,
+      figure: true,
       flowchart: true,
       gfm: true,
-      imageLazyload: true,
-      imageTitle: true,
-      imageSize: true,
+      imgLazyload: true,
+      imgSize: true,
       include: true,
       katex: true,
       mark: true,
@@ -189,12 +169,6 @@ export default hopeTheme({
                 purpose: "maskable",
                 type: "image/png",
               },
-              {
-                src: "/assets/icon/guide-monochrome.png",
-                sizes: "192x192",
-                purpose: "monochrome",
-                type: "image/png",
-              },
             ],
           },
         ],
@@ -202,8 +176,8 @@ export default hopeTheme({
     },
 
     seo:
-      hostname === "https://vuepress-theme-hope.github.io"
+      hostname === "https://theme-hope-docs-demo.vuejs.press"
         ? {}
-        : { canonical: "https://vuepress-theme-hope.github.io/docs-demo/" },
+        : { canonical: "https://theme-hope-docs-demo.vuejs.press" },
   },
 });

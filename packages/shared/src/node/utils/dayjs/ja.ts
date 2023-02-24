@@ -1,6 +1,7 @@
 // Japanese [ja]
 import type dayjs from "dayjs";
-import type { Locale } from "./locale.js";
+
+import { type Locale } from "./locale.js";
 
 const locale: Locale = {
   name: "ja-jp",
@@ -57,6 +58,6 @@ const locale: Locale = {
   },
 };
 
-export const loadJaLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("ja", locale);
+export const loadJaLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("ja", locale);
 };

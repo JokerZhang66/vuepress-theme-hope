@@ -13,7 +13,7 @@ actions:
   - text: Config 🛠
     link: /config.html
 
-footer: Theme by <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
+footer: Theme by <a href="https://theme-hope.vuejs.press" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
 
 copyrightText: false
 ---
@@ -27,19 +27,19 @@ copyrightText: false
 @tab pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-redirect@next
+pnpm add -D vuepress-plugin-redirect
 ```
 
 @tab yarn
 
 ```bash
-yarn add -D vuepress-plugin-redirect@next
+yarn add -D vuepress-plugin-redirect
 ```
 
 @tab npm
 
 ```bash
-npm i -D vuepress-plugin-redirect@next
+npm i -D vuepress-plugin-redirect
 ```
 
 :::
@@ -79,3 +79,9 @@ export default {
 ```
 
 :::
+
+<NetlifyBadge />
+
+<script setup lang="ts">
+import NetlifyBadge from "@NetlifyBadge";
+</script>

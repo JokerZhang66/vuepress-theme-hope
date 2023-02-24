@@ -1,6 +1,6 @@
 ---
 title: Get Started
-icon: creative
+icon: lightbulb
 ---
 
 By installing and enabling this plugin, you can use more syntax in your Markdown files.
@@ -42,19 +42,19 @@ Orange
 @tab pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-md-enhance@next
+pnpm add -D vuepress-plugin-md-enhance
 ```
 
 @tab yarn
 
 ```bash
-yarn add -D vuepress-plugin-md-enhance@next
+yarn add -D vuepress-plugin-md-enhance
 ```
 
 @tab:active npm
 
 ```bash
-npm i -D vuepress-plugin-md-enhance@next
+npm i -D vuepress-plugin-md-enhance
 ```
 
 :::
@@ -194,6 +194,9 @@ cond(no)->e
 ### Mermaid
 
 ```mermaid
+---
+title: Flowchart
+---
 flowchart TB
     c1-->a2
     subgraph one
@@ -223,7 +226,7 @@ $$
 
 ### Include files
 
-@include(./demo.snippet.md{5-9})
+@include(./demo.snippet.md{9-13})
 
 - [View Detail](include.md)
 

@@ -1,16 +1,9 @@
 ---
 title: 选项
-icon: config
+icon: gears
 ---
 
 ## 插件选项
-
-### hostname
-
-- 类型: `string`
-- 必填: 否
-
-部署的域名
 
 ### author
 
@@ -54,6 +47,26 @@ icon: config
 
 禁用选择
 
+### canonical
+
+- 类型: `string`
+- 必填: 否
+
+首选域名与部署目录
+
+当你在多个站点部署内容时很有用。
+
+::: note 例子
+
+如果你在 `https://myblog.com` 和 `https://blog.com/username/` 下部署相同的内容，你可能希望选择一个站点作为首选链接。
+
+- 如果你倾向于使用第一个，你应该将 `canonical` 设置为 `https://myblog.com`
+- 如果你倾向于使用第二个，你应该将 `canonical` 设置为 `https://blog.com/username/`
+
+这样，在另一个站点复制内容触发的版权信息，也会指向你的首选站点。
+
+:::
+
 ### locales
 
 - 类型: `CopyrightLocaleConfig`
@@ -96,7 +109,8 @@ icon: config
 - **简体中文** (zh-CN)
 - **繁体中文** (zh-TW)
 - **英文(美国)** (en-US)
-- **德语** (de-AT)
+- **德语** (de-DE)
+- **德语(澳大利亚)** (de-AT)
 - **俄语** (ru-RU)
 - **乌克兰语** (uk-UA)
 - **越南语** (vi-VN)
@@ -108,6 +122,7 @@ icon: config
 - **日语** (ja-JP)
 - **土耳其语** (tr-TR)
 - **韩语** (ko-KR)
+- **芬兰语** (fi-FI)
 
 :::
 

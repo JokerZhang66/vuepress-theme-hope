@@ -1,27 +1,25 @@
-import { computed, defineComponent, h } from "vue";
-import { RouterLink, useRoute } from "vue-router";
+import { usePageData, useRouteLocale } from "@vuepress/client";
+import { type VNode, computed, defineComponent, h } from "vue";
+import { RouterLink } from "vue-router";
 
-import { useThemeLocaleData } from "@theme-hope/composables/index.js";
+import { useThemeLocaleData } from "@theme-hope/composables/index";
 import {
   useArticles,
-  useEncryptedArticles,
-  useSlides,
   useStars,
-} from "@theme-hope/modules/blog/composables/index.js";
-
-import type { VNode } from "vue";
+} from "@theme-hope/modules/blog/composables/index";
 
 import "../styles/article-type.scss";
+
+declare const BLOG_TYPE_INFO: { key: string; path: string }[];
 
 export default defineComponent({
   name: "ArticleType",
 
   setup() {
+    const page = usePageData();
+    const localePath = useRouteLocale();
     const themeLocale = useThemeLocaleData();
-    const route = useRoute();
     const articles = useArticles();
-    const encryptedArticles = useEncryptedArticles();
-    const slides = useSlides();
     const stars = useStars();
 
     const types = computed(() => {
@@ -33,8 +31,10 @@ export default defineComponent({
           path: articles.value.path,
         },
         { text: locale.star, path: stars.value.path },
-        { text: locale.slides, path: slides.value.path },
-        { text: locale.encrypt, path: encryptedArticles.value.path },
+        ...BLOG_TYPE_INFO.map(({ key, path }) => ({
+          text: locale[key],
+          path: path.replace(/^\//, localePath.value),
+        })),
       ];
     });
 
@@ -46,7 +46,10 @@ export default defineComponent({
           h(
             "li",
             {
-              class: ["article-type", { active: type.path === route.path }],
+              class: [
+                "article-type",
+                { active: type.path === page.value.path },
+              ],
             },
             h(RouterLink, { to: type.path }, () => type.text)
           )

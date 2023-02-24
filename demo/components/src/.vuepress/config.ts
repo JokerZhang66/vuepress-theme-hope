@@ -1,6 +1,7 @@
 import { defineUserConfig } from "@vuepress/cli";
 import { defaultTheme } from "@vuepress/theme-default";
 import { componentsPlugin } from "vuepress-plugin-components";
+import { addViteSsrNoExternal } from "vuepress-shared";
 
 const base = <"/" | `/${string}/`>process.env.BASE || "/";
 
@@ -19,13 +20,19 @@ export default defineUserConfig({
 
     sidebar: [
       "/demo/",
+      "/demo/artplayer",
+      "/demo/audioplayer",
       "/demo/badge",
       "/demo/bilibili",
       "/demo/codepen",
       "/demo/fonticon",
       "/demo/pdf",
+      "/demo/replit",
+      "/demo/share",
+      "/demo/siteinfo",
       "/demo/stackblitz",
       "/demo/videoplayer",
+      "/demo/xigua",
       "/demo/youtube",
     ],
 
@@ -34,21 +41,58 @@ export default defineUserConfig({
     },
   }),
 
+  extendsBundlerOptions: (bundlerOptions, app) => {
+    addViteSsrNoExternal(bundlerOptions, app, "artplayer-plugin-danmuku");
+  },
+
   plugins: [
     componentsPlugin({
-      addThis: "ra-5f829c59e6c6bc9a",
-      backToTop: true,
       components: [
+        "ArtPlayer",
+        "AudioPlayer",
         "Badge",
         "BiliBili",
         "CodePen",
         "FontIcon",
         "PDF",
+        "Replit",
+        "Share",
+        "SiteInfo",
         "StackBlitz",
         "VideoPlayer",
+        "XiGua",
         "YouTube",
       ],
-      iconAssets: "iconfont",
+
+      componentOptions: {
+        fontIcon: {
+          assets: "fontawesome",
+        },
+        pdf: {
+          pdfjs: "/assets/lib/pdfjs/",
+        },
+      },
+
+      rootComponents: {
+        addThis: "ra-5f829c59e6c6bc9a",
+        backToTop: true,
+        notice: [
+          {
+            match: /^\/$/,
+            title: "Notice Title",
+            content: "Notice Content",
+            actions: [
+              {
+                text: "Primary Action",
+                link: "https://theme-hope.vuejs.press/",
+                type: "primary",
+              },
+              { text: "Default Action" },
+            ],
+            fullscreen: true,
+          },
+        ],
+      },
     }),
   ],
 });

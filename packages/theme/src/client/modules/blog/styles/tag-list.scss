@@ -9,7 +9,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
 
-  padding-left: 0;
+  padding-inline-start: 0;
 
   list-style: none;
 
@@ -35,6 +35,7 @@
 
     font-size: 12px;
     text-align: center;
+    word-break: break-word;
 
     cursor: pointer;
 
@@ -51,7 +52,7 @@
   }
 
   .tag-num {
-    margin-left: 0.5em;
+    margin-inline-start: 0.5em;
   }
 
   @each $color in hope-config.$colors {

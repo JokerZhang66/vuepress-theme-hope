@@ -1,8 +1,12 @@
-import type { HeadConfig } from "@vuepress/core";
-import type {
-  ArticleJSONLD,
-  ArticleSeoContent,
-  SeoContent,
+import { type HeadConfig } from "@vuepress/core";
+import { startsWith } from "vuepress-shared/node";
+
+import {
+  type ArticleSchema,
+  type ArticleSeoContent,
+  type BlogPostingSchema,
+  type SeoContent,
+  type WebPageSchema,
 } from "./typings/index.js";
 
 interface MetaOptions {
@@ -11,12 +15,12 @@ interface MetaOptions {
   attribute?: string;
 }
 
-const appendMetatoHead = (
+const appendMetaToHead = (
   head: HeadConfig[],
   {
     name,
     content,
-    attribute = ["article:", "og:"].some((type) => name.startsWith(type))
+    attribute = ["article:", "og:"].some((type) => startsWith(name, type))
       ? "property"
       : "name",
   }: MetaOptions
@@ -29,13 +33,13 @@ export const addOGP = (head: HeadConfig[], content: SeoContent): void => {
     switch (property) {
       case "article:tag":
         (<ArticleSeoContent>content)["article:tag"]!.forEach((tag: string) =>
-          appendMetatoHead(head, { name: "article:tag", content: tag })
+          appendMetaToHead(head, { name: "article:tag", content: tag })
         );
         break;
       case "og:locale:alternate":
         content["og:locale:alternate"].forEach((locale: string) => {
           if (locale !== content["og:locale"])
-            appendMetatoHead(head, {
+            appendMetaToHead(head, {
               name: "og:locale:alternate",
               content: locale,
             });
@@ -43,7 +47,7 @@ export const addOGP = (head: HeadConfig[], content: SeoContent): void => {
         break;
       default:
         if (<string>content[<keyof SeoContent>property])
-          appendMetatoHead(head, {
+          appendMetaToHead(head, {
             name: property,
             content: <string>content[<keyof SeoContent>property],
           });
@@ -52,14 +56,13 @@ export const addOGP = (head: HeadConfig[], content: SeoContent): void => {
 
 export const appendJSONLD = (
   head: HeadConfig[],
-  content: ArticleJSONLD | null
+  content: ArticleSchema | BlogPostingSchema | WebPageSchema
 ): void => {
-  if (content)
-    head.push([
-      "script",
-      { type: "application/ld+json" },
-      JSON.stringify(content),
-    ]);
+  head.push([
+    "script",
+    { type: "application/ld+json" },
+    JSON.stringify(content),
+  ]);
 };
 
 export const appendCanonical = (

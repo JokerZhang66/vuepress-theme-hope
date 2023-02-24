@@ -1,13 +1,11 @@
-import { useEventListener } from "@vueuse/core";
 import { withBase } from "@vuepress/client";
-import { defineComponent, h, onMounted, ref } from "vue";
+import { useEventListener } from "@vueuse/core";
+import { type VNode, defineComponent, h, onMounted, ref } from "vue";
 import { useLocaleConfig } from "vuepress-shared/client";
 
 import { ArrowLeftIcon, ArrowRightIcon, CloseIcon } from "./icons.js";
+import { type ManifestOption } from "../../shared/index.js";
 import { locales } from "../define.js";
-
-import type { VNode } from "vue";
-import type { ManifestOption } from "../../shared/index.js";
 
 interface InstallPromptEvent extends Event {
   readonly platforms: string;
@@ -19,10 +17,21 @@ export default defineComponent({
   name: "PWAInstallModal",
 
   props: {
+    /**
+     * Whether use hint message instead of showing a button
+     *
+     * 是否使用提示
+     */
     useHint: Boolean,
   },
 
-  emits: ["can-install", "hint", "toggle"],
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    canInstall: (_status: boolean) => true,
+    hint: () => true,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    toggle: (_status: boolean) => true,
+  },
 
   setup(props, { emit }) {
     const locale = useLocaleConfig(locales);
@@ -49,7 +58,7 @@ export default defineComponent({
         }
     };
 
-    const scrolltoLeft = (): void => {
+    const scrollToLeft = (): void => {
       const screenshotsDiv = document.querySelector(".screenshot");
 
       if (screenshotsDiv)
@@ -60,7 +69,7 @@ export default defineComponent({
         });
     };
 
-    const scrolltoRight = (): void => {
+    const scrollToRight = (): void => {
       const screenshotsDiv = document.querySelector(".screenshot");
 
       if (screenshotsDiv)
@@ -83,12 +92,12 @@ export default defineComponent({
           console.info("PWA has been installed");
 
           emit("toggle", false);
-          emit("can-install", false);
+          emit("canInstall", false);
         } else {
           console.info("You choose to not install PWA");
 
           emit("toggle", false);
-          emit("can-install", false);
+          emit("canInstall", false);
         }
       }
     };
@@ -104,7 +113,7 @@ export default defineComponent({
         useEventListener(window, "beforeinstallprompt", (event) => {
           deferredPrompt.value = <InstallPromptEvent>event;
 
-          emit("can-install", true);
+          emit("canInstall", true);
           event.preventDefault();
 
           useEventListener("keyup", (event): void => {
@@ -165,7 +174,7 @@ export default defineComponent({
                       "button",
                       {
                         "aria-label": locale.value.prevImage,
-                        onClick: scrolltoLeft,
+                        onClick: scrollToLeft,
                       },
                       h(ArrowLeftIcon)
                     ),
@@ -184,7 +193,7 @@ export default defineComponent({
                       "button",
                       {
                         "aria-label": locale.value.nextImage,
-                        onClick: scrolltoRight,
+                        onClick: scrollToRight,
                       },
                       h(ArrowRightIcon)
                     ),

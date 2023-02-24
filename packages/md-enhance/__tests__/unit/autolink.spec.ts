@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
 import MarkdownIt from "markdown-it";
+import { describe, expect, it } from "vitest";
 
 describe("autolink", () => {
   const markdownIt = MarkdownIt();

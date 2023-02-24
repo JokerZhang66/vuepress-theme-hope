@@ -1,10 +1,13 @@
-import type {
-  SidebarInfo,
-  SidebarSorter,
-  SidebarSorterFunction,
+import { isArray, isFunction, isString } from "@vuepress/shared";
+import { keys } from "vuepress-shared/node";
+
+import {
+  type SidebarInfo,
+  type SidebarSorter,
+  type SidebarSorterFunction,
 } from "../../../shared/index.js";
 
-export const readmeSorter = (
+export const sidebarReadmeSorter = (
   infoA: SidebarInfo,
   infoB: SidebarInfo
 ): number => {
@@ -17,7 +20,10 @@ export const readmeSorter = (
   return 0;
 };
 
-export const orderSorter = (infoA: SidebarInfo, infoB: SidebarInfo): number => {
+export const sidebarOrderSorter = (
+  infoA: SidebarInfo,
+  infoB: SidebarInfo
+): number => {
   // itemA order is absent
   if (infoA.order === null) {
     // both item do not have orders
@@ -48,7 +54,10 @@ export const orderSorter = (infoA: SidebarInfo, infoB: SidebarInfo): number => {
   return 1;
 };
 
-export const dateSorter = (infoA: SidebarInfo, infoB: SidebarInfo): number => {
+export const sidebarDateSorter = (
+  infoA: SidebarInfo,
+  infoB: SidebarInfo
+): number => {
   if (infoA.frontmatter?.date instanceof Date) {
     if (infoB.frontmatter?.date instanceof Date)
       return (
@@ -63,7 +72,7 @@ export const dateSorter = (infoA: SidebarInfo, infoB: SidebarInfo): number => {
   return 0;
 };
 
-export const dateDescSorter = (
+export const sidebarDateDescSorter = (
   infoA: SidebarInfo,
   infoB: SidebarInfo
 ): number => {
@@ -84,7 +93,7 @@ export const dateDescSorter = (
 const getFilename = (info: SidebarInfo): string =>
   info.type === "file" ? info.filename.replace(/\.md$/, "") : info.dirname;
 
-export const filenameSorter = (
+export const sidebarFilenameSorter = (
   infoA: SidebarInfo,
   infoB: SidebarInfo
 ): number => {
@@ -105,32 +114,46 @@ export const filenameSorter = (
   return 0;
 };
 
-export const titleSorter = (infoA: SidebarInfo, infoB: SidebarInfo): number =>
+export const sidebarTitleSorter = (
+  infoA: SidebarInfo,
+  infoB: SidebarInfo
+): number =>
   infoA.title.localeCompare(infoB.title, undefined, {
     numeric: true,
   });
 
 const sortKeyMap: Record<string, SidebarSorterFunction> = {
-  readme: readmeSorter,
-  order: orderSorter,
-  date: dateSorter,
-  "date-desc": dateDescSorter,
-  filename: filenameSorter,
-  title: titleSorter,
+  readme: sidebarReadmeSorter,
+  order: sidebarOrderSorter,
+  date: sidebarDateSorter,
+  "date-desc": sidebarDateDescSorter,
+  filename: sidebarFilenameSorter,
+  title: sidebarTitleSorter,
 };
 
-const availableKeywords = Object.keys(sortKeyMap);
+const availableKeywords = keys(sortKeyMap);
 
-export const getSorter = (sorter?: SidebarSorter): SidebarSorterFunction[] => {
-  if (typeof sorter === "string" && availableKeywords.includes(sorter))
+/** @private */
+export const getSidebarSorter = (
+  sorter?: SidebarSorter
+): SidebarSorterFunction[] => {
+  if (isString(sorter) && availableKeywords.includes(sorter))
     return [sortKeyMap[sorter]];
 
-  if (Array.isArray(sorter))
-    return sorter
-      .filter((sorterKey) => availableKeywords.includes(sorterKey))
-      .map((sorterKey) => sortKeyMap[sorterKey]);
+  if (isFunction(sorter)) return [sorter];
 
-  if (typeof sorter === "function") return [sorter];
+  if (isArray(sorter)) {
+    const result = sorter
+      .map((item) => (isString(item) ? sortKeyMap[item] : item))
+      .filter((item) => isFunction(item));
 
-  return [readmeSorter, orderSorter, titleSorter, filenameSorter];
+    if (result.length) return result;
+  }
+
+  return [
+    sidebarReadmeSorter,
+    sidebarOrderSorter,
+    sidebarTitleSorter,
+    sidebarFilenameSorter,
+  ];
 };

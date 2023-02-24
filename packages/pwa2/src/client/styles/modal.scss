@@ -22,7 +22,7 @@
   }
 }
 
-@keyframes pwa-fadein {
+@keyframes pwa-fade-in {
   from {
     opacity: 0.2;
   }
@@ -35,6 +35,9 @@
 .modal-button {
   @include reset.button;
   position: fixed;
+
+  // NOTE: Compatible with Android Wechat
+  // inset-inline-end: 1rem;
   right: 1rem;
   bottom: 1rem;
   z-index: 50;
@@ -42,14 +45,14 @@
   padding: 0 16px;
   border-radius: 1.2rem;
 
-  background: var(--c-brand, #3eaf7c);
+  background: var(--vp-tc);
   color: var(--white);
   outline: none;
 
   font-weight: 600;
   line-height: 2.2rem;
 
-  transition: background var(--color-transition), color var(--color-transition);
+  transition: background var(--vp-ct), color var(--vp-ct);
 
   // stylelint-disable media-feature-name-no-unknown
   @media (display-mode: standalone) {
@@ -57,9 +60,18 @@
   }
   // stylelint-enable media-feature-name-no-unknown
 
+  @media print {
+    display: none;
+  }
+
+  #{hope-config.$rtl-selector} & {
+    right: unset;
+    left: 1rem;
+  }
+
   &:hover,
   &:active {
-    background: var(--c-brand-light, #4abf8a);
+    background: var(--vp-tcl);
   }
 }
 
@@ -78,6 +90,10 @@
   width: 100vw;
   height: 100vh;
 
+  @media print {
+    display: none;
+  }
+
   button {
     @include reset.button;
   }
@@ -90,7 +106,7 @@
     left: 0;
     z-index: 998;
 
-    animation: 0.25s pwa-fadein;
+    animation: 0.25s pwa-fade-in;
 
     backdrop-filter: blur(10px);
   }
@@ -105,9 +121,9 @@
     max-width: 56em;
     border-radius: 10px;
 
-    background: var(--c-bg, #fff);
+    background: var(--vp-bg);
 
-    transition: background var(--color-transition);
+    transition: background var(--vp-ct);
     animation: 0.15s pwa-opened;
 
     @media (max-width: hope-config.$laptop) {
@@ -140,7 +156,11 @@
       @include reset.button;
       float: right;
       color: var(--grey3);
-      transition: color var(--color-transition);
+      transition: color var(--vp-ct);
+
+      #{hope-config.$rtl-selector} & {
+        float: left;
+      }
 
       &:hover,
       &:focus {
@@ -155,7 +175,7 @@
     h1 {
       margin-top: 0;
       margin-bottom: 7px;
-      color: var(--dark-gery);
+      color: var(--dark-grey);
       font-size: 34px;
 
       @media (max-width: hope-config.$pad) {
@@ -170,13 +190,13 @@
     img {
       width: 122px;
       height: 122px;
-      margin-right: 24px;
+      margin-inline-end: 24px;
       padding: 12px;
       border-radius: 24px;
 
       background: #eee;
 
-      transition: background var(--color-transition);
+      transition: background var(--vp-ct);
 
       @media (max-width: hope-config.$pad) {
         width: 60px;
@@ -184,7 +204,7 @@
       }
 
       @media (max-width: hope-config.$tablet) {
-        margin-right: 12px;
+        margin-inline-end: 12px;
         padding: 8px;
       }
 
@@ -239,12 +259,12 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-right: 20px;
+    margin-inline-end: 20px;
 
     @media (max-width: hope-config.$tablet) {
       flex-direction: column;
       align-items: flex-start;
-      margin-right: 0;
+      margin-inline-end: 0;
     }
 
     h3 {
@@ -262,7 +282,7 @@
 
   .feature-wrapper {
     overflow: hidden;
-    padding-right: 2em;
+    padding-inline-end: 2em;
 
     ul {
       margin-block-start: 12px;
@@ -280,7 +300,7 @@
       font-size: 16px;
       line-height: 29px;
 
-      transition: color var(--color-transition);
+      transition: color var(--vp-ct);
     }
   }
 
@@ -296,7 +316,7 @@
     button {
       @include reset.button;
       width: 4em;
-      transition: background var(--color-transition);
+      transition: background var(--vp-ct);
 
       &:hover,
       &:focus {
@@ -362,7 +382,7 @@
   .button-wrapper {
     width: 100%;
     padding: 1rem 0;
-    text-align: right;
+    text-align: end;
 
     @media (max-width: hope-config.$tablet) {
       text-align: center;
@@ -378,7 +398,7 @@
     min-width: 80px;
     margin: 0.5rem 1rem;
     padding: 0.5rem 1rem;
-    border: solid 2px var(--c-brand, #3eaf7c);
+    border: solid 2px var(--vp-tc);
     border-radius: 20px;
 
     font-weight: 600;
@@ -386,9 +406,9 @@
   }
 
   .install-button {
-    background: var(--c-brand, #3eaf7c);
+    background: var(--vp-tc);
     color: var(--white);
-    transition: color var(--color-transition);
+    transition: color var(--vp-ct);
 
     @media (max-width: hope-config.$mobile) {
       span {
@@ -398,17 +418,17 @@
 
     &:hover,
     &:focus {
-      background: var(--c-brand-light, #4abf8a);
+      background: var(--vp-tcl);
     }
   }
 
   .cancel-button {
     background: transparent;
-    color: var(--c-brand, #3eaf7c);
+    color: var(--vp-tc);
 
     &:hover,
     &:focus {
-      background: var(--c-brand-light, #4abf8a);
+      background: var(--vp-tcl);
       color: var(--white);
     }
   }
@@ -431,8 +451,7 @@
     font-size: 14px;
     text-align: center;
 
-    transition: background var(--color-transition),
-      box-shadow var(--color-transition);
+    transition: background var(--vp-ct), box-shadow var(--vp-ct);
 
     &::after {
       content: " ";
@@ -447,7 +466,7 @@
       border-right: 0.8em solid transparent;
       border-left: 0.8em solid transparent;
 
-      transition: border-color var(--color-transition);
+      transition: border-color var(--vp-ct);
     }
 
     p {
@@ -464,7 +483,7 @@
       background: #07c160;
       color: var(--white);
 
-      transition: color var(--color-transition);
+      transition: color var(--vp-ct);
     }
   }
 }

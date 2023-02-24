@@ -1,8 +1,7 @@
-import { utoa } from "vuepress-shared/node";
-import { container } from "../markdown-it/index.js";
-
-import type { PluginSimple } from "markdown-it";
+import { container } from "@mdit/plugin-container";
+import { type PluginSimple } from "markdown-it";
 import type Token from "markdown-it/lib/token.js";
+import { utoa } from "vuepress-shared/node";
 
 /** @deprecated */
 export const legacyCodeDemo: PluginSimple = (md) => {
@@ -21,10 +20,9 @@ export const legacyCodeDemo: PluginSimple = (md) => {
 
         if (type === `container_demo_close`) break;
         if (!content) continue;
-        if (type === "fence") {
+        if (type === "fence")
           if (info === "json") config = utoa(content);
           else code[info] = content;
-        }
       }
 
       return `

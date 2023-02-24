@@ -1,6 +1,6 @@
 {
   "name": "vuepress-plugin-sass-palette",
-  "version": "2.0.0-beta.130",
+  "version": "2.0.0-beta.181",
   "description": "A common palette plugin for vuepress themes and plugins",
   "keywords": [
     "vuepress",
@@ -9,7 +9,7 @@
     "sass",
     "palette"
   ],
-  "homepage": "https://vuepress-theme-hope.github.io/v2/sass-palette/",
+  "homepage": "https://plugin-sass-palette.vuejs.press/",
   "bugs": {
     "url": "https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues"
   },
@@ -48,29 +48,38 @@
     "dev": "pnpm dev:ts",
     "dev:ts": "tsc -b tsconfig.build.json --watch"
   },
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0",
+    "npm": ">=8",
+    "pnpm": ">=7"
+  },
   "dependencies": {
-    "@vuepress/utils": "2.0.0-beta.53",
+    "@vuepress/shared": "2.0.0-beta.60",
+    "@vuepress/utils": "2.0.0-beta.60",
     "chokidar": "^3.5.3",
-    "sass": "^1.56.1",
+    "sass": "^1.58.3",
     "vuepress-shared": "workspace:*"
   },
   "devDependencies": {
-    "@vuepress/bundler-vite": "2.0.0-beta.53",
-    "@vuepress/bundler-webpack": "2.0.0-beta.53",
-    "@vuepress/core": "2.0.0-beta.53",
-    "rimraf": "3.0.2"
+    "@vuepress/bundler-vite": "2.0.0-beta.60",
+    "@vuepress/bundler-webpack": "2.0.0-beta.60",
+    "@vuepress/core": "2.0.0-beta.60"
   },
   "peerDependencies": {
     "sass-loader": "^13.2.0",
-    "vuepress": "2.0.0-beta.53",
-    "vuepress-vite": "2.0.0-beta.53",
-    "vuepress-webpack": "2.0.0-beta.53"
+    "vuepress": "2.0.0-beta.60",
+    "vuepress-shared": "workspace:*",
+    "vuepress-vite": "2.0.0-beta.60",
+    "vuepress-webpack": "2.0.0-beta.60"
   },
   "peerDependenciesMeta": {
     "sass-loader": {
       "optional": true
     },
     "vuepress": {
+      "optional": true
+    },
+    "vuepress-shared": {
       "optional": true
     },
     "vuepress-vite": {

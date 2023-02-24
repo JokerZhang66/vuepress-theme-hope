@@ -1,13 +1,20 @@
-import { computed, defineComponent, h, toRef } from "vue";
-import { RouterLink, useRoute } from "vue-router";
 import { useSiteData } from "@vuepress/client";
 import { ExternalLinkIcon } from "@vuepress/plugin-external-link-icon/client";
 import { isLinkHttp, isLinkMailto, isLinkTel } from "@vuepress/shared";
+import {
+  type PropType,
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  toRef,
+} from "vue";
+import { RouterLink, useRoute } from "vue-router";
+import { keys, startsWith } from "vuepress-shared/client";
 
-import Icon from "@theme-hope/components/Icon.js";
+import HopeIcon from "@theme-hope/components/HopeIcon";
 
-import type { PropType, VNode } from "vue";
-import type { AutoLinkOptions } from "../../shared/index.js";
+import { type AutoLinkOptions } from "../../shared/index.js";
 
 export default defineComponent({
   name: "AutoLink",
@@ -22,24 +29,25 @@ export default defineComponent({
       type: Object as PropType<AutoLinkOptions>,
       required: true,
     },
+
     /**
      * @description Whether it's active only when exact match
      */
     exact: Boolean,
+
     /**
-     * @description Whether show externalLinkIcon with a link
+     * @description Whether to hide externalLinkIcon
      */
-    externalLinkIcon: {
-      type: Boolean,
-      default: true,
-    },
+    noExternalLinkIcon: Boolean,
   },
 
-  emits: ["focusout"],
+  emits: {
+    focusout: () => true,
+  },
 
   setup(props, { attrs, emit, slots }) {
     const route = useRoute();
-    const site = useSiteData();
+    const siteData = useSiteData();
 
     const config = toRef(props, "config");
 
@@ -58,7 +66,7 @@ export default defineComponent({
         : config.value.target || (hasHttpProtocol.value ? "_blank" : undefined)
     );
 
-    // if the `target` attr is '_blank'
+    // if the `target` attr is "_blank"
     const isBlankTarget = computed(() => linkTarget.value === "_blank");
 
     // render `<RouterLink>` or not
@@ -87,7 +95,7 @@ export default defineComponent({
       // should not be active in `exact` mode
       if (props.exact) return false;
 
-      const localeKeys = Object.keys(site.value.locales);
+      const localeKeys = keys(siteData.value.locales);
 
       return localeKeys.length
         ? // check all the locales
@@ -104,7 +112,7 @@ export default defineComponent({
           : // if this link is active in subpath
           !shouldBeActiveInSubpath.value
           ? route.path === config.value.link
-          : route.path.startsWith(config.value.link)
+          : startsWith(route.path, config.value.link)
         : false
     );
 
@@ -124,7 +132,7 @@ export default defineComponent({
             },
             () =>
               slots["default"]?.() || [
-                slots["before"]?.() || h(Icon, { icon }),
+                slots["before"]?.() || h(HopeIcon, { icon }),
                 text,
                 slots["after"]?.(),
               ]
@@ -142,9 +150,9 @@ export default defineComponent({
               onFocusout: () => emit("focusout"),
             },
             slots["default"]?.() || [
-              slots["before"]?.() || h(Icon, { icon }),
+              slots["before"]?.() || h(HopeIcon, { icon }),
               text,
-              props.externalLinkIcon ? h(ExternalLinkIcon) : null,
+              props.noExternalLinkIcon ? null : h(ExternalLinkIcon),
               slots["after"]?.(),
             ]
           );

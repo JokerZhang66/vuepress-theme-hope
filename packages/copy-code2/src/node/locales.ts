@@ -1,4 +1,4 @@
-import type { CopyCodeLocaleConfig } from "../shared/index.js";
+import { type CopyCodeLocaleConfig } from "../shared/index.js";
 
 /** Multi language config for copy code */
 export const copyCodeLocales: CopyCodeLocaleConfig = {
@@ -18,6 +18,12 @@ export const copyCodeLocales: CopyCodeLocaleConfig = {
     copy: "複製代碼",
     copied: "已複製",
     hint: "複製成功",
+  },
+
+  "/de/": {
+    copy: "Kopiere den Code.",
+    copied: "Kopiert",
+    hint: "Kopieren erfolgreich",
   },
 
   "/de-at/": {
@@ -90,5 +96,17 @@ export const copyCodeLocales: CopyCodeLocaleConfig = {
     copy: "코드 복사",
     copied: "복사됨",
     hint: "성공적으로 복사됨",
+  },
+
+  "/fi/": {
+    copy: "Kopioi koodi",
+    copied: "Kopioitu",
+    hint: "Kopioitu onnistuneesti",
+  },
+
+  "/hu/": {
+    copy: "Kód másolása",
+    copied: "Másolva",
+    hint: "Sikeres másolás",
   },
 };

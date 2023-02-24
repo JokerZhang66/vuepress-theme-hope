@@ -1,6 +1,6 @@
 ---
 title: NavBar
-icon: navbar
+icon: window-maximize
 order: 1
 category:
   - Layout
@@ -82,7 +82,7 @@ export default defineUserConfig({
       {
         text: "Guide",
         link: "/guide/README.md",
-        icon: "creative",
+        icon: "lightbulb",
         // only active in `/guide/`
         activeMatch: "^/guide/$",
       },
@@ -90,7 +90,7 @@ export default defineUserConfig({
       {
         text: "FAQ",
         link: "/faq.md",
-        icon: "question",
+        icon: "circle-question",
         // active in path starting with `/faq`
         // so it will active in path like `/faq/xxx.html`
         activeMatch: "^/zh/faq/",
@@ -112,7 +112,7 @@ export default {
       {
         text: "Guide",
         link: "/guide/README.md",
-        icon: "creative",
+        icon: "lightbulb",
         // only active in `/guide/`
         activeMatch: "^/guide/$",
       },
@@ -120,7 +120,7 @@ export default {
       {
         text: "FAQ",
         link: "/faq.md",
-        icon: "question",
+        icon: "circle-question",
         // active in path starting with `/faq`
         // so it will active in path like `/faq/xxx.html`
         activeMatch: "^/zh/faq/",
@@ -164,7 +164,7 @@ export default defineUserConfig({
     navbar: [
       {
         text: "Basic",
-        icon: "info",
+        icon: "circle-info",
         children: ["/basic/markdown.md", "/basic/vuepress.md"],
       },
     ],
@@ -183,7 +183,7 @@ export default {
     navbar: [
       {
         text: "Basic",
-        icon: "info",
+        icon: "circle-info",
         children: ["/basic/markdown.md", "/basic/vuepress.md"],
       },
     ],
@@ -211,7 +211,7 @@ export default defineUserConfig({
     navbar: [
       {
         text: "Basic",
-        icon: "info",
+        icon: "circle-info",
         prefix: "/basic/",
         children: ["markdown.md", "vuepress.md"],
       },
@@ -231,7 +231,7 @@ export default {
     navbar: [
       {
         text: "Basic",
-        icon: "info",
+        icon: "circle-info",
         prefix: "/basic/",
         children: ["markdown.md", "vuepress.md"],
       },
@@ -258,18 +258,18 @@ export default defineUserConfig({
     navbar: [
       {
         text: "Project",
-        icon: "info",
+        icon: "circle-info",
         children: [
           {
             text: "Built in Plugins",
-            icon: "plugin",
+            icon: "puzzle-piece",
             children: [
               /* Some items */
             ],
           },
           {
             text: "Third party Plugins",
-            icon: "plugin",
+            icon: "puzzle-piece",
             children: [
               /* Some items */
             ],
@@ -292,18 +292,18 @@ export default {
     navbar: [
       {
         text: "Project",
-        icon: "info",
+        icon: "circle-info",
         children: [
           {
             text: "Built in Plugins",
-            icon: "plugin",
+            icon: "puzzle-piece",
             children: [
               /* Some items */
             ],
           },
           {
             text: "Third party Plugins",
-            icon: "plugin",
+            icon: "puzzle-piece",
             children: [
               /* Some items */
             ],
@@ -359,6 +359,41 @@ You can disable the navbar for a specific page via `YAML front matter`:
 navbar: false
 ---
 ```
+
+## Disable Navbar Icon
+
+To disable the navbar icon, set `navbarIcon: false` in theme options:
+
+::: code-tabs#language
+
+@tab TS
+
+```ts
+// .vuepress/config.ts
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
+
+export default defineUserConfig({
+  theme: hopeTheme({
+    navbarIcon: false,
+  }),
+});
+```
+
+@tab JS
+
+```js
+// .vuepress/config.js
+import { hopeTheme } from "vuepress-theme-hope";
+
+export default {
+  theme: hopeTheme({
+    navbarIcon: false,
+  }),
+};
+```
+
+:::
 
 ## Site Logo
 
@@ -535,7 +570,7 @@ The following three functions are provided:
 
 ## Layout config
 
-`vuepress-theme-hope` allows you to customize navbar layout. You can add components in `left`, `center` and `right` keys under `navbarLayout` options.
+`vuepress-theme-hope` allows you to customize navbar layout. You can add components in `start`, `center` and `end` keys under `navbarLayout` options.
 
 Available components:
 
@@ -560,9 +595,9 @@ import { hopeTheme } from "vuepress-theme-hope";
 export default defineUserConfig({
   theme: hopeTheme({
     navbarLayout: {
-      left: ["Brand"],
+      start: ["Brand"],
       center: ["Links"],
-      right: ["Language", "Repo", "Outlook", "Search"],
+      end: ["Language", "Repo", "Outlook", "Search"],
     },
   }),
 });
@@ -577,9 +612,9 @@ import { hopeTheme } from "vuepress-theme-hope";
 export default {
   theme: hopeTheme({
     navbarLayout: {
-      left: ["Brand"],
+      start: ["Brand"],
       center: ["Links"],
-      right: ["Language", "Repo", "Outlook", "Search"],
+      end: ["Language", "Repo", "Outlook", "Search"],
     },
   }),
 };

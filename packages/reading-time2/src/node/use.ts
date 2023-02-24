@@ -1,17 +1,16 @@
+import { type App } from "@vuepress/core";
+
+import { type ReadingTimeOptions } from "./options.js";
 import { readingTimePlugin } from "./plugin.js";
-import type { App } from "@vuepress/core";
-import type { ReadingTimeOptions } from "./options.js";
 
 /**
  * Composition Api to use `vuepress-plugin-reading-time2`
- *
- * @description Should be invoke on node site
  */
 export const useReadingTimePlugin = (
   app: App,
   options: ReadingTimeOptions
 ): void => {
-  const plugins = app.pluginApi.plugins;
+  const { plugins } = app.pluginApi;
 
   if (
     plugins.every((plugin) => plugin.name !== "vuepress-plugin-reading-time2")
@@ -21,11 +20,9 @@ export const useReadingTimePlugin = (
 
 /**
  * Composition Api to remove `vuepress-plugin-reading-time2`
- *
- * @description Should be invoke on node site
  */
 export const removeReadingTimePlugin = (app: App): void => {
-  const plugins = app.pluginApi.plugins;
+  const { plugins } = app.pluginApi;
 
   const index = plugins.findIndex(
     (plugin) => plugin.name === "vuepress-plugin-reading-time2"

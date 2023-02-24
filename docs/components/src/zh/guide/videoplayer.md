@@ -4,6 +4,62 @@ title: VideoPlayer
 
 在 Markdown 文件中嵌入视频。
 
+<!-- more -->
+
+## 示例
+
+一个视频播放器:
+
+<VideoPlayer src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm" />
+
+```md
+<VideoPlayer src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm" />
+```
+
+一个包含了封面和字幕的播放器:
+
+<VideoPlayer
+  src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm"
+  poster="/poster.svg"
+  :tracks="[
+    {
+      default: true,
+      src: '/assets/subtitles/en.vtt',
+      kind: 'subtitles',
+      label: 'English',
+      srcLang: 'en',
+    },
+    {
+      src: '/assets/subtitles/fr.vtt',
+      kind: 'subtitles',
+      label: 'French',
+      srcLang: 'fr',
+    },
+  ]"
+/>
+
+```md
+<VideoPlayer
+  src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm"
+  poster="/poster.svg"
+  :tracks="[
+    {
+      default: true,
+      src: '/assets/subtitles/en.vtt',
+      kind: 'subtitles',
+      label: 'English',
+      srcLang: 'en',
+    },
+    {
+      src: '/assets/subtitles/fr.vtt',
+      kind: 'subtitles',
+      label: 'French',
+      srcLang: 'fr',
+    },
+  ]"
+/>
+```
+
 ## Props
 
 ### src
@@ -20,20 +76,6 @@ title: VideoPlayer
 
 视频宽度。
 
-### height
-
-- 类型: `string | number`
-- 必填：否
-
-视频高度
-
-### radio
-
-- 类型: `number`
-- 默认值: `16 / 9`
-
-视频高度宽高比，只有当未指定 `height` 时有效。
-
 ### type
 
 - 类型: `string`
@@ -46,6 +88,13 @@ title: VideoPlayer
 如果你的服务器不能为视频文件返回正确的 mime 类型，你应该指定它。 (例如：`video/mp4`)
 
 :::
+
+### title
+
+- 类型: `string`
+- 必填: 否
+
+视频标题
 
 ### poster
 
@@ -90,57 +139,3 @@ title: VideoPlayer
 - 必填: 否
 
 视频的音轨
-
-## 案例
-
-一个视频播放器:
-
-<VideoPlayer src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm" />
-
-```md
-<VideoPlayer src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm" />
-```
-
-一个包含了封面和字幕的播放器:
-
-<VideoPlayer
-  src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm"
-  poster="/poster.svg"
-  :tracks="[
-    {
-      default: true,
-      src: 'https://gist.githubusercontent.com/wheatjs/a85a65a82d87d7c098e1a0972ef1f726/raw',
-      kind: 'subtitles',
-      label: 'English',
-      srcLang: 'en',
-    },
-    {
-      src: 'https://gist.githubusercontent.com/wheatjs/38f32925d20c683bf77ba33ff737891b/raw',
-      kind: 'subtitles',
-      label: 'French',
-      srcLang: 'fr',
-    },
-  ]"
-/>
-
-```md
-<VideoPlayer
-  src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm"
-  poster="/poster.svg"
-  :tracks="[
-    {
-      default: true,
-      src: 'https://gist.githubusercontent.com/wheatjs/a85a65a82d87d7c098e1a0972ef1f726/raw',
-      kind: 'subtitles',
-      label: 'English',
-      srcLang: 'en',
-    },
-    {
-      src: 'https://gist.githubusercontent.com/wheatjs/38f32925d20c683bf77ba33ff737891b/raw',
-      kind: 'subtitles',
-      label: 'French',
-      srcLang: 'fr',
-    },
-  ]"
-/>
-```

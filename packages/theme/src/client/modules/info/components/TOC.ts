@@ -1,12 +1,18 @@
-import { usePageData } from "@vuepress/client";
-import { defineComponent, h, onMounted, watch, ref } from "vue";
+import { type PageHeader, usePageData } from "@vuepress/client";
+import {
+  type PropType,
+  type VNode,
+  defineComponent,
+  h,
+  onMounted,
+  ref,
+  watch,
+} from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import { isActiveLink } from "vuepress-shared/client";
 
-import { useMetaLocale } from "@theme-hope/modules/info/composables/index.js";
-
-import type { PageHeader } from "@vuepress/shared";
-import type { PropType, VNode } from "vue";
+import PrintButton from "@theme-hope/modules/info/components/PrintButton";
+import { useMetaLocale } from "@theme-hope/modules/info/composables/index";
 
 import "../styles/toc.scss";
 
@@ -51,18 +57,28 @@ export default defineComponent({
   name: "TOC",
 
   props: {
+    /**
+     * TOC items config
+     *
+     * TOC 项目配置
+     */
     items: {
       type: Array as PropType<PageHeader[]>,
       default: () => [],
     },
 
+    /**
+     * Max header nesting depth
+     *
+     * 最大的标题嵌套深度
+     */
     headerDepth: {
       type: Number,
       default: 2,
     },
   },
 
-  setup(props) {
+  setup(props, { slots }) {
     const route = useRoute();
     const page = usePageData();
     const metaLocale = useMetaLocale();
@@ -124,8 +140,13 @@ export default defineComponent({
       return tocHeaders
         ? h("div", { class: "toc-place-holder" }, [
             h("aside", { id: "toc" }, [
-              h("div", { class: "toc-header" }, metaLocale.value.toc),
-              h("div", { class: "toc-wrapper", ref: toc }, [tocHeaders]),
+              slots["before"]?.(),
+              h("div", { class: "toc-header" }, [
+                metaLocale.value.toc,
+                h(PrintButton),
+              ]),
+              h("div", { class: "toc-wrapper", ref: toc }, tocHeaders),
+              slots["after"]?.(),
             ]),
           ])
         : null;

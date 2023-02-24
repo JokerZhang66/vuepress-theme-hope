@@ -1,6 +1,7 @@
 ---
 title: Theme Extending
-icon: extend
+icon: clone
+order: 4
 category:
   - Advanced
 tag:
@@ -18,7 +19,17 @@ You need to create an entry file for your theme and import `hopeTheme` from `vue
 
 In your entry file, set `extends: hopeTheme(options)` to extend the `vuepress-theme-hope` theme.
 
-The aliases of the same name (`alias`) and layouts (`layouts`) of your own newly created theme has higher priority over the extended theme `vuepress-theme-hope`, which means that you can override `vuepress-theme-hope` components via `alias`.
+The aliases of the same name (`alias`) and layouts (`layouts`) of your own newly created theme has higher priority over the extended theme `vuepress-theme-hope`, which means that you can override `vuepress-theme-hope` components via `alias` option in theme api, and you can add or override layouts via `layouts` in client config file.
+
+The theme provide the following layouts:
+
+- Layout
+- NotFound
+- Slide (Only available when presentation is enabled)
+- BlogCategory (Only available when blog is enabled)
+- BlogHome (Only available when blog is enabled)
+- BlogType (Only available when blog is enabled)
+- Timeline (Only available when blog is enabled)
 
 ::: code-tabs#language
 
@@ -32,17 +43,17 @@ import type { ThemeOptions } from "vuepress-theme-hope";
 
 const __dirname = getDirname(import.meta.url);
 
-export const localTheme = (options: ThemeOptions) => ({
+export default (options: ThemeOptions) => ({
   name: "vuepress-theme-local",
 
   extends: hopeTheme(options),
 
   alias: {
     // You can override or add aliases here
-    // For example, here we change the vuepress-theme-hope HomePage component to components/HomePage.js under our own theme
-    "@theme-hope/components/HomePage.js": path.resolve(
+    // For example, here we change the vuepress-theme-hope HomePage component to components/HomePage.vue under our own theme
+    "@theme-hope/components/HomePage": path.resolve(
       __dirname,
-      "./components/HomePage.js"
+      "./components/HomePage.vue"
     ),
   },
 });
@@ -64,25 +75,13 @@ export default (options) => ({
 
   alias: {
     // You can override or add aliases here
-    // For example, here we change the vuepress-theme-hope HomePage component to components/HomePage.js under our own theme
-    "@theme-hope/components/HomePage.js": path.resolve(
+    // For example, here we change the vuepress-theme-hope HomePage component to components/HomePage.vue under our own theme
+    "@theme-hope/components/HomePage": path.resolve(
       __dirname,
-      "./components/HomePage.js"
+      "./components/HomePage.vue"
     ),
   },
 });
-```
-
-:::
-
-::: tip
-
-If you want to use `vue` files, you can make a simple js wrapper by writing:
-
-```js
-// wrapper.js
-import YouComponent from "./YouComponent.vue";
-export default YouComponent;
 ```
 
 :::

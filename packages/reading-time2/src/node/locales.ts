@@ -1,4 +1,4 @@
-import type { ReadingTimeLocaleConfig } from "./typings/index.js";
+import { type ReadingTimeLocaleConfig } from "./typings/index.js";
 
 /**
  * Default locale config for `vuepress-plugin-reading-time2` plugin
@@ -20,6 +20,12 @@ export const readingTimeLocales: ReadingTimeLocaleConfig = {
     word: "約 $word 字",
     less1Minute: "小於 1 分鐘",
     time: "大约 $time 分鐘",
+  },
+
+  "/de/": {
+    word: "Ungefähr $word Wörter",
+    less1Minute: "Weniger als eine Minute",
+    time: "Ungefähr $time min",
   },
 
   "/de-at/": {
@@ -92,5 +98,17 @@ export const readingTimeLocales: ReadingTimeLocaleConfig = {
     word: "약 $word 단어",
     less1Minute: "1분 미만",
     time: "약 $time 분",
+  },
+
+  "/fi/": {
+    word: "Noin $word sanaa",
+    less1Minute: "Alle minuutti",
+    time: "Noin $time minuuttia",
+  },
+
+  "/hu/": {
+    word: "Körülbelül $word szó",
+    less1Minute: "Kevesebb, mint 1 perc",
+    time: "Körülbelül $time perc",
   },
 };

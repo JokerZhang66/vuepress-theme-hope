@@ -1,6 +1,6 @@
 ---
 title: 评论
-icon: comment
+icon: comment-dots
 category:
   - 功能
 tag:
@@ -8,7 +8,7 @@ tag:
   - 评论
 ---
 
-通过内置 [`vuepress-plugin-comment2`][comment2]，`vuepress-theme-hope` 实现了评论功能。
+通过内置 <ProjectLink name="comment2" path="/zh/">`vuepress-plugin-comment2`</ProjectLink>，`vuepress-theme-hope` 实现了评论功能。
 
 ::: info
 
@@ -33,7 +33,7 @@ export default defineUserConfig({
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
 
         // waline 模式下
         serverURL: "...", // your serverURL
@@ -53,7 +53,7 @@ export default {
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
 
         // waline 模式下
         serverURL: "...", // your serverURL
@@ -69,13 +69,13 @@ export default {
 
 ::: info
 
-受篇幅限制，完整的评论插件配置，详见 [插件文档][comment2]。
+受篇幅限制，完整的评论插件配置，详见 <ProjectLink name="comment2" path="/zh/">插件文档</ProjectLink>。
 
 :::
 
 ## 评论服务
 
-目前可以从 Giscus、Waline 和 Twikoo 中选择。
+目前可以从 Giscus、Waline、Twikoo 和 Artalk 中选择。
 
 ::: tip 评论服务选择
 
@@ -101,7 +101,7 @@ Giscus 是一个基于 GitHub Discussion 的评论系统，启用简便。
 
 请将 `data-repo`, `data-repo-id`, `data-category` 和 `data-category-id` 作为插件选项传入 `repo`, `repoId`, `category` `categoryId`。
 
-其他的配置项详见 [Giscus 配置][comment2-giscus-config]。
+其他的配置项详见 <ProjectLink name="comment2" path="/zh/config/giscus.html">Giscus 配置</ProjectLink>。
 
 ## Waline
 
@@ -130,7 +130,7 @@ export default defineUserConfig({
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
         serverURL: "YOUR_SERVER_URL", // your server url
       },
     },
@@ -148,7 +148,7 @@ export default {
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
         serverURL: "YOUR_SERVER_URL", // your server url
       },
     },
@@ -158,7 +158,7 @@ export default {
 
 :::
 
-Waline 评论的其他配置将在 [Waline 配置][comment2-waline-config] 中列出。
+Waline 评论的其他配置将在 <ProjectLink name="comment2" path="/zh/config/waline.html">Waline 配置</ProjectLink> 中列出。
 
 ::: tip
 
@@ -184,6 +184,22 @@ Waline 评论的其他配置将在 [Waline 配置][comment2-waline-config] 中�
 1. 进入 Overview，点击 Domains 下方的链接，如果环境配置正确，可以看到 “Twikoo 云函数运行正常” 的提示
 1. Vercel Domains (包含 `https://` 前缀，例如 `https://xxx.vercel.app`) 即为你的环境 ID
 
-[comment2]: https://vuepress-theme-hope.github.io/v2/comment/zh/
-[comment2-giscus-config]: https://vuepress-theme-hope.github.io/v2/comment/zh/config/giscus.html
-[comment2-waline-config]: https://vuepress-theme-hope.github.io/v2/comment/zh/config/waline.html
+## Artalk
+
+### 部署 Artalk 服务端
+
+请参见 [Artalk 文档](https://artalk.js.org/guide/deploy.html)。
+
+### Artalk 配置
+
+请配置 `provider: "Artalk"` 并将你的服务端地址传入插件选项中的 `server`。
+
+其他的配置项详见 [Artalk 配置](https://artalk.js.org/guide/frontend/config.html)。
+
+::: note
+
+插件保留 `el` 选项在页面自行插入 Artalk。同时插件会自动根据 VuePress 信息为你自动设置 `pageTitle`, `pageKey` 和 `site` 选项。
+
+在 VuePress2 提供客户端配置前，暂不支持 `imgUploader` 和 `avatarURLBuilder` 这两个函数选项。
+
+:::

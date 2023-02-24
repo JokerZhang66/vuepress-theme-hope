@@ -1,6 +1,7 @@
 ---
 title: Setting Environment
 icon: leaf
+order: 1
 category:
   - Cookbook
   - Tutorial
@@ -10,6 +11,8 @@ tag:
 ---
 
 This tutorial will guide you on how to set up a VuePress runtime environment.
+
+<!-- more -->
 
 ## Node.js
 
@@ -71,9 +74,9 @@ After you install Node.js, please install [pnpm](https://pnpm.io).
 
 ::: tip
 
-We recommend that you use pnpm to manage your project, because VuePress and VuePress Theme Hope both use pnpm to manage dependencies.
+We recommend you to choose pnpm as package manager, because VuePress and VuePress Theme Hope both use pnpm to manage dependencies.
 
-Some features of pnpm ensure that you have the correct dependencies.
+Some features of pnpm ensure that you have the correct dependencies, also it can speed up your installation.
 
 :::
 
@@ -83,5 +86,5 @@ Install pnpm by entering the following command in the terminal:
 
 ```sh
 corepack enable
-corepack prepare pnpm@7.17.0 --activate
+corepack prepare pnpm@7.27.1 --activate
 ```

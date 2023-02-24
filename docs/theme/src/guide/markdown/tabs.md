@@ -1,6 +1,6 @@
 ---
 title: Tabs
-icon: tab
+icon: table-columns
 index: 2
 category:
   - Markdown
@@ -133,7 +133,7 @@ npm should be installed with Node.js.
 If you are using Node.js v16+, you can use corepack to enable pnpm:
 
 ```bash
-corepack prepare pnpm@7.17.0 --activated
+corepack prepare pnpm@7.27.1 --activated
 ```
 
 Otherwise, you can install it with npm:
@@ -151,13 +151,13 @@ Install `vuepress-plugin-md-enhance`:
 @tab Using npm#npm
 
 ```bash
-npm i -D vuepress-plugin-md-enhance@next
+npm i -D vuepress-plugin-md-enhance
 ```
 
 @tab Using pnpm#pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-md-enhance@next
+pnpm add -D vuepress-plugin-md-enhance
 ```
 
 :::

@@ -1,6 +1,6 @@
 ---
 title: Style config
-icon: style
+icon: wand-magic-sparkles
 order: 6
 category:
   - Config
@@ -27,21 +27,18 @@ Responsive breakpoints:
 - `$tablet`
 - `$mobile`
 
-Code block:
+Code block (Only available with shiki):
 
-- `$code-light-theme`: code block theme in lightmode
-- `$code-dark-theme`: code block theme in darkmode
+- `$code-bg-color`: background color for code blocks
+- `$code-color`: font color for code blocks
 
-Content class: `$content-class`
+:::
 
 Color list: `$colors`
 
 ::: details Demo
 
 ```scss
-// modify code theme in lightmode
-$code-light-theme: "coy";
-
 // update pc breakpoint
 $pc: 1920px;
 ```
@@ -75,7 +72,8 @@ Available color variables:
 - `$theme-color`: theme color
 - `$text-color`: text color
 - `$bg-color`: background color
-- `$bg-color-secondary`: another "lighter" background color
+- `$bg-color-secondary`: another "light" background color
+- `$bg-color-tertiary`: another "lighter" background color
 - `$border-color`: border color
 - `$box-shadow`: shadow color using on elements
 - `$card-shadow`: shadow color using on cards

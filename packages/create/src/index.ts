@@ -1,17 +1,25 @@
 #!/usr/bin/env node
 import { existsSync, readdirSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { resolve } from "node:path";
+
 import { cac } from "cac";
 import { execaCommand, execaCommandSync } from "execa";
 import inquirer from "inquirer";
 
-import { getLanguage, generateTemplate, version } from "./config/index.js";
+import {
+  type CreateI18n,
+  type Lang,
+  generateTemplate,
+  getLanguage,
+  version,
+} from "./config/index.js";
 import { createPackageJson } from "./packageJson.js";
 import { getRegistry } from "./registry.js";
-import { ensureDirExistSync, getPackageManager } from "./utils/index.js";
-
-import type { CreateI18n, Lang } from "./config/index.js";
-import type { PackageManager } from "./utils/index.js";
+import {
+  type PackageManager,
+  ensureDirExistSync,
+  getPackageManager,
+} from "./utils/index.js";
 
 const preAction = async (
   targetDir: string,
@@ -99,7 +107,9 @@ const postAction = async ({
       cwd,
       stdout: "inherit",
     });
-  } else console.log(message.hint.devServer(packageManager));
+  } else {
+    console.log(message.hint.devServer(packageManager));
+  }
 };
 
 const cli = cac("vuepress-theme-hope");
@@ -108,7 +118,7 @@ cli
   .command("[dir]", "Generate a new vuepress-theme-hope project")
   .option("-p, --preset <preset>", "Choose preset to use")
   .usage(
-    "pnpm create vuepress-theme-hope@next [dir] / npm init vuepress-theme-hope@next [dir]"
+    "pnpm create vuepress-theme-hope [dir] / yarn create vuepress-theme-hope [dir] / npm init vuepress-theme-hope [dir]"
   )
   .example("docs")
   .action(
@@ -126,7 +136,7 @@ cli
       if (result) {
         const { lang, message, packageManager } = result;
 
-        await createPackageJson(message, "src", targetDir);
+        await createPackageJson(packageManager, message, "src", targetDir);
         await generateTemplate("src", {
           cwd: workingCWD,
           packageManager,
@@ -141,10 +151,11 @@ cli
   );
 
 cli
-  .command("inject [dir]", "Add vuepress template to dir")
+  .command("add [dir]", "Add vuepress template to dir")
+  .alias("inject")
   .option("-p, --preset <preset>", "Choose preset to use")
   .usage(
-    "pnpm create vuepress-theme-hope@next inject [dir] / npm init vuepress-theme-hope@next inject [dir]"
+    "pnpm create vuepress-theme-hope add [dir] / yarn create vuepress-theme-hope add [dir] / npm init vuepress-theme-hope add [dir]"
   )
   .example("docs")
   .action(
@@ -161,7 +172,7 @@ cli
       if (result) {
         const { lang, message, packageManager } = result;
 
-        await createPackageJson(message, targetDir);
+        await createPackageJson(packageManager, message, targetDir);
 
         await generateTemplate(targetDir, {
           packageManager,
@@ -178,12 +189,12 @@ cli
 cli.help(() => [
   {
     title:
-      "pnpm create vuepress-theme-hope@next [dir] / npm init vuepress-theme-hope@next [dir]",
+      "pnpm create vuepress-theme-hope [dir] / yarn create vuepress-theme-hope [dir] / npm init vuepress-theme-hope [dir]",
     body: "Create a vuepress-theme-hope template in [dir]",
   },
   {
     title:
-      "pnpm create vuepress-theme-hope@next inject [dir] / npm init vuepress-theme-hope@next inject [dir]",
+      "pnpm create vuepress-theme-hope inject [dir] / yarn create vuepress-theme-hope add [dir] / npm init vuepress-theme-hope inject [dir]",
     body: "Add vuepress-theme-hope template in [dir] under current project",
   },
 ]);

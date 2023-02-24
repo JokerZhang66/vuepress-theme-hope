@@ -1,6 +1,6 @@
 ---
 title: Другие функции
-icon: others
+icon: ellipsis
 order: 5
 category:
   - Интерфейс
@@ -13,6 +13,14 @@ tag:
 Тема позволяет вам устанавливать переменные в `.vuepress/styles/config.scss` и `.vuepress/styles/palette.scss`, чтобы настроить большинство цветов, точки останова, размер макета страницы и другие параметры.
 
 Для получения подробной информации смотрите [Конфиг → Настройка стиля](../../config/style.md)
+
+## Print Button
+
+Try it: <PrintButton />
+
+The theme fully optimize style for print, and there will be a print button at toc in desktop mode by default.
+
+To hide print button, you should set `print: false` in theme options.
 
 ## Полноэкранная кнопка
 
@@ -64,6 +72,14 @@ export default defineUserConfig({
 
 Вы можете установить `backToTop: false` в параметрах темы, чтобы отключить его, или установить его на число, чтобы изменить расстояние срабатывания по умолчанию.
 
+## RTL Layout
+
+`vuepress-theme-hope` fully supports RTL layout. Just set `rtl: true` in rtl locales.
+
+Try it: <ToggleRTLButton />
+
 <script setup lang="ts">
-import ToggleFullScreenButton from "@theme-hope/modules/outlook/components/ToggleFullScreenButton.js";
+import PrintButton from "@theme-hope/modules/info/components/PrintButton";
+import ToggleRTLButton from "@ToggleRTLButton";
+import ToggleFullScreenButton from "@theme-hope/modules/outlook/components/ToggleFullScreenButton";
 </script>

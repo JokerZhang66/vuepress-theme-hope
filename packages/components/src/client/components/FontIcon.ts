@@ -1,40 +1,85 @@
-import { h } from "vue";
+import { type VNode, computed, defineComponent, h } from "vue";
+import { keys } from "vuepress-shared/client";
 
-import type { FunctionalComponent } from "vue";
+import "../styles/font-icon.scss";
 
-declare const ICON_PREFIX: string;
+declare const FONT_ICON_TYPE: string;
+declare const FONT_ICON_PREFIX: string;
 
-export interface FontIconProps {
-  icon?: string | undefined;
-  color?: string | undefined;
-  size?: number | undefined;
-}
+const isIconify = FONT_ICON_TYPE === "iconify";
+const isFontAwesome = FONT_ICON_TYPE === "fontawesome";
 
-const FontIcon: FunctionalComponent<FontIconProps> = ({
-  icon = "",
-  color,
-  size,
-}) =>
-  icon
-    ? h("span", {
-        class: ["icon", `${ICON_PREFIX}${icon}`],
-        ...(color || size
-          ? {
-              style: {
-                ...(color ? { color } : {}),
-                ...(size ? { "font-size": `${size}px` } : {}),
-              },
-            }
-          : {}),
-      })
-    : null;
+export default defineComponent({
+  name: "FontIcon",
 
-FontIcon.displayName = "FontIcon";
+  props: {
+    /**
+     * Icon class
+     *
+     * 图标类名
+     */
+    icon: { type: String, default: "" },
+    /**
+     * Icon color
+     *
+     * 图标颜色
+     */
+    color: { type: String, default: "" },
 
-FontIcon.props = {
-  icon: String,
-  color: String,
-  size: Number,
-};
+    /**
+     * Icon size
+     *
+     * 图标大小
+     */
+    size: {
+      type: [String, Number],
+      default: "",
+    },
+  },
 
-export default FontIcon;
+  setup(props) {
+    const classNames = computed(() => {
+      const classList = ["font-icon icon"];
+      const iconClass = `${FONT_ICON_PREFIX}${props.icon}`;
+
+      if (isFontAwesome) classList.push("fa-fw fa-sm");
+
+      if (isFontAwesome)
+        classList.push(props.icon.includes(" ") ? props.icon : iconClass);
+      else if (!isIconify) classList.push(iconClass);
+
+      return classList;
+    });
+
+    const style = computed(() => {
+      const styleObject: Record<string, string> = {};
+
+      if (props.color) styleObject["color"] = props.color;
+
+      if (props.size)
+        styleObject["font-size"] = Number.isNaN(Number(props.size))
+          ? <string>props.size
+          : `${props.size}px`;
+
+      return keys(styleObject).length ? styleObject : null;
+    });
+
+    return (): VNode | null =>
+      props.icon
+        ? h(isIconify ? "iconify-icon" : "span", {
+            key: props.icon,
+            class: classNames.value,
+            style: style.value,
+            ...(isIconify
+              ? {
+                  mode: "style",
+                  inline: "",
+                  icon: `${FONT_ICON_PREFIX}${props.icon}`,
+                  width: "1em",
+                  height: "1em",
+                }
+              : {}),
+          })
+        : null;
+  },
+});

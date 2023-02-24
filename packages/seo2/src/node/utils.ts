@@ -1,37 +1,42 @@
+import { type App, type Page } from "@vuepress/core";
 import {
   isLinkHttp,
+  isString,
   removeEndingSlash,
   removeLeadingSlash,
 } from "@vuepress/shared";
-import matter from "gray-matter";
-import { Logger, isAbsoluteUrl, isUrl, md2text } from "vuepress-shared/node";
+import { Logger, entries, isAbsoluteUrl, isUrl } from "vuepress-shared/node";
 
-import type { App, SiteLocaleConfig } from "@vuepress/core";
-import type { SeoOptions } from "./options.js";
-import type { ExtendPage } from "./typings/index.js";
+import { type SeoOptions } from "./options.js";
+import { type ExtendPage } from "./typings/index.js";
 
 export const logger = new Logger("vuepress-plugin-seo2");
 
-export interface LocaleConfig {
-  localePath: string;
+export interface AlternateInfo {
+  path: string;
   lang: string;
 }
 
-export const getLocales = (
-  lang: string,
-  locales: SiteLocaleConfig
-): LocaleConfig[] =>
-  Object.entries(locales)
-    .map(([localePath, value]) => ({ localePath, lang: value.lang }))
+export const getAlternateInfo = (
+  { lang, path, pathLocale }: Page,
+  { pages, siteData }: App
+): AlternateInfo[] =>
+  entries(siteData.locales)
+    .map(([localePath, { lang }]) => ({
+      path: `${localePath}${path.replace(pathLocale, "")}`,
+      lang,
+    }))
     .filter(
-      (item): item is LocaleConfig =>
-        typeof item.lang === "string" && item.lang !== lang
+      (item): item is AlternateInfo =>
+        isString(item.lang) &&
+        item.lang !== lang &&
+        pages.some(({ path }) => path === item.path)
     );
 
 export const getCover = (
   { frontmatter }: ExtendPage,
-  { hostname }: SeoOptions,
-  { options: { base } }: App
+  { options: { base } }: App,
+  { hostname }: SeoOptions
 ): string | null => {
   const { banner, cover } = frontmatter;
 
@@ -52,12 +57,12 @@ export const getCover = (
 
 export const getImages = (
   { content }: ExtendPage,
-  { hostname }: SeoOptions,
-  { options: { base } }: App
+  { options: { base } }: App,
+  { hostname }: SeoOptions
 ): string[] => {
   const result = /!\[.*?\]\((.*?)\)/giu.exec(content);
 
-  if (result) {
+  if (result)
     return result
       .map(([, link]) => {
         if (isAbsoluteUrl(link)) return resolveUrl(hostname, base, link);
@@ -67,7 +72,6 @@ export const getImages = (
         return null;
       })
       .filter((item): item is string => item !== null);
-  }
 
   return [];
 };
@@ -82,17 +86,3 @@ export const resolveUrl = (
       ? removeEndingSlash(hostname)
       : `https://${removeEndingSlash(hostname)}`
   }${base}${removeLeadingSlash(url)}`;
-
-export const extractContent = (content: string): string =>
-  md2text(
-    matter(content)
-      .content.trim()
-      // remove first heading1 as title
-      .replace(/^# (.*)$/gm, "")
-  )
-    // convert link breaks into spaces
-    .replace(/(?:\r?\n)+/g, " ")
-    // convert 2 or more spaces into 1
-    .replace(/ +/g, " ")
-    // trim
-    .trim();

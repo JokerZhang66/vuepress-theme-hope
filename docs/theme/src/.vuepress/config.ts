@@ -1,11 +1,14 @@
-import { getDirname, path } from "@vuepress/utils";
-import { config } from "docs-shared";
+import { config, getDirname, path } from "docs-shared";
 import theme from "./theme.js";
 
 const __dirname = getDirname(import.meta.url);
 
 export default config(
-  { indexName: "vuepress-theme-hope-theme-v2" },
+  {
+    name: "hope",
+    base: "",
+    indexName: "theme-v2",
+  },
   {
     head: [
       [
@@ -50,11 +53,10 @@ export default config(
         __dirname,
         "./components/KatexPlayground"
       ),
-      "@NetlifyBadge": path.resolve(__dirname, "./components/NetlifyBadge"),
+      "@ToggleRTLButton": path.resolve(
+        __dirname,
+        "./components/ToggleRTLButton"
+      ),
     },
-
-    define: () => ({
-      IS_NETLIFY: "NETLIFY" in process.env,
-    }),
   }
 );

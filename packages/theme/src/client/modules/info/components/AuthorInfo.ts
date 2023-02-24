@@ -1,10 +1,10 @@
-import { defineComponent, h } from "vue";
+import { type PropType, type VNode, defineComponent, h } from "vue";
+import { type AuthorInfo } from "vuepress-shared/client";
 
-import { AuthorIcon } from "@theme-hope/modules/info/components/icons.js";
-import { useMetaLocale } from "@theme-hope/modules/info/composables/index.js";
+import { AuthorIcon } from "@theme-hope/modules/info/components/icons";
+import { useMetaLocale } from "@theme-hope/modules/info/composables/index";
 
-import type { PropType, VNode } from "vue";
-import type { AuthorInfo } from "vuepress-shared";
+import "../styles/author-info.scss";
 
 export default defineComponent({
   name: "AuthorInfo",
@@ -12,11 +12,21 @@ export default defineComponent({
   inheritAttrs: false,
 
   props: {
+    /**
+     * Author information
+     *
+     * 作者信息
+     */
     author: {
       type: Array as PropType<AuthorInfo[]>,
       required: true,
     },
 
+    /**
+     * Whether in pure mode
+     *
+     * 是否处于纯净模式
+     */
     pure: Boolean,
   },
 
@@ -28,7 +38,7 @@ export default defineComponent({
         ? h(
             "span",
             {
-              class: "author-info",
+              class: "page-author-info",
               "aria-label": `${metaLocale.value.author}${
                 props.pure ? "" : "🖊"
               }`,
@@ -43,14 +53,14 @@ export default defineComponent({
                     ? h(
                         "a",
                         {
-                          class: "author-item",
+                          class: "page-author-item",
                           href: item.url,
                           target: "_blank",
                           rel: "noopener noreferrer",
                         },
                         item.name
                       )
-                    : h("span", { class: "author-item" }, item.name)
+                    : h("span", { class: "page-author-item" }, item.name)
                 )
               ),
               h("span", {

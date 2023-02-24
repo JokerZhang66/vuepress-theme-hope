@@ -1,6 +1,6 @@
 ---
 title: Theme Layout Options
-icon: config
+icon: object-group
 order: 4
 category:
   - Config
@@ -45,13 +45,13 @@ Whether display icons in navbar.
     | "Repo";
 
   interface HopeNavbarLayoutOptions {
-    left: NavbarComponent[];
+    start: NavbarComponent[];
     center: NavbarComponent[];
-    right: NavbarComponent[];
+    end: NavbarComponent[];
   }
   ```
 
-- Default: `{ left: ["Brand"], center: ["Links"], right: ["Language", "Repo", "Outlook", "Search"] }`
+- Default: `{ start: ["Brand"], center: ["Links"], end: ["Language", "Repo", "Outlook", "Search"] }`
 
 Customize navbar layout.
 
@@ -179,6 +179,7 @@ Whether show icons in the sidebar
 
   type SidebarSorter =
     | SidebarSorterFunction
+    | SidebarSorterFunction[]
     | SidebarSorterKeyword
     | SidebarSorterKeyword[];
   ```
@@ -190,7 +191,8 @@ Structure sidebar sorter.
 You can:
 
 - fill in a custom function
-- provide one or an array of sorter keywords
+- provide one sorter keyword
+- provide an array of custom function or sorter keyword
 
 Available keywords are:
 
@@ -332,7 +334,7 @@ The default content for the footer, can accept HTMLString.
 
 ### copyright
 
-- Type: `string | boolean`
+- Type: `string | false`
 - Default: `"Copyright © <author>"`
 
 The default copyright info, set it to `false` to disable it by default.
@@ -352,6 +354,13 @@ Whether to display footer by default.
 - Default: Key of current locale
 
 Home path of current locale, used as the link of back-to-home and navbar logo.
+
+### rtl
+
+- Type: `boolean`
+- Default: `false`
+
+Whether use RTL layout.
 
 ### toc {#toc-heading}
 

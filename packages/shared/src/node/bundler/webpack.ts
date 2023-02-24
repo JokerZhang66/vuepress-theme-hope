@@ -1,29 +1,25 @@
-import type { App } from "@vuepress/core";
-import type {
-  WebpackChainConfig,
-  WebpackBundlerOptions,
+import {
+  type WebpackBundlerOptions,
+  type WebpackChainConfig,
 } from "@vuepress/bundler-webpack";
+import { type App } from "@vuepress/core";
 
-export interface WebpackCommonOptions {
-  app: App;
-  config: unknown;
-}
+import { getBundlerName } from "./getBundler.js";
 
-export const chainWebpack = (
-  { app, config }: WebpackCommonOptions,
+export const addChainWebpack = (
+  bundlerOptions: unknown,
+  app: App,
   chainWebpack: (
     config: WebpackChainConfig,
     isServer: boolean,
     isBuild: boolean
   ) => void
 ): void => {
-  const { bundler } = app.options;
+  if (getBundlerName(app) === "webpack") {
+    const webpackBundlerOptions = <WebpackBundlerOptions>bundlerOptions;
+    const { chainWebpack: originalChainWebpack } = webpackBundlerOptions;
 
-  if (bundler.name.endsWith("webpack")) {
-    const bundlerConfig = <WebpackBundlerOptions>config;
-    const { chainWebpack: originalChainWebpack } = bundlerConfig;
-
-    bundlerConfig.chainWebpack = (config, isServer, isBuild): void => {
+    webpackBundlerOptions.chainWebpack = (config, isServer, isBuild): void => {
       originalChainWebpack?.(config, isServer, isBuild);
       chainWebpack(config, isServer, isBuild);
     };

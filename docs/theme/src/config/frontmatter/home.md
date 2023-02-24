@@ -1,6 +1,6 @@
 ---
 title: Home Frontmatter Config
-icon: config
+icon: home
 order: 4
 category:
   - Config
@@ -86,7 +86,7 @@ Home icon alt text
 
 Home actions
 
-### features
+## features
 
 - Type: `ThemeHomeFeatureOptions[]`
 

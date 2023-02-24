@@ -1,124 +1,126 @@
-import { withBase } from "@vuepress/client";
-import { isLinkHttp } from "@vuepress/shared";
-import { computed, defineComponent, h, onMounted, ref } from "vue";
-import {
-  checkIsMobile,
-  checkIsiPad,
-  checkIsiPhone,
-  checkIsSafari,
-} from "vuepress-shared/client";
-import { useSize } from "../composables/index.js";
+/* eslint-disable vue/no-unused-properties */
+import { type VNode, defineComponent, h, onMounted } from "vue";
+import { useLocaleConfig } from "vuepress-shared/client";
 
-import type { VNode } from "vue";
+import { type PDFLocaleConfig } from "../../shared/locales.js";
+import { useSize } from "../composables/index.js";
+import { getLink, viewPDF } from "../utils/index.js";
 
 import "../styles/pdf.scss";
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-declare const __VUEPRESS_SSR__: boolean;
+declare const PDF_LOCALES: PDFLocaleConfig;
 
 export default defineComponent({
   name: "PDF",
 
   props: {
-    url: { type: String, required: true },
+    /**
+     * PDF link, should be absolute url
+     *
+     * PDF 文件链接，应为完整链接
+     */
+    url: {
+      type: String,
+      required: true,
+    },
 
+    /**
+     * PDF title
+     *
+     * PDF 标题
+     */
+    title: {
+      type: String,
+      default: "",
+    },
+
+    /**
+     * Component width
+     *
+     * 组件宽度
+     */
     width: {
       type: [String, Number],
       default: "100%",
     },
 
+    /**
+     * Component height
+     *
+     * 组件高度
+     */
     height: {
       type: [String, Number],
       default: undefined,
     },
 
+    /**
+     * Component width / height ratio
+     *
+     * 组件长宽比
+     */
     ratio: {
-      type: Number,
+      type: [String, Number],
       default: 16 / 9,
     },
 
+    /**
+     * PDF initial page number
+     *
+     * PDF 初始页码
+     *
+     * @description Chrome only
+     */
     page: {
-      type: Number,
+      type: [String, Number],
       default: 1,
     },
 
-    toolbar: {
-      type: Boolean,
-      default: true,
-    },
+    /**
+     * Whether show toolbar
+     *
+     * 是否显示工具栏
+     *
+     * @description Chrome only
+     */
+    noToolbar: Boolean,
 
+    /**
+     * initial zoom level (in percent)
+     *
+     * 初始缩放比率 (百分比)
+     */
     zoom: {
-      type: Number,
+      type: [String, Number],
       default: 100,
     },
   },
 
   setup(props) {
     const { el, width, height } = useSize<HTMLDivElement>(props);
-    const isChrome = ref(true);
-    const isMobile = ref(false);
-
-    const hash = computed(
-      () =>
-        `#page=${props.page}&toolbar=${props.toolbar ? 1 : 0}&zoom=${
-          props.zoom
-        }`
-    );
+    const locales = useLocaleConfig(PDF_LOCALES);
 
     onMounted(() => {
-      const { userAgent } = navigator;
-
-      // chrome mobile
-      if (checkIsMobile(userAgent)) isMobile.value = true;
-      else if (
-        checkIsSafari(userAgent) &&
-        (checkIsiPad(userAgent) || checkIsiPhone(userAgent))
-      ) {
-        isChrome.value = false;
-
-        if (checkIsiPad(userAgent) || checkIsiPhone(userAgent))
-          isMobile.value = true;
-      }
+      viewPDF(getLink(props.url), el.value, {
+        title: props.title,
+        hint: locales.value.hint,
+        options: {
+          page: props.page,
+          noToolbar: props.noToolbar,
+          zoom: props.zoom,
+        },
+      });
     });
 
     return (): VNode => {
-      const fullLink = isLinkHttp(props.url)
-        ? props.url
-        : __VUEPRESS_SSR__
-        ? ""
-        : `${window?.location.origin || ""}${withBase(props.url)}`;
-
-      return h(
-        "div",
-        {
-          class: "pdf-preview",
-          ref: el,
-          style: {
-            width: width.value,
-            height: height.value,
-          },
+      return h("div", {
+        class: "pdf-preview",
+        ref: el,
+        style: {
+          width: width.value,
+          height: height.value,
         },
-        [
-          h("iframe", {
-            class: "pdf-iframe",
-            src: isMobile.value
-              ? `https://drive.google.com/viewerng/viewer?embedded=true&url=${encodeURI(
-                  fullLink
-                )}`
-              : `${withBase(props.url)}${isChrome.value ? hash.value : ""}`,
-          }),
-          h(
-            "button",
-            {
-              class: "pdf-open-button",
-              onClick: () => {
-                window.open(fullLink);
-              },
-            },
-            "Open"
-          ),
-        ]
-      );
+      });
     };
   },
 });

@@ -1,16 +1,15 @@
-import { getStructure } from "./structure.js";
-import { getTitle } from "./title.js";
+import { type Page } from "@vuepress/core";
+import { getTitleFromFilename, startsWith } from "vuepress-shared/node";
 
-import type { Page } from "@vuepress/core";
-import type {
-  ThemeNormalPageFrontmatter,
-  ThemePageData,
-  SidebarDirInfo,
-  SidebarFileInfo,
-  SidebarInfo,
-  SidebarSorterFunction,
+import { type StructureInfo, getStructureInfo } from "./structure.js";
+import {
+  type SidebarDirInfo,
+  type SidebarFileInfo,
+  type SidebarInfo,
+  type SidebarSorterFunction,
+  type ThemeNormalPageFrontmatter,
+  type ThemePageData,
 } from "../../../shared/index.js";
-import type { StructureInfo } from "./structure.js";
 
 export interface FileInfo {
   type: "file";
@@ -31,12 +30,15 @@ export interface ThemeSidebarInfoOptions {
   scope: string;
 }
 
-const getChildrenInfo = (
+/**
+ * @private
+ */
+const getSidebarChildrenInfo = (
   { scope, pages, sorters }: ThemeSidebarInfoOptions,
   children: StructureInfo[]
 ): SidebarInfo[] =>
   children
-    .map((item) => getInfoFromStructure({ pages, scope, sorters }, item))
+    .map((item) => getSidebarInfoFromStructure({ pages, scope, sorters }, item))
     .filter((item): item is SidebarInfo => item !== null)
     // sort items
     .sort((infoA, infoB) => {
@@ -49,7 +51,10 @@ const getChildrenInfo = (
       return 0;
     });
 
-const getInfoFromStructure = (
+/**
+ * @private
+ */
+const getSidebarInfoFromStructure = (
   { scope, pages, sorters }: ThemeSidebarInfoOptions,
   info: StructureInfo
 ): SidebarInfo | null => {
@@ -69,6 +74,7 @@ const getInfoFromStructure = (
 
       title: page.frontmatter.shortTitle || page.title,
       order: "order" in page.frontmatter ? page.frontmatter.order : null,
+      permalink: page.permalink,
 
       frontmatter: page.frontmatter,
       pageData: page.data,
@@ -81,7 +87,7 @@ const getInfoFromStructure = (
 
   // performance improvements
   const relatedPages = pages.filter(({ filePathRelative }) =>
-    filePathRelative?.startsWith(`${scope}${info.path}/`)
+    startsWith(filePathRelative, `${scope}${info.path}/`)
   );
   const READMEFile = info.children.find(
     (info) =>
@@ -110,7 +116,7 @@ const getInfoFromStructure = (
     const dirInfo: SidebarDirInfo = {
       type: "dir",
       dirname: info.dirname,
-      children: getChildrenInfo(
+      children: getSidebarChildrenInfo(
         { pages: relatedPages, scope, sorters },
         dirOptions?.link
           ? // filter README.md
@@ -128,7 +134,7 @@ const getInfoFromStructure = (
       groupInfo: {
         ...(collapsible ? { collapsible } : {}),
         ...(icon ? { icon } : {}),
-        ...(dirOptions?.link ? { link: readmePage.path } : {}),
+        ...(dirOptions?.link ? { link: "" } : {}),
       },
 
       frontmatter: readmePage.frontmatter,
@@ -141,12 +147,12 @@ const getInfoFromStructure = (
   const dirInfo: SidebarDirInfo = {
     type: "dir",
     dirname: info.dirname,
-    children: getChildrenInfo(
+    children: getSidebarChildrenInfo(
       { pages: relatedPages, scope, sorters },
       info.children
     ),
 
-    title: getTitle(info.dirname),
+    title: getTitleFromFilename(info.dirname),
     order: null,
 
     // generate information
@@ -162,14 +168,17 @@ const getInfoFromStructure = (
   return dirInfo;
 };
 
+/**
+ * @private
+ */
 export const getSidebarInfo = ({
   pages,
   sorters,
   scope,
 }: ThemeSidebarInfoOptions): // base = ""
 SidebarInfo[] =>
-  getStructure(pages, scope)
-    .map((info) => getInfoFromStructure({ scope, pages, sorters }, info))
+  getStructureInfo(pages, scope)
+    .map((info) => getSidebarInfoFromStructure({ scope, pages, sorters }, info))
     .filter((item): item is SidebarInfo => item !== null)
     // sort items
     .sort((infoA, infoB) => {

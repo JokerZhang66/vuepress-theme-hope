@@ -7,14 +7,15 @@ on:
       - work
 
 jobs:
-  deploy-gh-pages:
-    name: Deploy V2 docs to gh pages
+  deploy-github-pages:
+    name: Deploy V2 docs to GitHub pages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          submodules: true
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -35,13 +36,12 @@ jobs:
 
       - name: Docs build
         env:
-          BASE: /v2/
-          HOSTNAME: https://vuepress-theme-hope.github.io/
           NODE_OPTIONS: --max_old_space_size=8192
         run: pnpm run docs:vite-build
 
       - name: Combine output
         run: |
+          pnpm cpx "docs/auto-catalog/dist/**" dist/auto-catalog
           pnpm cpx "docs/blog2/dist/**" dist/blog
           pnpm cpx "docs/comment2/dist/**" dist/comment
           pnpm cpx "docs/components/dist/**" dist/components
@@ -55,12 +55,13 @@ jobs:
           pnpm cpx "docs/reading-time2/dist/**" dist/reading-time
           pnpm cpx "docs/remove-pwa/dist/**" dist/remove-pwa
           pnpm cpx "docs/redirect/dist/**" dist/redirect
+          pnpm cpx "docs/rtl/dist/**" dist/rtl
           pnpm cpx "docs/sass-palette/dist/**" dist/sass-palette
           pnpm cpx "docs/search-pro/dist/**" dist/search-pro
           pnpm cpx "docs/seo2/dist/**" dist/seo
+          pnpm cpx "docs/shared/dist/**" dist/shared
           pnpm cpx "docs/sitemap2/dist/**" dist/sitemap
           pnpm cpx "docs/theme/dist/**" dist
-          > dist/.nojekyll
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4

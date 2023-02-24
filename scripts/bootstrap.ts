@@ -1,5 +1,6 @@
-import { existsSync, writeFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+
 import { version } from "../package.json";
 
 const packagesDir = resolve(process.cwd(), "packages");
@@ -74,7 +75,7 @@ files.forEach((pkgName) => {
       `\
 # vuepress-plugin-${pkgName}
 
-[![Version](https://img.shields.io/npm/v/vuepress-plugin-${pkgName}/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-${pkgName}.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/vuepress-plugin-${pkgName}?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-plugin-${pkgName})
+[![Version](https://img.shields.io/npm/v/vuepress-plugin-${pkgName}.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-${pkgName}.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/vuepress-plugin-${pkgName}?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-plugin-${pkgName})
 
 ${desc}.
 
@@ -82,11 +83,11 @@ ${desc}.
 
 \`\`\`bash
 # pnpm
-pnpm add -D vuepress-plugin-${pkgName}@next
+pnpm add -D vuepress-plugin-${pkgName}
 # npm
-npm i -D vuepress-plugin-${pkgName}@next
+npm i -D vuepress-plugin-${pkgName}
 # yarn
-yarn add -D vuepress-plugin-${pkgName}@next
+yarn add -D vuepress-plugin-${pkgName}
 \`\`\`
 
 ---
@@ -95,11 +96,11 @@ yarn add -D vuepress-plugin-${pkgName}@next
 
 \`\`\`bash
 # pnpm
-pnpm add -D vuepress-plugin-${pkgName}@next
+pnpm add -D vuepress-plugin-${pkgName}
 # npm
-npm i -D vuepress-plugin-${pkgName}@next
+npm i -D vuepress-plugin-${pkgName}
 # yarn
-yarn add -D vuepress-plugin-${pkgName}@next
+yarn add -D vuepress-plugin-${pkgName}
 \`\`\`
 `
     );

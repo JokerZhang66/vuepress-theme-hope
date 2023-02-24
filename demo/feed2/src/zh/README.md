@@ -7,17 +7,25 @@ heroText: vuepress-plugin-feed2
 tagline: 为 VuePress2 提供 Feed 生成
 actions:
   - text: 文档
-    link: https://vuepress-theme-hope.github.io/v2/feed/zh/
+    link: https://plugin-feed2.vuejs.press/zh/
 
-footer: 使用 <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> 主题 | MIT 协议, 版权所有 © 2019-present Mr.Hope
+footer: MIT 协议, 版权所有 © 2019-present Mr.Hope
 ---
+
+<template v-if="!isDev">
+
+- [Atom Feed](/zh/atom.xml)
+- [JSON Feed](/zh/feed.json)
+- [RSS Feed](/zh/rss.xml)
+
+</template>
 
 ## 使用插件
 
 ### 安装
 
 ```bash
-pnpm add -D vuepress-plugin-feed2@next
+pnpm add -D vuepress-plugin-feed2
 ```
 
 ### 使用
@@ -34,3 +42,7 @@ export default {
   ],
 };
 ```
+
+<script setup>
+const isDev = __VUEPRESS_DEV__;
+</script>

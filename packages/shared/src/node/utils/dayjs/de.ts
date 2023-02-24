@@ -1,7 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 // German [de]
+import { isArray } from "@vuepress/shared";
 import type dayjs from "dayjs";
-import type { Locale } from "./locale.js";
+
+import { type Locale } from "./locale.js";
+
 const texts = {
   s: "ein paar Sekunden",
   m: ["eine Minute", "einer Minute"],
@@ -23,7 +25,7 @@ const relativeTimeFormatter = (
 ): string => {
   let l = texts[key];
 
-  if (Array.isArray(l)) l = l[withoutSuffix ? 0 : 1];
+  if (isArray(l)) l = l[withoutSuffix ? 0 : 1];
 
   return l.replace("%d", number);
 };
@@ -80,6 +82,6 @@ const locale: Partial<Locale> = {
   },
 };
 
-export const loadDeLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("de", locale);
+export const loadDeLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("de", locale);
 };

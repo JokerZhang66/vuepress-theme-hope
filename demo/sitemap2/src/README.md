@@ -7,17 +7,23 @@ heroText: vuepress-plugin-sitemap2
 tagline: Sitemap generation for VuePress2
 actions:
   - text: Docs
-    link: https://vuepress-theme-hope.github.io/v2/sitemap/
+    link: https://plugin-sitemap2.vuejs.press
 
-footer: Theme by <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
+footer: MIT Licensed, Copyright © 2019-present Mr.Hope
 ---
+
+<template v-if="!isDev">
+
+[Sitemap](/sitemap.xml)
+
+</template>
 
 ## How to use
 
 ### Install
 
 ```bash
-pnpm add -D vuepress-plugin-sitemap2@next
+pnpm add -D vuepress-plugin-sitemap2
 ```
 
 ### Usage
@@ -34,3 +40,7 @@ export default {
   ],
 };
 ```
+
+<script setup>
+const isDev = __VUEPRESS_DEV__;
+</script>

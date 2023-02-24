@@ -1,6 +1,6 @@
 ---
 title: 主题功能选项
-icon: config
+icon: splotch
 order: 2
 category:
   - 配置
@@ -15,7 +15,7 @@ tag:
 
 ## 博客选项
 
-主题通过使用 [`vuepress-plugin-blog2`][blog2] 提供博客功能，且该功能默认**禁用**。
+主题通过使用 <ProjectLink name="blog2" path="/zh/">`vuepress-plugin-blog2`</ProjectLink> 提供博客功能，且该功能默认**禁用**。
 
 要启用博客插件并使用默认选项，你可以在主题选项中设置 `plugins.blog: true`。
 
@@ -82,6 +82,7 @@ tag:
 - `"Bitbucket"`: Bitbucket
 - `"Dingding"`: 钉钉
 - `"Discord"`: Discord
+- `"Douban"`: 豆瓣
 - `"Dribbble"`: Dribbble
 - `"Email"`: 邮件
 - `"Evernote"`: 印象笔记
@@ -102,6 +103,8 @@ tag:
 - `"Reddit"`: 红迪
 - `"Rss"`: RSS 地址
 - `"Steam"`: 蒸汽
+- `"Skype"`: Skype
+- `"Telegram"`: 电报
 - `"Twitter"`: 推特
 - `"Wechat"`: 微信
 - `"Weibo"`: 微博
@@ -162,6 +165,12 @@ tag:
 - `"ReadingTime"`
 - `"Word"`
 
+::: warning 限制
+
+默认情况下，ReadingTime 和 Word 在开发服务器中不可用，[查看原因以及如何启用它](./basic.md#hotreload)。
+
+:::
+
 ## 加密配置 <Badge text="仅限 Root" type="warning" />
 
 有关详细信息，请参阅 [加密功能介绍](../../guide/feature/encrypt.md)。
@@ -205,5 +214,3 @@ tag:
 ```
 
 :::
-
-[blog2]: https://vuepress-theme-hope.github.io/v2/blog/zh/

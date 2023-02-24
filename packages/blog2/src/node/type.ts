@@ -1,11 +1,11 @@
-import { createPage } from "@vuepress/core";
-import { removeLeadingSlash } from "@vuepress/shared";
-import { logger } from "./utils.js";
+import { type App, createPage } from "@vuepress/core";
+import { isString, removeLeadingSlash } from "@vuepress/shared";
+import { colors } from "@vuepress/utils";
 
-import type { App } from "@vuepress/core";
-import type { BlogOptions } from "./options.js";
-import type { PageMap } from "./typings.js";
-import type { TypeMap } from "../shared/index.js";
+import { type BlogOptions } from "./options.js";
+import { type PageMap } from "./typings/index.js";
+import { logger } from "./utils.js";
+import { type TypeMap } from "../shared/index.js";
 
 const HMR_CODE = `
 if (import.meta.webpackHot) {
@@ -22,20 +22,11 @@ if (import.meta.hot)
 
 export const prepareType = (
   app: App,
-  options: Partial<BlogOptions>,
+  { type, slugify }: Required<Pick<BlogOptions, "type" | "slugify">>,
   pageMap: PageMap,
   init = false
-): Promise<string[]> => {
-  const {
-    type = [],
-    slugify = (name: string): string =>
-      name
-        .replace(/[ _]/g, "-")
-        .replace(/[:?*|\\/<>]/g, "")
-        .toLowerCase(),
-  } = options;
-
-  return Promise.all(
+): Promise<string[]> =>
+  Promise.all(
     type.map(
       async (
         {
@@ -48,8 +39,12 @@ export const prepareType = (
         },
         index
       ) => {
-        if (typeof key !== "string" || !key) {
-          logger.error(`Invalid 'key' option ${key} in 'category[${index}]'`);
+        if (!isString(key) || !key.length) {
+          logger.error(
+            `Invalid ${colors.magenta("key")} option ${colors.cyan(
+              key
+            )} in ${colors.cyan(`type[${index}]`)}`
+          );
 
           return null;
         }
@@ -57,7 +52,8 @@ export const prepareType = (
         const typeMap: TypeMap = {};
         const pageKeys: string[] = [];
 
-        if (app.env.isDebug) logger.info(`Generating ${key} type.\n`);
+        if (app.env.isDebug)
+          logger.info(`Generating ${colors.cyan(key)} type.\n`);
 
         for (const localePath in pageMap) {
           const keys = pageMap[localePath]
@@ -84,11 +80,13 @@ export const prepareType = (
 
             const index = app.pages.findIndex(({ path }) => path === pagePath);
 
-            if (index === -1) app.pages.push(page);
-            else if (app.pages[index].key !== page.key) {
+            if (index === -1) {
+              app.pages.push(page);
+            } else if (app.pages[index].key !== page.key) {
               app.pages.splice(index, 1, page);
 
-              if (init) logger.warn(`Overriding existed path ${pagePath}`);
+              if (init)
+                logger.warn(`Overriding existed path ${colors.cyan(pagePath)}`);
             }
 
             pageKeys.push(page.key);
@@ -147,4 +145,3 @@ ${app.env.isDev ? HMR_CODE : ""}
 
     return keys;
   });
-};

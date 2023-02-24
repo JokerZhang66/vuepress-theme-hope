@@ -1,14 +1,17 @@
 import { useRouteLocale, useSiteLocaleData } from "@vuepress/client";
-import { computed } from "vue";
+import { type ComputedRef, computed } from "vue";
 import { useRouter } from "vue-router";
+import { keys } from "vuepress-shared/client";
 
 import {
   useThemeData,
   useThemeLocaleData,
-} from "@theme-hope/composables/index.js";
+} from "@theme-hope/composables/index";
 
-import type { ComputedRef } from "vue";
-import type { AutoLinkOptions, NavGroup } from "../../../../shared/index.js";
+import {
+  type AutoLinkOptions,
+  type NavGroup,
+} from "../../../../shared/index.js";
 
 /**
  * Get navbar config of select language dropdown
@@ -22,12 +25,12 @@ export const useNavbarLanguageDropdown =
     const themeLocale = useThemeLocaleData();
 
     return computed<NavGroup<AutoLinkOptions> | null>(() => {
-      const localePaths = Object.keys(siteLocale.value.locales);
+      const localePaths = keys(siteLocale.value.locales);
 
       // do not display language selection dropdown if there is only one language
       if (localePaths.length < 2) return null;
 
-      const { path, hash } = router.currentRoute.value;
+      const { path, fullPath } = router.currentRoute.value;
       const { navbarLocales } = themeLocale.value;
 
       const languageDropdown: NavGroup<AutoLinkOptions> = {
@@ -60,7 +63,7 @@ export const useNavbarLanguageDropdown =
               // try to link to the corresponding page of current page
               router.getRoutes().some((item) => item.path === targetLocalePage)
                 ? // try to keep current hash across languages
-                  `${targetLocalePage}${hash}`
+                  fullPath.replace(path, targetLocalePage)
                 : // or fallback to homepage
                   targetThemeLocale.home ?? targetLocalePath;
           }

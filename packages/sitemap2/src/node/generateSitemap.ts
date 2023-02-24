@@ -1,22 +1,22 @@
+import { type App, type Page } from "@vuepress/core";
+import { type GitData } from "@vuepress/plugin-git";
 import {
   isLinkHttp,
   removeEndingSlash,
   removeLeadingSlash,
 } from "@vuepress/shared";
-import { chalk, fs } from "@vuepress/utils";
+import { colors, fs } from "@vuepress/utils";
 import { SitemapStream } from "sitemap";
-import { logger } from "./utils.js";
 
-import type { App, Page } from "@vuepress/core";
-import type { GitData } from "@vuepress/plugin-git";
-import type { ModifyTimeGetter, SitemapOptions } from "./options.js";
-import type {
-  SitemapFrontmatterOption,
-  SitemapImageOption,
-  SitemapLinkOption,
-  SitemapNewsOption,
-  SitemapVideoOption,
+import { type ModifyTimeGetter, type SitemapOptions } from "./options.js";
+import {
+  type SitemapImageOption,
+  type SitemapLinkOption,
+  type SitemapNewsOption,
+  type SitemapPluginFrontmatter,
+  type SitemapVideoOption,
 } from "./typings/index.js";
+import { TEMPLATE_FOLDER, logger } from "./utils.js";
 
 interface SitemapPageInfo {
   lastmod?: string;
@@ -30,16 +30,17 @@ interface SitemapPageInfo {
 
 const reportedLocales: string[] = [];
 
-const stripLocalePrefix = (
-  page: Page
-): {
-  // path of root locale
+const stripLocalePrefix = ({
+  path,
+  pathLocale,
+}: Page): {
+  /** path of root locale */
   defaultPath: string;
-  // Locale path prefix of the page
+  /** Locale path prefix of the page */
   pathLocale: string;
 } => ({
-  defaultPath: page.path.replace(page.pathLocale, "/"),
-  pathLocale: page.pathLocale,
+  defaultPath: path.replace(pathLocale, "/"),
+  pathLocale: pathLocale,
 });
 
 const generatePageMap = (
@@ -47,7 +48,7 @@ const generatePageMap = (
   options: SitemapOptions
 ): Map<string, SitemapPageInfo> => {
   const {
-    changefreq,
+    changefreq = "daily",
     excludeUrls = ["/404.html"],
     modifyTimeGetter = <ModifyTimeGetter>(
       ((page: Page<{ git: GitData }>): string =>
@@ -58,8 +59,8 @@ const generatePageMap = (
   } = options;
 
   const {
-    pages,
     options: { base, locales },
+    pages,
   } = app;
 
   const pageLocalesMap = pages.reduce(
@@ -77,70 +78,74 @@ const generatePageMap = (
 
   const pagesMap = new Map<string, SitemapPageInfo>();
 
-  pages.forEach((page) => {
-    const frontmatterOptions: SitemapFrontmatterOption =
-      <SitemapFrontmatterOption>page.frontmatter["sitemap"] || {};
+  pages.forEach(
+    (page: Page<Record<never, never>, SitemapPluginFrontmatter>) => {
+      const frontmatterOptions = page.frontmatter.sitemap;
 
-    const metaRobotTags = (page.frontmatter.head || []).find(
-      (head) => head[1]["name"] === "robots"
-    );
+      if (frontmatterOptions === false) return;
 
-    const excludePage = metaRobotTags
-      ? (<string>metaRobotTags[1]["content"] || "")
+      const metaRobotTags = (page.frontmatter.head || []).find(
+        (head) => head[1]["name"] === "robots"
+      );
+
+      if (
+        // meta tags do not allow index
+        (<string>metaRobotTags?.[1]["content"] || "")
           .split(/,/u)
           .map((content) => content.trim())
-          .includes("noindex")
-      : frontmatterOptions.exclude;
+          .includes("noindex") ||
+        // exclude in plugin options
+        excludeUrls.includes(page.path)
+      )
+        return;
 
-    if (excludePage || excludeUrls.includes(page.path)) return;
+      const lastModifyTime = modifyTimeGetter(page);
+      const { defaultPath } = stripLocalePrefix(page);
+      const relatedLocales = pageLocalesMap.get(defaultPath) || [];
 
-    const lastModifyTime = modifyTimeGetter(page);
-    const { defaultPath } = stripLocalePrefix(page);
-    const relatedLocales = pageLocalesMap.get(defaultPath) || [];
+      let links: SitemapLinkOption[] = [];
 
-    let links: SitemapLinkOption[] = [];
+      if (relatedLocales.length > 1) {
+        // warnings for missing `locale[path].lang` in debug mode
+        if (app.env.isDebug)
+          relatedLocales.forEach((localePrefix) => {
+            if (
+              !locales[localePrefix].lang &&
+              !reportedLocales.includes(localePrefix)
+            ) {
+              logger.warn(`"lang" option for ${localePrefix} is missing`);
+              reportedLocales.push(localePrefix);
+            }
+          });
 
-    if (relatedLocales.length > 1) {
-      // warnings for missing `locale[path].lang` in debug mode
+        links = relatedLocales.map((localePrefix) => ({
+          lang: locales[localePrefix]?.lang || "en",
+          url: `${base}${removeLeadingSlash(
+            defaultPath.replace(/^\//u, localePrefix)
+          )}`,
+        }));
+      }
+
+      const sitemapInfo: SitemapPageInfo = {
+        ...(changefreq ? { changefreq } : {}),
+        links,
+        ...(lastModifyTime ? { lastmod: lastModifyTime } : {}),
+        ...frontmatterOptions,
+      };
+
+      // log sitemap info in debug mode
       if (app.env.isDebug)
-        relatedLocales.forEach((localePrefix) => {
-          if (
-            !locales[localePrefix].lang &&
-            !reportedLocales.includes(localePrefix)
-          ) {
-            logger.warn(`'lang' option for ${localePrefix} is missing`);
-            reportedLocales.push(localePrefix);
-          }
-        });
+        logger.info(
+          `sitemap option for ${page.path}: ${JSON.stringify(
+            sitemapInfo,
+            null,
+            2
+          )}`
+        );
 
-      links = relatedLocales.map((localePrefix) => ({
-        lang: locales[localePrefix]?.lang || "en",
-        url: `${base}${removeLeadingSlash(
-          defaultPath.replace(/^\//u, localePrefix)
-        )}`,
-      }));
+      pagesMap.set(page.path, sitemapInfo);
     }
-
-    const sitemapInfo: SitemapPageInfo = {
-      ...(changefreq ? { changefreq } : {}),
-      links,
-      ...(lastModifyTime ? { lastmod: lastModifyTime } : {}),
-      ...frontmatterOptions,
-    };
-
-    // log sitemap info in debug mode
-    if (app.env.isDebug) {
-      logger.info(
-        `sitemap option for ${page.path}: ${JSON.stringify(
-          sitemapInfo,
-          null,
-          2
-        )}`
-      );
-    }
-
-    pagesMap.set(page.path, sitemapInfo);
-  });
+  );
 
   return pagesMap;
 };
@@ -156,12 +161,18 @@ export const generateSiteMap = async (
   const sitemapFilename = options.sitemapFilename
     ? removeLeadingSlash(options.sitemapFilename)
     : "sitemap.xml";
+  const sitemapXSLFilename = options.sitemapXSLFilename
+    ? removeLeadingSlash(options.sitemapXSLFilename)
+    : "sitemap.xsl";
+  const sitemapXSLTemplate =
+    options.sitemapXSLTemplate ?? `${TEMPLATE_FOLDER}sitemap.xsl`;
+
   const {
     dir,
     options: { base },
   } = app;
 
-  logger.load(`Generating sitemap to ${chalk.cyan(`/${sitemapFilename}`)}`);
+  logger.load(`Generating sitemap to ${colors.cyan(`/${sitemapFilename}`)}`);
 
   await new Promise<void>((resolve) => {
     const sitemap = new SitemapStream({
@@ -170,6 +181,7 @@ export const generateSiteMap = async (
     });
     const pagesMap = generatePageMap(app, options);
     const sitemapXMLPath = dir.dest(sitemapFilename);
+    const sitemapXSLPath = dir.dest(sitemapXSLFilename);
     const writeStream = fs.createWriteStream(sitemapXMLPath);
 
     sitemap.pipe(writeStream);
@@ -181,12 +193,31 @@ export const generateSiteMap = async (
       })
     );
 
+    writeStream.on("finish", () => {
+      const content = fs.readFileSync(sitemapXMLPath, {
+        encoding: "utf-8",
+      });
+
+      fs.writeFileSync(
+        sitemapXMLPath,
+        content.replace(
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          `\
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="${base}${sitemapXSLFilename}"?>
+`
+        )
+      );
+
+      fs.copySync(sitemapXSLTemplate, sitemapXSLPath);
+
+      resolve();
+    });
+
     extraUrls.forEach((item) =>
       sitemap.write({ url: `${base}${removeLeadingSlash(item)}` })
     );
-    sitemap.end(() => {
-      resolve();
-    });
+    sitemap.end();
   });
 
   logger.succeed();
@@ -194,7 +225,7 @@ export const generateSiteMap = async (
   const robotTxtPath = dir.dest("robots.txt");
 
   if (fs.existsSync(robotTxtPath)) {
-    logger.load(`Appended sitemap path to ${chalk.cyan("robots.txt")}`);
+    logger.load(`Appended sitemap path to ${colors.cyan("robots.txt")}`);
 
     const robotsTxt = await fs.readFile(robotTxtPath, { encoding: "utf8" });
 

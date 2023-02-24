@@ -1,6 +1,6 @@
 ---
 title: Markdown
-icon: markdown
+icon: fab fa-markdown
 order: 3
 category:
   - 快速上手
@@ -41,7 +41,7 @@ VuePress 会使用 [markdown-it](https://github.com/markdown-it/markdown-it) 来
 
 ### 主题扩展
 
-通过 [`vuepress-plugin-md-enhance`][md-enhance]，主题扩展了更多 Markdown 语法，提供更加丰富的写作功能。
+通过 <ProjectLink name="md-enhance" path="/zh/">`vuepress-plugin-md-enhance`</ProjectLink>，主题扩展了更多 Markdown 语法，提供更加丰富的写作功能。
 
 #### 自定义容器
 
@@ -302,6 +302,9 @@ cond(no)->e
 #### Mermaid
 
 ```mermaid
+---
+title: Flowchart
+---
 flowchart TB
     c1-->a2
     subgraph one
@@ -331,7 +334,7 @@ $$
 
 #### 导入文件
 
-@include(../markdown/demo.snippet.md{5-9})
+@include(../markdown/demo.snippet.md{9-13})
 
 - [查看详情](../markdown/include.md)
 
@@ -447,5 +450,3 @@ $$
 - [查看详情](../markdown/presentation.md)
 
 - [查看详情](../markdown/stylize.md)
-
-[md-enhance]: https://vuepress-theme-hope.github.io/v2/md-enhance/zh/

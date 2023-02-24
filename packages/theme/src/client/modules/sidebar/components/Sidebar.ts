@@ -1,11 +1,9 @@
-import { defineComponent, h, onMounted, watch, ref } from "vue";
+import { type VNode, defineComponent, h, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
-import { useThemeLocaleData } from "@theme-hope/composables/index.js";
-import SidebarLinks from "@theme-hope/modules/sidebar/components/SidebarLinks.js";
-import { useSidebarItems } from "@theme-hope/modules/sidebar/composables/index.js";
-
-import type { VNode } from "vue";
+import { useThemeLocaleData } from "@theme-hope/composables/index";
+import SidebarLinks from "@theme-hope/modules/sidebar/components/SidebarLinks";
+import { useSidebarItems } from "@theme-hope/modules/sidebar/composables/index";
 
 import "../styles/sidebar.scss";
 
@@ -56,7 +54,11 @@ export default defineComponent({
       h(
         "aside",
         {
-          class: ["sidebar", { "hide-icon": !themeLocale.value.sidebarIcon }],
+          class: [
+            "sidebar",
+            { "hide-icon": themeLocale.value.sidebarIcon === false },
+          ],
+          id: "sidebar",
           ref: sidebar,
         },
         [

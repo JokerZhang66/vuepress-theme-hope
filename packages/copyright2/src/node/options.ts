@@ -1,14 +1,8 @@
-import type { LocaleConfig, Page } from "@vuepress/core";
-import type { CopyrightLocaleData } from "../shared/locales.js";
+import { type LocaleConfig, type Page } from "@vuepress/core";
+
+import { type CopyrightLocaleData } from "../shared/locales.js";
 
 export interface CopyrightOptions {
-  /**
-   * Deploy hostname
-   *
-   * 部署的域名
-   */
-  hostname?: string;
-
   /**
    * Author Information
    *
@@ -99,4 +93,15 @@ export interface CopyrightOptions {
    * 复制版权的多语言配置
    */
   locales?: LocaleConfig<CopyrightLocaleData>;
+
+  /**
+   * Canonical hostname with base
+   *
+   * @description This is useful when your content are deployed in multiple places
+   *
+   * 首选域名与部署目录
+   *
+   * @description 当你在多个站点部署内容时很有用。
+   */
+  canonical?: string;
 }

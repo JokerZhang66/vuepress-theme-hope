@@ -1,6 +1,6 @@
 ---
 title: Конфиг других плагинов
-icon: more
+icon: ellipsis
 order: 8
 category:
   - Конфиг
@@ -11,17 +11,28 @@ tag:
 
 ## components
 
-Зарегистрируйте компоненты, которые можно использовать в файлах Markdown, доступные имена компонентов:
+Controls `vuepress-plugin-components`, providing a set of components for Markdown.
+
+Available component which can be used in markdown files are:
 
 - `"Badge"`
 - `"BiliBili"`
 - `"CodePen"`
 - `"PDF"`
+- `"Replit"`
 - `"StackBlitz"`
 - `"VideoPlayer"`
 - `"YouTube"`
 
-Вы можете установить `plugin.components` с массивом компонентов, которые вы хотите, по умолчанию это будет `["Badge"]`.
+You can set `plugin.components.components` with an array of components you want, by default it will be `["Badge"]`.
+
+Also, you can set `plugin.components.rootComponents` to enable some root components, such as addThis and notice.
+
+::: info
+
+For plugin options, please refer to <ProjectLink name="components" path="/config.html">components plugin options</ProjectLink>.
+
+:::
 
 ## copyCode <Badge text="включено по умолчанию" />
 
@@ -31,7 +42,7 @@ tag:
 
 ::: info
 
-Параметры плагина см. в разделе [параметры плагина copy-code2][copy-code-config].
+Параметры плагина см. в разделе <ProjectLink name="copy-code2" path="/config.html">параметры плагина copy-code2</ProjectLink>.
 
 :::
 
@@ -59,11 +70,21 @@ tag:
 
 По умолчанию тема включает этот плагин, вы можете установить `false`, чтобы отключить его и самостоятельно выделять блоки кода.
 
-::: info
+### prismjs.light
 
-Смотрите [Параметры плагина prismjs][prismjs-config] для опций плагина.
+- Type: `PrismjsTheme`
+- Default: `"one-light"`
+- Details: [Interface → Code Themes](../../guide/interface/code-theme.md)
 
-:::
+Prism.js theme used in lightmode.
+
+### prismjs.dark
+
+- Type: `PrismjsTheme`
+- Default: `"one-dark"`
+- Details: [Interface → Code Themes](../../guide/interface/code-theme.md)
+
+Prism.js theme used in darkmode.
 
 ## photoSwipe <Badge text="включено по умолчанию" />
 
@@ -73,7 +94,7 @@ tag:
 
 ::: info
 
-Параметры плагина смотрите в разделе [параметры плагина photo-swipe][photo-swipe-config].
+Параметры плагина смотрите в разделе <ProjectLink name="photo-swipe" path="/config.html">параметры плагина photo-swipe</ProjectLink>.
 
 :::
 
@@ -90,7 +111,7 @@ tag:
 
 ::: info
 
-Дополнительные параметры плагина смотрите в [документации плагина reading-time2][reading-time].
+Дополнительные параметры плагина смотрите в <ProjectLink name="reading-time2" path="/config.html">документации плагина reading-time2</ProjectLink>.
 
 :::
 
@@ -102,7 +123,7 @@ tag:
 
 ::: info
 
-Конфигурацию плагина см. в разделе [параметры плагина seo2][seo-config].
+Конфигурацию плагина см. в разделе <ProjectLink name="seo2" path="/config.html">параметры плагина seo2</ProjectLink>.
 
 :::
 
@@ -114,14 +135,8 @@ tag:
 
 ::: info
 
-Конфигурацию плагина смотрите в разделе [параметры плагина sitemap2][sitemap-config].
+Конфигурацию плагина смотрите в разделе <ProjectLink name="sitemap2" path="/config.html">параметры плагина sitemap2</ProjectLink>.
 
 :::
 
-[copy-code-config]: https://vuepress-theme-hope.github.io/v2/copy-code/config.html
 [git-config]: https://v2.vuepress.vuejs.org/reference/plugin/git.html
-[prismjs-config]: https://v2.vuepress.vuejs.org/reference/plugin/prismjs.html
-[photo-swipe-config]: https://vuepress-theme-hope.github.io/v2/photo-swipe/config.html
-[reading-time]: https://vuepress-theme-hope.github.io/v2/reading-time/
-[seo-config]: https://vuepress-theme-hope.github.io/v2/seo/config.html
-[sitemap-config]: https://vuepress-theme-hope.github.io/v2/sitemap/config.html

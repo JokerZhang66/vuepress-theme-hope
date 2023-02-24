@@ -1,13 +1,13 @@
-import { sassPalettePlugin } from "./plugin.js";
+import { type App, type PluginObject } from "@vuepress/core";
 
-import type { App, PluginObject } from "@vuepress/core";
-import type { SassPaletteOptions } from "./options.js";
+import { type SassPaletteOptions } from "./options.js";
+import { sassPalettePlugin } from "./plugin.js";
 
 export const useSassPalettePlugin = (
   app: App,
   options: SassPaletteOptions
 ): void => {
-  const plugins = app.pluginApi.plugins;
+  const { plugins } = app.pluginApi;
 
   if (
     plugins
@@ -21,7 +21,7 @@ export const useSassPalettePlugin = (
 };
 
 export const removePalettePlugin = (app: App, id: string): void => {
-  const plugins = app.pluginApi.plugins;
+  const { plugins } = app.pluginApi;
 
   const index = plugins
     .filter<PluginObject & { id: string }>(

@@ -1,4 +1,7 @@
 import { navbar } from "docs-shared";
+import { getLinkHelper } from "./utils.js";
+
+const linkHelper = getLinkHelper();
 
 export const ruNavbarConfig = navbar([
   "/ru/guide/",
@@ -6,14 +9,14 @@ export const ruNavbarConfig = navbar([
   "/ru/faq/",
   {
     text: "Учебник с примерами",
-    icon: "guide",
+    icon: "signs-post",
     prefix: "/ru/cookbook/",
     children: ["tutorial/", "markdown/", "vuepress/", "advanced/"],
   },
   "/ru/migration/",
   {
     text: "Проект",
-    icon: "info",
+    icon: "circle-info",
     prefix: "/ru/",
     children: [
       "changelog",
@@ -21,92 +24,102 @@ export const ruNavbarConfig = navbar([
       "contribution",
       {
         text: "Плагины",
-        icon: "plugin",
+        icon: "puzzle-piece",
         children: [
+          {
+            text: "Auto catalog Plugin",
+            icon: "network-wired",
+            link: linkHelper("auto-catalog"),
+          },
           {
             text: "Плагин блога",
             icon: "blog",
-            link: "https://vuepress-theme-hope.github.io/v2/blog/",
+            link: linkHelper("blog2"),
           },
           {
             text: "Плагин комментариев",
             icon: "comment",
-            link: "https://vuepress-theme-hope.github.io/v2/comment/",
+            link: linkHelper("comment2"),
           },
           {
             text: "Плагин компонентов",
-            icon: "plugin",
-            link: "https://vuepress-theme-hope.github.io/v2/components/",
+            icon: "puzzle-piece",
+            link: linkHelper("components"),
           },
           {
             text: "Плагин копирования кода",
             icon: "copy",
-            link: "https://vuepress-theme-hope.github.io/v2/copy-code/",
+            link: linkHelper("copy-code2"),
           },
           {
             text: "Плагин авторских прав",
             icon: "copyright",
-            link: "https://vuepress-theme-hope.github.io/v2/copyright/",
+            link: linkHelper("copyright"),
           },
           {
             text: "Плагин фида",
             icon: "rss",
-            link: "https://vuepress-theme-hope.github.io/v2/feed/",
+            link: linkHelper("feed2"),
           },
           {
             text: "Плагин галереи",
-            icon: "pic",
-            link: "https://vuepress-theme-hope.github.io/v2/lightgallery/",
+            icon: "image",
+            link: linkHelper("lightgallery"),
           },
           {
             text: "Плагин улучшения разметки",
-            icon: "markdown",
-            link: "https://vuepress-theme-hope.github.io/v2/md-enhance/",
+            icon: "fab fa-markdown",
+            link: linkHelper("md-enhance"),
           },
           {
             text: "Плагин свайпа фото",
-            icon: "pic",
-            link: "https://vuepress-theme-hope.github.io/v2/photo-swipe/",
+            icon: "image",
+            link: linkHelper("photo-swipe"),
           },
           {
             text: "Плагин PWA",
-            icon: "app",
-            link: "https://vuepress-theme-hope.github.io/v2/pwa/",
+            icon: "mobile",
+            link: linkHelper("pwa2"),
           },
           {
             text: "Плагин время чтения",
-            icon: "read",
-            link: "https://vuepress-theme-hope.github.io/v2/reading-time/",
+            icon: "book-open",
+            link: linkHelper("reading-time2"),
           },
           {
             text: "Remove PWA Plugin",
-            icon: "app",
-            link: "https://vuepress-theme-hope.github.io/v2/remove-pwa/",
+            icon: "trash-can",
+            link: linkHelper("remove-pwa"),
           },
           {
             text: "Плагин редиректа",
-            icon: "navigation",
-            link: "https://vuepress-theme-hope.github.io/v2/redirect/",
+            icon: "fas fa-eject fa-rotate-90",
+            link: linkHelper("redirect"),
           },
           {
             text: "Плагин палитры Sass",
             icon: "palette",
-            link: "https://vuepress-theme-hope.github.io/v2/sass-palette/",
+            link: linkHelper("sass-palette"),
           },
           {
             text: "Client Search Plugin",
             icon: "search",
-            link: "https://vuepress-theme-hope.github.io/v2/search-pro/",
+            link: linkHelper("search-pro"),
           },
           {
             text: "Плагин СЕО",
-            icon: "strong",
-            link: "https://vuepress-theme-hope.github.io/v2/seo/",
+            icon: "wrench",
+            link: linkHelper("seo2"),
+          },
+          {
+            text: "VuePress shared",
+            icon: "toolbox",
+            link: linkHelper("shared"),
           },
           {
             text: "Плагин карты сайта",
             icon: "sitemap",
-            link: "https://vuepress-theme-hope.github.io/v2/sitemap/",
+            link: linkHelper("sitemap2"),
           },
         ],
       },

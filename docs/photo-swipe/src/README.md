@@ -13,7 +13,7 @@ actions:
   - text: Config 🛠
     link: /config.html
 
-footer: Theme by <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
+footer: Theme by <a href="https://theme-hope.vuejs.press" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
 
 copyright: false
 ---
@@ -29,19 +29,19 @@ Let your images support preview, zoom, share, swipe view and download.
 @tab pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-photo-swipe@next
+pnpm add -D vuepress-plugin-photo-swipe
 ```
 
 @tab yarn
 
 ```bash
-yarn add -D vuepress-plugin-photo-swipe@next
+yarn add -D vuepress-plugin-photo-swipe
 ```
 
 @tab npm
 
 ```bash
-npm i -D vuepress-plugin-photo-swipe@next
+npm i -D vuepress-plugin-photo-swipe
 ```
 
 :::
@@ -85,3 +85,9 @@ export default {
 ## Migrating from V1
 
 For details, see [Migration Guide](./migration.md).
+
+<NetlifyBadge />
+
+<script setup lang="ts">
+import NetlifyBadge from "@NetlifyBadge";
+</script>

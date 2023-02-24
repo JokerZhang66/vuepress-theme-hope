@@ -7,17 +7,25 @@ heroText: vuepress-plugin-feed2
 tagline: Feed plugin for VuePress2
 actions:
   - text: Docs
-    link: https://vuepress-theme-hope.github.io/v2/feed/
+    link: https://plugin-feed2.vuejs.press
 
-footer: Theme by <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
+footer: MIT Licensed, Copyright © 2019-present Mr.Hope
 ---
+
+<template v-if="!isDev">
+
+- [Atom Feed](/atom.xml)
+- [JSON Feed](/feed.json)
+- [RSS Feed](/rss.xml)
+
+</template>
 
 ## How to use
 
 ### Install
 
 ```bash
-pnpm add -D vuepress-plugin-feed2@next
+pnpm add -D vuepress-plugin-feed2
 ```
 
 ### Usage
@@ -34,3 +42,7 @@ export default {
   ],
 };
 ```
+
+<script setup>
+const isDev = __VUEPRESS_DEV__;
+</script>

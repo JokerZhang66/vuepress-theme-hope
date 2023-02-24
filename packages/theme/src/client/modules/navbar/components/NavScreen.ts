@@ -1,19 +1,19 @@
-import { disableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock";
+import { usePageData } from "@vuepress/client";
+import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import {
   Transition,
+  type VNode,
   defineComponent,
   h,
+  onMounted,
+  onUnmounted,
   ref,
-  onBeforeUnmount,
   watch,
 } from "vue";
-import { useRoute } from "vue-router";
 
-import { useMobile } from "@theme-hope/composables/index.js";
-import NavScreenLinks from "@theme-hope/modules/navbar/components/NavScreenLinks.js";
-import OutlookSettings from "@theme-hope/modules/outlook/components/OutlookSettings.js";
-
-import type { VNode } from "vue";
+import { useWindowSize } from "@theme-hope/composables/index";
+import NavScreenLinks from "@theme-hope/modules/navbar/components/NavScreenLinks";
+import OutlookSettings from "@theme-hope/modules/outlook/components/OutlookSettings";
 
 import "../styles/nav-screen.scss";
 
@@ -21,32 +21,42 @@ export default defineComponent({
   name: "NavScreen",
 
   props: {
-    active: Boolean,
+    /**
+     * Whether to show the screen
+     *
+     * 是否显示
+     */
+    show: Boolean,
   },
 
-  emits: ["close"],
+  emits: {
+    close: () => true,
+  },
 
   setup(props, { emit, slots }) {
-    const route = useRoute();
-    const isMobile = useMobile();
+    const page = usePageData();
+    const { isMobile } = useWindowSize();
+
     const screen = ref<HTMLElement>();
 
-    watch(isMobile, (value) => {
-      if (!value && props.active) {
-        clearAllBodyScrollLocks();
-        emit("close");
-      }
+    onMounted(() => {
+      watch(isMobile, (value) => {
+        if (!value && props.show) {
+          clearAllBodyScrollLocks();
+          emit("close");
+        }
+      });
+
+      watch(
+        () => page.value.path,
+        () => {
+          clearAllBodyScrollLocks();
+          emit("close");
+        }
+      );
     });
 
-    watch(
-      () => route.path,
-      () => {
-        clearAllBodyScrollLocks();
-        emit("close");
-      }
-    );
-
-    onBeforeUnmount(() => {
+    onUnmounted(() => {
       clearAllBodyScrollLocks();
     });
 
@@ -60,7 +70,7 @@ export default defineComponent({
           onAfterLeave: () => clearAllBodyScrollLocks(),
         },
         () =>
-          props.active
+          props.show
             ? h(
                 "div",
                 { id: "nav-screen", ref: screen },

@@ -1,13 +1,21 @@
-import { computed, defineComponent, h, ref, toRef, watch } from "vue";
-import { useRoute } from "vue-router";
+import { usePageData } from "@vuepress/client";
+import {
+  type PropType,
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  ref,
+  toRef,
+  watch,
+} from "vue";
 
-import AutoLink from "@theme-hope/components/AutoLink.js";
-import Icon from "@theme-hope/components/Icon.js";
+import AutoLink from "@theme-hope/components/AutoLink";
+import HopeIcon from "@theme-hope/components/HopeIcon";
 
-import type { PropType, VNode } from "vue";
-import type {
-  AutoLinkOptions as AutoLinkType,
-  NavGroup,
+import {
+  type AutoLinkOptions as AutoLinkType,
+  type NavGroup,
 } from "../../../../shared/index.js";
 
 import "../styles/nav-screen-dropdown.scss";
@@ -16,6 +24,11 @@ export default defineComponent({
   name: "NavScreenDropdown",
 
   props: {
+    /**
+     * Navbar Screen Dropdown list config
+     *
+     * 导航栏下拉列表配置
+     */
     config: {
       type: Object as PropType<NavGroup<AutoLinkType | NavGroup<AutoLinkType>>>,
       required: true,
@@ -23,7 +36,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const route = useRoute();
+    const page = usePageData();
     const config = toRef(props, "config");
 
     const dropdownAriaLabel = computed(
@@ -33,7 +46,7 @@ export default defineComponent({
     const open = ref(false);
 
     watch(
-      () => route.path,
+      () => page.value.path,
       () => {
         open.value = false;
       }
@@ -55,10 +68,10 @@ export default defineComponent({
         },
         [
           h("span", { class: "title" }, [
-            h(Icon, { icon: config.value.icon }),
+            h(HopeIcon, { icon: config.value.icon }),
             props.config.text,
           ]),
-          h("span", { class: ["arrow", open.value ? "down" : "right"] }),
+          h("span", { class: ["arrow", open.value ? "down" : "end"] }),
         ]
       ),
       h(

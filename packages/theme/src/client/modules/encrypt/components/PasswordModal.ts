@@ -1,10 +1,9 @@
 import { usePageFrontmatter } from "@vuepress/client";
-import { computed, defineComponent, h, nextTick, ref } from "vue";
+import { type VNode, computed, defineComponent, h, nextTick, ref } from "vue";
+
+import { useThemeLocaleData } from "@theme-hope/composables/index";
 
 import { LockIcon } from "./icons.js";
-import { useThemeLocaleData } from "@theme-hope/composables/index.js";
-
-import type { VNode } from "vue";
 
 import "../styles/password-modal.scss";
 
@@ -12,10 +11,18 @@ export default defineComponent({
   name: "PasswordModal",
 
   props: {
+    /**
+     * Whether is fullscreen
+     *
+     * 是否是全屏
+     */
     full: Boolean,
   },
 
-  emits: ["verify"],
+  emits: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    verify: (_password: string, _remember: boolean) => true,
+  },
 
   setup(props, { emit }) {
     const frontmatter = usePageFrontmatter();

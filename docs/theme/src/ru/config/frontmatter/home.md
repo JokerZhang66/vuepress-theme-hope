@@ -1,6 +1,6 @@
 ---
 title: Конфигурация главной страницы Frontmatter
-icon: config
+icon: home
 order: 4
 category:
   - Конфиг
@@ -86,7 +86,7 @@ tag:
 
 Действия Home
 
-### features
+## features
 
 - Тип: `ThemeHomeFeatureOptions[]`
 

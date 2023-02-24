@@ -1,6 +1,6 @@
 ---
 title: Config
-icon: config
+icon: gears
 ---
 
 ## showInstall
@@ -281,7 +281,8 @@ Locales config for pwa plugin.
 - **Simplified Chinese** (zh-CN)
 - **Traditional Chinese** (zh-TW)
 - **English (United States)** (en-US)
-- **German** (de-AT)
+- **German** (de-DE)
+- **German (Australia)** (de-AT)
 - **Russian** (ru-RU)
 - **Ukrainian** (uk-UA)
 - **Vietnamese** (vi-VN)
@@ -293,5 +294,6 @@ Locales config for pwa plugin.
 - **Japanese** (ja-JP)
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
+- **Finnish** (fi-FI)
 
 :::

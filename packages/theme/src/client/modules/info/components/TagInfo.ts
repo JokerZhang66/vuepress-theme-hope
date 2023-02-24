@@ -1,14 +1,13 @@
-import { defineComponent, h } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { generateIndexfromHash } from "vuepress-shared/client";
+import { usePageData } from "@vuepress/client";
+import { type PropType, type VNode, defineComponent, h } from "vue";
+import { useRouter } from "vue-router";
+import { generateIndexFromHash } from "vuepress-shared/client";
 
-import { TagIcon } from "@theme-hope/modules/info/components/icons.js";
-import { useMetaLocale } from "@theme-hope/modules/info/composables/index.js";
+import { TagIcon } from "@theme-hope/modules/info/components/icons";
+import { useMetaLocale } from "@theme-hope/modules/info/composables/index";
+import { type PageTag } from "@theme-hope/modules/info/utils/index";
 
-import type { PropType, VNode } from "vue";
-import type { PageTag } from "@theme-hope/modules/info/utils/index.js";
-
-import "../styles/tag.scss";
+import "../styles/tag-info.scss";
 
 export default defineComponent({
   name: "TagInfo",
@@ -16,21 +15,31 @@ export default defineComponent({
   inheritAttrs: false,
 
   props: {
+    /**
+     * Tag information
+     *
+     * 标签信息
+     */
     tag: {
       type: Array as PropType<PageTag[]>,
       default: () => [],
     },
 
+    /**
+     * Whether in pure mode
+     *
+     * 是否处于纯净模式
+     */
     pure: Boolean,
   },
 
   setup(props) {
     const router = useRouter();
-    const route = useRoute();
+    const page = usePageData();
     const metaLocale = useMetaLocale();
 
     const navigate = (event: Event, path = ""): void => {
-      if (path && route.path !== path) {
+      if (path && page.value.path !== path) {
         event.preventDefault();
         void router.push(path);
       }
@@ -41,35 +50,29 @@ export default defineComponent({
         ? h(
             "span",
             {
+              class: "page-tag-info",
               "aria-label": `${metaLocale.value.tag}${props.pure ? "" : "🏷"}`,
               ...(props.pure ? {} : { "data-balloon-pos": "down" }),
             },
             [
               h(TagIcon),
-              h(
-                "ul",
-                { class: "tags-wrapper" },
-                props.tag.map(({ name, path }) =>
-                  h(
-                    "li",
-                    h(
-                      "span",
+
+              ...props.tag.map(({ name, path }) =>
+                h(
+                  "span",
+                  {
+                    class: [
+                      "page-tag-item",
                       {
-                        class: [
-                          "tag",
-                          {
-                            // TODO: magic number 9 is tricky here
-                            [`tag${generateIndexfromHash(name, 9)}`]:
-                              !props.pure,
-                            clickable: path,
-                          },
-                        ],
-                        role: path ? "navigation" : "",
-                        onClick: (event: Event) => navigate(event, path),
+                        // TODO: magic number 9 is tricky here
+                        [`tag${generateIndexFromHash(name, 9)}`]: !props.pure,
+                        clickable: path,
                       },
-                      name
-                    )
-                  )
+                    ],
+                    role: path ? "navigation" : "",
+                    onClick: (event: Event) => navigate(event, path),
+                  },
+                  name
                 )
               ),
               h("meta", {

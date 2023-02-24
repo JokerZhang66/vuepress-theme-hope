@@ -1,45 +1,35 @@
+import { type Page, type Plugin } from "@vuepress/core";
+import { isPlainObject } from "@vuepress/shared";
 import { seoPlugin } from "vuepress-plugin-seo2";
-import { getBlogOptions } from "./blog.js";
+import { keys } from "vuepress-shared/node";
 
-import type { Page, Plugin } from "@vuepress/core";
-import type { ThemeConfig, PluginsOptions } from "../../shared/index.js";
+import { type PluginsOptions, type ThemeData } from "../../shared/index.js";
 
+/**
+ * @private
+ *
+ * Resolve options for vuepress-plugin-seo2
+ */
 export const getSEOPlugin = (
-  themeConfig: ThemeConfig,
-  { blog, seo }: PluginsOptions,
+  themeData: ThemeData,
+  { seo }: PluginsOptions,
   hostname = "",
-  legacy = false
+  legacy = true
 ): Plugin | null => {
   if (seo === false) return null;
-  const seoOptions = typeof seo === "object" ? seo : {};
+  const seoOptions = isPlainObject(seo) ? seo : {};
 
   // disable seo if `hostname` is not set and no options for seo plugin
-  if (!Object.keys(seoOptions).length && !hostname) return null;
-
-  const blogOptions = getBlogOptions(blog);
-
-  const isArticle = ({
-    filePathRelative,
-    frontmatter,
-    pathLocale,
-    path,
-  }: Page): boolean => {
-    if (!filePathRelative || frontmatter["home"]) return false;
-
-    const localePath = path.replace(new RegExp(`^${pathLocale}`), "/");
-
-    return Object.entries(blogOptions)
-      .filter<[string, string]>(
-        (item): item is [string, string] => typeof item[1] === "string"
-      )
-      .every(([, value]) => !localePath.startsWith(value));
-  };
+  if (!keys(seoOptions).length && !hostname) return null;
 
   return seoPlugin(
     {
       hostname,
-      ...(themeConfig.author ? { author: themeConfig.author } : {}),
-      isArticle,
+      ...(themeData.author ? { author: themeData.author } : {}),
+      isArticle: ({ filePathRelative, frontmatter }: Page): boolean =>
+        Boolean(filePathRelative) &&
+        !frontmatter["home"] &&
+        frontmatter["article"] !== false,
       ...seoOptions,
     },
     legacy

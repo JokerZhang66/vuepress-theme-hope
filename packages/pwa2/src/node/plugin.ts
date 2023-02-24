@@ -1,3 +1,4 @@
+import { type PluginFunction } from "@vuepress/core";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
 import {
   addViteOptimizeDepsExclude,
@@ -6,23 +7,21 @@ import {
 } from "vuepress-shared/node";
 
 import { convertOptions } from "./compact/index.js";
-import { getManifest, generateManifest } from "./generateManifest.js";
+import { generateManifest, getManifest } from "./generateManifest.js";
 import { generateServiceWorker } from "./generateServiceWorker.js";
 import { appendBase } from "./helper.js";
-import { injectLinkstoHead } from "./injectHead.js";
+import { injectLinksToHead } from "./injectHead.js";
 import { pwaLocales } from "./locales.js";
+import { type PWAOptions } from "./options.js";
 import { prepareConfigFile } from "./prepare.js";
 import { logger } from "./utils.js";
 
-import type { PluginFunction } from "@vuepress/core";
-import type { PWAOptions } from "./options.js";
-
 export const pwaPlugin =
-  (options: PWAOptions = {}, legacy = false): PluginFunction =>
+  (options: PWAOptions = {}, legacy = true): PluginFunction =>
   (app) => {
     // TODO: Remove this in v2 stable
     if (legacy) convertOptions(options as PWAOptions & Record<string, unknown>);
-    if (app.env.isDebug) logger.info(`Options: ${options.toString()}`);
+    if (app.env.isDebug) logger.info("Options:", options);
 
     const { base, shouldPrefetch = true } = app.options;
 
@@ -35,7 +34,7 @@ export const pwaPlugin =
 
     const manifest = getManifest(app, options);
 
-    app.options.head = injectLinkstoHead(options, base, app.options.head);
+    app.options.head = injectLinksToHead(options, base, app.options.head);
 
     useSassPalettePlugin(app, { id: "hope" });
 
@@ -53,19 +52,21 @@ export const pwaPlugin =
         SW_PATH: options.swPath || "service-worker.js",
       }),
 
-      extendsBundlerOptions: (config: unknown, app): void => {
-        addViteOptimizeDepsExclude({ app, config }, [
+      extendsBundlerOptions: (bundlerOptions: unknown, app): void => {
+        addViteOptimizeDepsExclude(bundlerOptions, app, [
           "mitt",
           "register-service-worker",
         ]);
 
-        useCustomDevServer(
-          config,
-          app,
-          "/manifest.webmanifest",
-          async () => JSON.stringify(await manifest),
-          "Unexpected manifest generate error"
-        );
+        useCustomDevServer(bundlerOptions, app, {
+          path: "/manifest.webmanifest",
+          response: async (_, response) => {
+            response.setHeader("Content-Type", "application/manifest+json");
+
+            return JSON.stringify(await manifest);
+          },
+          errMsg: "Unexpected manifest generate error",
+        });
       },
 
       onGenerated: async (app): Promise<void> => {

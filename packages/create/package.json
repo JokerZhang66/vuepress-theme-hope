@@ -1,6 +1,6 @@
 {
   "name": "create-vuepress-theme-hope",
-  "version": "2.0.0-beta.130",
+  "version": "2.0.0-beta.181",
   "description": "Create vuepress-theme-hope demo project helper",
   "keywords": [
     "create",
@@ -9,7 +9,7 @@
     "vuepress-theme",
     "vuepress-theme-hope"
   ],
-  "homepage": "https://vuepress-theme-hope.github.io/v2/",
+  "homepage": "https://theme-hope.vuejs.press/",
   "bugs": {
     "url": "https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues"
   },
@@ -32,6 +32,7 @@
     "create-vuepress-theme-hope": "./lib/index.js"
   },
   "files": [
+    "lib",
     "template"
   ],
   "scripts": {
@@ -42,11 +43,10 @@
   },
   "dependencies": {
     "cac": "6.7.14",
-    "execa": "6.1.0",
+    "execa": "7.0.0",
     "inquirer": "9.1.4"
   },
   "devDependencies": {
-    "@types/inquirer": "9.0.3",
-    "rimraf": "3.0.2"
+    "@types/inquirer": "9.0.3"
   }
 }

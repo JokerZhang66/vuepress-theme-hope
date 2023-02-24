@@ -1,6 +1,7 @@
 ---
 title: 样式化
-icon: style
+icon: wand-magic-sparkles
+category:
   - Markdown
 tag:
   - 样式化
@@ -150,7 +151,7 @@ export default defineUserConfig({
       mdEnhance: {
         stylize: [
           {
-            matcher: /n’t$/,
+            matcher: /^不/,
             replacer: ({ tag, attrs, content }) => {
               if (tag === "em")
                 return {
@@ -178,7 +179,7 @@ export default {
     mdEnhancePlugin({
       stylize: [
         {
-          matcher: /n’t$/,
+          matcher: /^不/,
           replacer: ({ tag, attrs, content }) => {
             if (tag === "em")
               return {
@@ -196,7 +197,7 @@ export default {
 
 :::
 
-如果你想跳过某些页面中的某些单词，你可以在页面 frontmatter 中设置 `noStylize` 数组，并放置你不想风格化的内容。
+同时，你也可以在 frontmatter 总通过 `stylize` 选项来自定义此页面额外的匹配标记的函数。
 
 ::: info 性能
 

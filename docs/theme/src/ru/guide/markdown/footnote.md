@@ -1,6 +1,6 @@
 ---
 title: Сноска
-icon: footnote
+icon: quote-left
 category:
   - Markdown
 tag:

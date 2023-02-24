@@ -1,6 +1,7 @@
 // Vietnamese [vi]
 import type dayjs from "dayjs";
-import type { Locale } from "./locale.js";
+
+import { type Locale } from "./locale.js";
 
 const locale: Partial<Locale> = {
   name: "vi",
@@ -44,6 +45,6 @@ const locale: Partial<Locale> = {
   },
 };
 
-export const loadViLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("vi", locale);
+export const loadViLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("vi", locale);
 };

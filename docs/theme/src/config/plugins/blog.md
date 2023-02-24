@@ -20,12 +20,26 @@ For instructions, please see [Blog Intro](../../guide/blog/intro.md).
 
 ## Options
 
-### autoExcerpt
+### excerpt
 
 - Type: `boolean`
-- Default: `false`
+- Default: `true`
 
-Whether to generate excerpt for every page.
+Whether generate excerpt for page.
+
+### excerptSeparator
+
+- Type: `string`
+- Default: `<!-- more -->`
+
+Separator used to split excerpt from page content.
+
+### excerptLength
+
+- Type: `number`
+- Default: `300`
+
+Length of excerpt when auto generating.
 
 ### filter
 
@@ -35,6 +49,61 @@ Whether to generate excerpt for every page.
 Page filter, determine whether a page should be included.
 
 By default, all the pages generated from Markdown files but not homepage will be included as articles.
+
+### excerptFilter
+
+- Type: `(page: Page) => boolean`
+- Default: `filter` option
+
+Page filter, determine whether the plugin should generate excerpt for it.
+
+### type
+
+- Type: `BlogTypeOptions[]`
+
+  ```ts
+  interface BlogTypeOptions {
+    /**
+     * Unique type name
+     */
+    key: string;
+
+    /**
+     * A filter function to determine whether a page should be the type
+     */
+    filter: (page: Page) => boolean;
+
+    /**
+     * A custom function to sort the pages
+     */
+    sorter?: (pageA: Page, pageB: Page) => number;
+
+    /**
+     * Page path to be registered
+     *
+     * @default '/:key/'
+     */
+    path?: string;
+
+    /**
+     * Frontmatter
+     */
+    frontmatter?: (localePath: string) => Record<string, string>;
+
+    /**
+     * Layout name
+     *
+     * @default 'BlogType'
+     */
+    layout?: string;
+  }
+  ```
+
+- Default: `[]`
+- Details:
+  - [Guide → Article List](../../guide/blog/article.md#other-types-of-articles)
+
+Additional article type.
 
 ### article
 
@@ -70,20 +139,6 @@ Tag map route path.
 - Default: `/tag/:name/`
 
 Tag list route path. `:name` will be replaced by tag name.
-
-### encrypted
-
-- Type: `string`
-- Default: `/encrypted/`
-
-Encrypted articles list route path.
-
-### slide
-
-- Type: `string`
-- Default: `/slide/`
-
-Slides list route path.
 
 ### star
 

@@ -1,6 +1,6 @@
 ---
 title: Sidebar
-icon: sidebar
+icon: fas fa-window-maximize fa-rotate-270
 order: 2
 category:
   - Layout
@@ -84,7 +84,7 @@ export default defineUserConfig({
       {
         text: "Guide",
         link: "/guide/README.md",
-        icon: "creative",
+        icon: "lightbulb",
         // only active in `/guide/`
         activeMatch: "^/guide/$",
       },
@@ -92,7 +92,7 @@ export default defineUserConfig({
       {
         text: "FAQ",
         link: "/faq.md",
-        icon: "question",
+        icon: "circle-question",
         // active in path starting with `/faq`
         // so it will active in path like `/faq/xxx.html`
         activeMatch: "^/zh/faq/",
@@ -114,7 +114,7 @@ export default {
       {
         text: "Guide",
         link: "/guide/README.md",
-        icon: "creative",
+        icon: "lightbulb",
         // only active in `/guide/`
         activeMatch: "^/guide/$",
       },
@@ -122,7 +122,7 @@ export default {
       {
         text: "FAQ",
         link: "/faq.md",
-        icon: "question",
+        icon: "circle-question",
         // active in path starting with `/faq`
         // so it will active in path like `/faq/xxx.html`
         activeMatch: "^/zh/faq/",
@@ -632,6 +632,14 @@ export default {
 In the above modification, since the original sidebar array is all files under the relevant path, you can easily replace it with the `"structure"` keyword.
 
 If you use the structure to generate a folder with other folders nested under it, the corresponding folder will be rendered as a group. So you can even be more aggressive, for example setting `sidebar: "structure"` to have your sidebars all auto-generated from the file structure.
+
+::: warning Limitations
+
+Since structure sidebar is depending on file structure and markdown frontmatter, any changes in markdown may update the structure sidebar. (E.g: setting `index: false` in frontmatter as described below)
+
+However, recalculating the sidebar could be expensive for large sites, so the theme will only recalculate with [`hotReload` enabled](../../config/theme/basic.md#hotreload).
+
+:::
 
 #### Advanced Control
 

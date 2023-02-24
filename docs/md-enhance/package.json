@@ -1,6 +1,6 @@
 {
   "name": "md-enhance-docs",
-  "version": "2.0.0-beta.130",
+  "version": "2.0.0-beta.181",
   "private": true,
   "description": "Docs for vuepress-plugin-md-enhance",
   "license": "MIT",
@@ -10,6 +10,7 @@
     "url": "https://mrhope.site"
   },
   "scripts": {
+    "docs:serve": "http-server -a localhost dist -o",
     "docs:vite-build": "vuepress-vite build src",
     "docs:vite-clean-dev": "vuepress-vite dev src --clean-cache",
     "docs:vite-dev": "vuepress-vite dev src",
@@ -18,15 +19,15 @@
     "docs:webpack-dev": "vuepress-webpack dev src"
   },
   "dependencies": {
-    "@types/katex": "0.14.0",
-    "@vuepress/client": "2.0.0-beta.53",
-    "@vuepress/utils": "2.0.0-beta.53",
+    "@types/katex": "0.16.0",
+    "@vuepress/client": "2.0.0-beta.60",
     "docs-shared": "workspace:*",
-    "katex": "0.16.3",
+    "katex": "0.16.4",
     "sass-loader": "13.2.0",
-    "vue": "3.2.45",
+    "vue": "3.2.47",
     "vuepress-plugin-md-enhance": "workspace:*",
-    "vuepress-vite": "2.0.0-beta.53",
-    "vuepress-webpack": "2.0.0-beta.53"
+    "vuepress-shared": "workspace:*",
+    "vuepress-vite": "2.0.0-beta.60",
+    "vuepress-webpack": "2.0.0-beta.60"
   }
 }

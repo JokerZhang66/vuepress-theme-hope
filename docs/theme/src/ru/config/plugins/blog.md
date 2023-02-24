@@ -20,12 +20,26 @@ tag:
 
 ## Опции
 
-### autoExcerpt
+### excerpt
 
-- Тип: `boolean`
-- По умолчанию: `false`
+- Type: `boolean`
+- Default: `true`
 
-Генерировать ли выдержку для каждой страницы.
+Whether generate excerpt for page.
+
+### excerptSeparator
+
+- Type: `string`
+- Default: `<!-- more -->`
+
+Separator used to split excerpt from page content.
+
+### excerptLength
+
+- Type: `number`
+- Default: `300`
+
+Length of excerpt when auto generating.
 
 ### filter
 
@@ -35,6 +49,61 @@ tag:
 Фильтр страниц, определяющий, следует ли включать страницу.
 
 По умолчанию все страницы, созданные из файлов Markdown, но не домашняя страница, будут включены в качестве статей.
+
+### excerptFilter
+
+- Type: `(page: Page) => boolean`
+- Default: `filter` option
+
+Page filter, determine whether the plugin should generate excerpt for it.
+
+### type
+
+- Type: `BlogTypeOptions[]`
+
+  ```ts
+  interface BlogTypeOptions {
+    /**
+     * Unique type name
+     */
+    key: string;
+
+    /**
+     * A filter function to determine whether a page should be the type
+     */
+    filter: (page: Page) => boolean;
+
+    /**
+     * A custom function to sort the pages
+     */
+    sorter?: (pageA: Page, pageB: Page) => number;
+
+    /**
+     * Page path to be registered
+     *
+     * @default '/:key/'
+     */
+    path?: string;
+
+    /**
+     * Frontmatter
+     */
+    frontmatter?: (localePath: string) => Record<string, string>;
+
+    /**
+     * Layout name
+     *
+     * @default 'BlogType'
+     */
+    layout?: string;
+  }
+  ```
+
+- Default: `[]`
+- Details:
+  - [Guide → Article List](../../guide/blog/article.md#other-types-of-articles)
+
+Additional article type.
 
 ### article
 
@@ -70,20 +139,6 @@ tag:
 - По умолчанию: `/tag/:name/`
 
 Путь маршрута списка тегов. `:name` будет заменено именем тега.
-
-### encrypted
-
-- Тип: `string`
-- По умолчанию: `/encrypted/`
-
-Путь к списку зашифрованных статей.
-
-### slide
-
-- Тип: `string`
-- По умолчанию: `/slide/`
-
-Путь маршрута списка слайдов.
 
 ### star
 

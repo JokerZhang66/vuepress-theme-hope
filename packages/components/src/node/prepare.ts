@@ -1,126 +1,95 @@
-import { ensureEndingSlash } from "@vuepress/shared";
-import { getDirname, path } from "@vuepress/utils";
-import { logger } from "./utils.js";
+import { type App } from "@vuepress/core";
+import { isArray, isString } from "@vuepress/shared";
 
-import type { App } from "@vuepress/core";
-import type { AvailableComponent, ComponentOptions } from "./options.js";
-
-const __dirname = getDirname(import.meta.url);
-const CLIENT_FOLDER = ensureEndingSlash(path.resolve(__dirname, "../client"));
-
-const availableComponents: AvailableComponent[] = [
-  "Badge",
-  "BiliBili",
-  "CodePen",
-  "FontIcon",
-  "PDF",
-  "StackBlitz",
-  "VideoPlayer",
-  "YouTube",
-];
-
-const getIconLink = (
-  iconLink: string
-): { type: string; content: string } | null => {
-  if (iconLink === "fontawesome")
-    return {
-      type: "script",
-      content: "https://kit.fontawesome.com/ca37c296c5.js",
-    };
-
-  if (iconLink === "iconfont")
-    return {
-      type: "style",
-      content: `@import url("//at.alicdn.com/t/font_2410206_a0xb9hku9iu.css");`,
-    };
-
-  const actualLink = iconLink.match(/^(?:https?:)?\/\//g)
-    ? iconLink
-    : `//${iconLink}`;
-
-  if (actualLink.endsWith(".css"))
-    return {
-      type: "style",
-      content: `@import url("${iconLink}");`,
-    };
-
-  if (actualLink.endsWith(".js"))
-    return {
-      type: "script",
-      content: iconLink,
-    };
-
-  logger.error(`Can not recognize icon link: "${iconLink}"`);
-
-  return null;
-};
+import { getIconLink, getNoticeOptions } from "./components/index.js";
+import { type ComponentOptions } from "./options/index.js";
+import { AVAILABLE_COMPONENTS, CLIENT_FOLDER } from "./utils.js";
 
 export const prepareConfigFile = (
   app: App,
-  options: ComponentOptions
+  {
+    components = [],
+    componentOptions = {},
+    rootComponents = {},
+  }: ComponentOptions,
+  legacy: boolean
 ): Promise<string> => {
-  let configImport = "";
+  const imports: string[] = [];
   let enhance = "";
-  let setup = "";
-  let rootComponents = "";
+  const setups: string[] = [];
+  const configRootComponents: string[] = [];
   let shouldImportH = false;
   let shouldImportUseScriptTag = false;
   let shouldImportUseStyleTag = false;
 
-  options.components.forEach((item) => {
-    if (availableComponents.includes(item)) {
-      configImport += `\
-import ${item} from "${CLIENT_FOLDER}components/${item}.js";
-`;
+  components.forEach((item) => {
+    if (AVAILABLE_COMPONENTS.includes(item)) {
+      imports.push(
+        `import ${item} from "${CLIENT_FOLDER}components/${item}.js";`
+      );
+
       enhance += `\
-app.component("${item}", ${item});
+if(!hasGlobalComponent("${item}")) app.component("${item}", ${item});
 `;
     }
 
-    if (item === "FontIcon" && options.iconAssets) {
-      const result = getIconLink(options.iconAssets);
+    if (item === "FontIcon")
+      getIconLink(componentOptions.fontIcon?.assets).forEach((item) => {
+        const { type, content } = item;
 
-      if (result) {
-        const { type, content } = result;
+        if (type === "script") shouldImportUseScriptTag = true;
+        else shouldImportUseStyleTag = true;
 
-        if (type === "script") {
-          shouldImportUseScriptTag = true;
-          setup += `\
-useScriptTag(\`${content}\`);
+        setups.push(content);
+      });
+
+    if (legacy && (item as unknown) === "Catalog") {
+      imports.push(
+        `import Catalog from "${CLIENT_FOLDER}compact/components/Catalog.js";`
+      );
+      enhance += `\
+if(!hasGlobalComponent("Catalog")) app.component("Catalog", Catalog);
 `;
-        } else {
-          shouldImportUseStyleTag = true;
-          setup += `\
-useStyleTag(\`${content}\`, { id: "icon-assets" });
-`;
-        }
-      }
     }
   });
 
-  if (typeof options.addThis === "string") {
+  if (isString(rootComponents.addThis)) {
     shouldImportUseScriptTag = true;
-    setup += `\
-useScriptTag(\`//s7.addthis.com/js/300/addthis_widget.js#pubid=${options.addThis}\`);
-`;
+    setups.push(
+      `useScriptTag(\`//s7.addthis.com/js/300/addthis_widget.js#pubid=${rootComponents.addThis}\`);`
+    );
   }
 
-  if (options.backToTop) {
+  if (rootComponents.backToTop) {
     shouldImportH = true;
-    configImport += `\
-import BackToTop from "${CLIENT_FOLDER}components/BackToTop.js";
-`;
-    rootComponents += `\
-() => h(BackToTop, { threshold: ${
-      typeof options.backToTop === "number" ? options.backToTop : 300
-    } }),
-`;
+    imports.push(
+      `import BackToTop from "${CLIENT_FOLDER}components/BackToTop.js";`
+    );
+    configRootComponents.push(
+      `() => h(BackToTop, { threshold: ${
+        typeof rootComponents.backToTop === "number"
+          ? rootComponents.backToTop
+          : 300
+      } }),`
+    );
+  }
+
+  if (isArray(rootComponents.notice)) {
+    shouldImportH = true;
+    imports.push(`import Notice from "${CLIENT_FOLDER}components/Notice.js";`);
+
+    configRootComponents.push(
+      `() => h(Notice, { config: ${JSON.stringify(
+        getNoticeOptions(rootComponents.notice)
+      )} }),`
+    );
   }
 
   return app.writeTemp(
     `components/config.js`,
     `\
 import { defineClientConfig } from "@vuepress/client";
+import { hasGlobalComponent } from "${CLIENT_FOLDER}shared.js";
 ${
   shouldImportH
     ? `\
@@ -142,7 +111,9 @@ import { useStyleTag } from "${CLIENT_FOLDER}vueuse.js";
 `
     : ""
 }\
-${configImport}
+${imports.join("\n")}
+
+import "${CLIENT_FOLDER}styles/sr-only.scss";
 
 export default defineClientConfig({
   enhance: ({ app }) => {
@@ -152,16 +123,10 @@ ${enhance
   .join("\n")}
   },
   setup: () => {
-${setup
-  .split("\n")
-  .map((item) => `    ${item}`)
-  .join("\n")}
+${setups.map((item) => `    ${item}`).join("\n")}
   },
   rootComponents: [
-${rootComponents
-  .split("\n")
-  .map((item) => `    ${item}`)
-  .join("\n")}
+${configRootComponents.map((item) => `    ${item}`).join("\n")}
   ],
 });
 `

@@ -9,24 +9,22 @@
     padding: 0.6em 0;
   }
 
-  &.loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      width: 4em;
-      height: 4em;
-      margin: 2.5em auto;
-      color: var(--c-brand, #3eaf7c);
-    }
-  }
-
+  // mermaid style fix
   .node rect,
   .clusters rect,
   rect.note,
   .actor {
     rx: 8;
     ry: 8;
+  }
+}
+
+.mermaid-loading {
+  color: var(--vp-tc);
+}
+
+.mermaid-content {
+  @media print {
+    page-break-inside: avoid;
   }
 }

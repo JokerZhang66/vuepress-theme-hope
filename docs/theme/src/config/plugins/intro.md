@@ -1,6 +1,6 @@
 ---
 title: Plugin Intro
-icon: info
+icon: circle-info
 order: 1
 category:
   - Config
@@ -47,43 +47,45 @@ For example:
 
 ### Plugins provided by Mr.Hope
 
-- [vuepress-plugin-blog2][blog2]: Blog plugin for VuePress2
+- <ProjectLink name="auto-catalog">vuepress-plugin-auto-catalog</ProjectLink>: Catalog automatically generation for VuePress2
 
-- [vuepress-plugin-comment2][comment2]: Provides comment and pageview function
+- <ProjectLink name="blog2">vuepress-plugin-blog2</ProjectLink>: Blog plugin for VuePress2
 
-- [vuepress-plugin-components][components]: Provides some plugins out of the box
+- <ProjectLink name="comment2">vuepress-plugin-comment2</ProjectLink>: Provides comment and pageview function
 
-- [vuepress-plugin-copy-code2][copy-code2]: Provides one-click copy code block function.
+- <ProjectLink name="components">vuepress-plugin-components</ProjectLink>: Provides some plugins out of the box
 
-- [vuepress-plugin-copyright2][copyright2]: Append copyright information when copying or disable copy and selection.
+- <ProjectLink name="copy-code2">vuepress-plugin-copy-code2</ProjectLink>: Provides one-click copy code block function.
 
-- [vuepress-plugin-feed2][feed2]: Feed support
+- <ProjectLink name="copyright2">vuepress-plugin-copyright2</ProjectLink>: Append copyright information when copying or disable copy and selection.
 
-- [vuepress-plugin-md-enhance][md-enhance]: Provides more Markdown syntax
+- <ProjectLink name="feed2">vuepress-plugin-feed2</ProjectLink>: Feed support
 
-- [vuepress-plugin-photo-swipe][photo-swipe]: Image preview plugin based on photo-swipe
+- <ProjectLink name="md-enhance">vuepress-plugin-md-enhance</ProjectLink>: Provides more Markdown syntax
 
-- [vuepress-plugin-pwa2][pwa2]: Enhanced PWA support
+- <ProjectLink name="photo-swipe">vuepress-plugin-photo-swipe</ProjectLink>: Image preview plugin based on photo-swipe
 
-- [vuepress-plugin-reading-time2][reading-time2]: Reading time and word count
+- <ProjectLink name="pwa2">vuepress-plugin-pwa2</ProjectLink>: Enhanced PWA support
 
-- [vuepress-plugin-sass-palette][sass-palette]: Sass style plugin for all plugins and themes
+- <ProjectLink name="reading-time2">vuepress-plugin-reading-time2</ProjectLink>: Reading time and word count
 
-- [vuepress-plugin-seo2][seo2]: SEO enhancement plugin
+- <ProjectLink name="sass-palette">vuepress-plugin-sass-palette</ProjectLink>: Sass style plugin for all plugins and themes
 
-- [vuepress-plugin-sitemap2][sitemap2]: Sitemap plugin
+- <ProjectLink name="seo2">vuepress-plugin-seo2</ProjectLink>: SEO enhancement plugin
+
+- <ProjectLink name="sitemap2">vuepress-plugin-sitemap2</ProjectLink>: Sitemap plugin
 
 ::: tip
 
-Here are some other plugins that are not enabled by default by the theme, you can enable them according to your own needs.
+Here are some other plugins that are not bundled by the theme, you can enable them according to your own needs.
 
-- [vuepress-plugin-lightgallery][lightgallery]: Image preview plugin based on lightgallery
+- <ProjectLink name="lightgallery">vuepress-plugin-lightgallery</ProjectLink>: Image preview plugin based on lightgallery
 
-- [vuepress-plugin-redirect][redirect]: Redirect pages
+- <ProjectLink name="redirect">vuepress-plugin-redirect</ProjectLink>: Redirect pages
 
-- [vuepress-plugin-remove-pwa][remove-pwa]: Plugins to remove pwa
+- <ProjectLink name="remove-pwa">vuepress-plugin-remove-pwa</ProjectLink>: Plugins to remove pwa
 
-- [vuepress-plugin-search-pro][search-pro]: Client search plugin
+- <ProjectLink name="search-pro">vuepress-plugin-search-pro</ProjectLink>: Client search plugin
 
 :::
 
@@ -103,23 +105,6 @@ Here are some other plugins that are not enabled by default by the theme, you ca
 
 - [@vuepress/plugin-theme-data][theme-data]: Composition API plugin for theme data
 
-[blog2]: https://vuepress-theme-hope.github.io/v2/blog/
-[comment2]: https://vuepress-theme-hope.github.io/v2/comment/
-[components]: https://vuepress-theme-hope.github.io/v2/components/
-[copy-code2]: https://vuepress-theme-hope.github.io/v2/copy-code/
-[copyright2]: https://vuepress-theme-hope.github.io/v2/copyright/
-[feed2]: https://vuepress-theme-hope.github.io/v2/feed/
-[lightgallery]: https://vuepress-theme-hope.github.io/v2/lightgallery/
-[md-enhance]: https://vuepress-theme-hope.github.io/v2/md-enhance/
-[photo-swipe]: https://vuepress-theme-hope.github.io/v2/photo-swipe/
-[pwa2]: https://vuepress-theme-hope.github.io/v2/pwa/
-[reading-time2]: https://vuepress-theme-hope.github.io/v2/reading-time/
-[redirect]: https://vuepress-theme-hope.github.io/v2/redirect/
-[remove-pwa]: https://vuepress-theme-hope.github.io/v2/remove-pwa/
-[sass-palette]: https://vuepress-theme-hope.github.io/v2/sass-palette/
-[search-pro]: https://vuepress-theme-hope.github.io/v2/search-pro/
-[seo2]: https://vuepress-theme-hope.github.io/v2/seo/
-[sitemap2]: https://vuepress-theme-hope.github.io/v2/sitemap/
 [active-header-links]: https://v2.vuepress.vuejs.org/reference/plugin/active-header-links.html
 [container]: https://v2.vuepress.vuejs.org/reference/plugin/container.html
 [external-link-icon]: https://v2.vuepress.vuejs.org/reference/plugin/external-link-icon.html

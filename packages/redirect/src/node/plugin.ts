@@ -1,15 +1,15 @@
+import { type Page, type PluginFunction } from "@vuepress/core";
+
 import { handleRedirect } from "./extends.js";
 import { generateHTML } from "./generate.js";
+import { type RedirectOptions } from "./options.js";
+import { type RedirectPluginFrontmatterOption } from "./typings/index.js";
 import { logger } from "./utils.js";
-
-import type { Page, PluginFunction } from "@vuepress/core";
-import type { RedirectOptions } from "./options.js";
-import type { RedirectPluginFrontmatterOption } from "./typings/index.js";
 
 export const redirectPlugin =
   (options: RedirectOptions = {}): PluginFunction =>
   (app) => {
-    if (app.env.isDebug) logger.info(`Options: ${options.toString()}`);
+    if (app.env.isDebug) logger.info("Options:", options);
 
     return {
       name: "vuepress-plugin-redirect",

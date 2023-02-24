@@ -1,16 +1,16 @@
-import { getFilename } from "./options.js";
-import { resolveUrl } from "./utils.js";
+import { type App, type HeadConfig } from "@vuepress/core";
+import { keys } from "vuepress-shared/node";
 
-import type { App, HeadConfig } from "@vuepress/core";
-import type { ResolvedFeedOptionsMap } from "./options.js";
+import { type ResolvedFeedOptionsMap, getFilename } from "./options.js";
+import { resolveUrl } from "./utils/index.js";
 
-export const injectLinkstoHead = (
+export const injectLinksToHead = (
   app: App,
   options: ResolvedFeedOptionsMap
 ): void => {
   const { base } = app.options;
   const { siteData } = app;
-  const localePaths = Object.keys(options);
+  const localePaths = keys(options);
 
   // there is only one language, so we append it to siteData
   if (localePaths.length === 1) {
@@ -58,7 +58,7 @@ export const injectLinkstoHead = (
       );
   }
   // there are multiple languages, so we should append to page
-  else
+  else {
     app.pages.forEach((page) => {
       const { pathLocale } = page;
       const localeOptions = options[pathLocale]!;
@@ -110,4 +110,5 @@ export const injectLinkstoHead = (
           );
       }
     });
+  }
 };

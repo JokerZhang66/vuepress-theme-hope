@@ -1,8 +1,4 @@
-import { defineComponent, h } from "vue";
-import { useLocaleConfig } from "vuepress-shared/client";
-import { searchProLocales } from "../define.js";
-
-import type { FunctionalComponent, VNode } from "vue";
+import { type FunctionalComponent, type VNode, h } from "vue";
 
 const LoadingIcon: FunctionalComponent = (): VNode =>
   h(
@@ -66,16 +62,8 @@ const LoadingIcon: FunctionalComponent = (): VNode =>
 
 LoadingIcon.displayName = "LoadingIcon";
 
-export const SearchLoading = defineComponent({
-  name: "SearchLoading",
+export const SearchLoading: FunctionalComponent<{ hint: string }> = ({
+  hint,
+}) => h("div", { class: "search-pro-result loading" }, [h(LoadingIcon), hint]);
 
-  setup() {
-    const locale = useLocaleConfig(searchProLocales);
-
-    return (): VNode =>
-      h("div", { class: "search-pro-result loading" }, [
-        h(LoadingIcon),
-        locale.value.loading,
-      ]);
-  },
-});
+SearchLoading.displayName = "SearchLoading";

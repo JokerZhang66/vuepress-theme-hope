@@ -1,6 +1,6 @@
 ---
 title: Blogger Info
-icon: blog
+icon: circle-info
 order: 2
 category:
   - Blog
@@ -52,6 +52,7 @@ You can also config your social media links with `blog.medias` option.
 - `"Bitbucket"`
 - `"Dingding"`
 - `"Discord"`
+- `"Douban"`
 - `"Dribbble"`
 - `"Email"`
 - `"Evernote"`
@@ -72,6 +73,8 @@ You can also config your social media links with `blog.medias` option.
 - `"Reddit"`
 - `"Rss"`
 - `"Steam"`
+- `"Skype"`
+- `"Telegram"`
 - `"Twitter"`
 - `"Wechat"`
 - `"Weibo"`
@@ -98,7 +101,7 @@ const __dirname = getDirname(import.meta.url);
 export default defineUserConfig({
   theme: hopeTheme({
     blog: {
-      media: {
+      medias: {
         // GitHub Icon is available
         GitHub: "https://github.com/Mister-Hope",
         // A custom Media called "MediaX" (just an example)
@@ -133,7 +136,7 @@ const __dirname = getDirname(import.meta.url);
 export default {
   theme: hopeTheme({
     blog: {
-      media: {
+      medias: {
         // GitHub Icon is available
         GitHub: "https://github.com/Mister-Hope",
         // A custom Media called "MediaX" (just an example)

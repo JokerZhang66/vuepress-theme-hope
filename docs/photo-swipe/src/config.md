@@ -1,12 +1,12 @@
 ---
 title: Plugin options
-icon: config
+icon: gears
 ---
 
 ## selector
 
-- Type: `string`
-- Default: `".theme-default-content :not(a) > img"`
+- Type: `string | string[]`
+- Default: `".theme-default-content :not(a) > img:not(no-view)"`
 
 Image selector
 
@@ -17,7 +17,7 @@ Options passed to [`photo-swipe`](http://photoswipe.com/)
 ## delay
 
 - Type: `number`
-- Default: `500`
+- Default: `800`
 
 The delay of operating dom, in ms.
 
@@ -83,7 +83,8 @@ Locales config for photo-swipe plugin.
 - **Simplified Chinese** (zh-CN)
 - **Traditional Chinese** (zh-TW)
 - **English (United States)** (en-US)
-- **German** (de-AT)
+- **German** (de-DE)
+- **German (Australia)** (de-AT)
 - **Russian** (ru-RU)
 - **Ukrainian** (uk-UA)
 - **Vietnamese** (vi-VN)
@@ -95,5 +96,6 @@ Locales config for photo-swipe plugin.
 - **Japanese** (ja-JP)
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
+- **Finnish** (fi-FI)
 
 :::

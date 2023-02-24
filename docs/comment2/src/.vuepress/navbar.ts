@@ -11,31 +11,32 @@ export const enNavbarConfig = navbar([
   "/",
   {
     text: "Guide",
-    icon: "creative",
+    icon: "lightbulb",
     prefix: "/guide/",
     children: [
       {
         text: "Guide",
-        icon: "creative",
+        icon: "lightbulb",
         activeMatch: "^/guide/$",
         link: "",
       },
       "giscus",
       "waline",
       "twikoo",
+      "artalk",
     ],
   },
   {
     text: "Config",
-    icon: "config",
+    icon: "gears",
     prefix: "/config/",
-    children: ["", "giscus", "waline", "twikoo"],
+    children: ["", "giscus", "waline", "twikoo", "artalk"],
   },
   "/migration",
   "/demo",
   {
     text: version,
-    icon: "note",
+    icon: "bookmark",
     children: [
       {
         text: "V1 Docs",
@@ -48,31 +49,32 @@ export const zhNavbarConfig = navbar([
   "/zh/",
   {
     text: "指南",
-    icon: "creative",
+    icon: "lightbulb",
     prefix: "/zh/guide/",
     children: [
       {
         text: "指南",
-        icon: "creative",
+        icon: "lightbulb",
         activeMatch: "^/zh/guide/$",
         link: "",
       },
       "giscus",
       "waline",
       "twikoo",
+      "artalk",
     ],
   },
   {
     text: "配置",
-    icon: "config",
+    icon: "gears",
     prefix: "/zh/config/",
-    children: ["", "giscus", "waline", "twikoo"],
+    children: ["", "giscus", "waline", "twikoo", "artalk"],
   },
   "/zh/migration",
   "/zh/demo",
   {
     text: version,
-    icon: "note",
+    icon: "bookmark",
     children: [
       {
         text: "V1 文档",

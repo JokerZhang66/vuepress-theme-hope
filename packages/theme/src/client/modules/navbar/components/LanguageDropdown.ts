@@ -1,10 +1,8 @@
-import { defineComponent, h } from "vue";
+import { type VNode, defineComponent, h } from "vue";
 
-import { I18nIcon } from "@theme-hope/modules/navbar/components/icons/index.js";
-import DropdownLink from "@theme-hope/modules/navbar/components/DropdownLink.js";
-import { useNavbarLanguageDropdown } from "@theme-hope/modules/navbar/composables/index.js";
-
-import type { VNode } from "vue";
+import DropdownLink from "@theme-hope/modules/navbar/components/DropdownLink";
+import { I18nIcon } from "@theme-hope/modules/navbar/components/icons/index";
+import { useNavbarLanguageDropdown } from "@theme-hope/modules/navbar/composables/index";
 
 export default defineComponent({
   name: "LanguageDropdown",

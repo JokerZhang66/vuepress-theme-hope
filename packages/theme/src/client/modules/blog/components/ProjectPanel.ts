@@ -1,18 +1,19 @@
 import { usePageFrontmatter, withBase } from "@vuepress/client";
-import { defineComponent, h, resolveComponent } from "vue";
+import { isLinkHttp } from "@vuepress/shared";
+import { type VNode, defineComponent, h, resolveComponent } from "vue";
+import { isAbsoluteUrl } from "vuepress-shared/client";
 
-import Icon from "@theme-hope/components/Icon.js";
+import HopeIcon from "@theme-hope/components/HopeIcon";
+import { useNavigate, usePure } from "@theme-hope/composables/index";
 import {
   ArticleIcon,
   BookIcon,
   FriendIcon,
   LinkIcon,
   ProjectIcon,
-} from "@theme-hope/modules/blog/components/icons/index.js";
-import { useNavigate, usePure } from "@theme-hope/composables/index.js";
+} from "@theme-hope/modules/blog/components/icons/index";
 
-import type { VNode } from "vue";
-import type { ThemeBlogHomePageFrontmatter } from "../../../../shared/index.js";
+import { type ThemeBlogHomePageFrontmatter } from "../../../../shared/index.js";
 
 import "../styles/project-panel.scss";
 
@@ -40,15 +41,14 @@ export default defineComponent({
         return h(resolveComponent(`${icon}-icon`));
 
       // it’s a full image link
-      if (icon.match(/^https?:\/\//))
-        return h("img", { src: icon, alt, class: "image" });
+      if (isLinkHttp(icon)) return h("img", { src: icon, alt, class: "image" });
 
       // it’s an absolute image link
-      if (icon.startsWith("/"))
+      if (isAbsoluteUrl(icon))
         return h("img", { src: withBase(icon), alt, class: "image" });
 
       // render as icon font
-      return h(Icon, { icon });
+      return h(HopeIcon, { icon });
     };
 
     return (): VNode | null =>

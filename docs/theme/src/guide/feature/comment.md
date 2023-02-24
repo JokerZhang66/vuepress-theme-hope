@@ -1,6 +1,6 @@
 ---
 title: Comment Service
-icon: comment
+icon: comment-dots
 category:
   - Feature
 tag:
@@ -8,7 +8,7 @@ tag:
   - Feature
 ---
 
-`vuepress-theme-hope` implements the comment feature with built-in [`vuepress-plugin-comment2`][comment2].
+`vuepress-theme-hope` implements the comment feature with built-in <ProjectLink name="comment2">`vuepress-plugin-comment2`</ProjectLink>.
 
 ::: info
 
@@ -33,7 +33,7 @@ export default defineUserConfig({
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
 
         // waline 模式下
         serverURL: "...", // your serverURL
@@ -53,7 +53,7 @@ export default {
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
 
         // waline 模式下
         serverURL: "...", // your serverURL
@@ -69,13 +69,13 @@ Comment feature is enabled globally by default, controlled by `plugins.comment.c
 
 ::: tip
 
-For the complete config item of the plugin ,please see [plugin documentation][comment2].
+For the complete config item of the plugin ,please see <ProjectLink name="comment2">plugin documentation</ProjectLink>.
 
 :::
 
 ## Comment Provider
 
-Currently you can choose from Giscus, Waline and Twikoo.
+Currently you can choose from Giscus, Waline, Twikoo and Artalk.
 
 ::: tip Comment service selection
 
@@ -99,7 +99,7 @@ After completing the above steps, please go to the [Giscus page](https://giscus.
 
 Please pass `data-repo`, `data-repo-id`, `data-category` and `data-category-id` as plugin options as `repo`, `repoId`, `category` `categoryId`.
 
-For other options, see [Giscus Config][comment2-giscus-config].
+For other options, see <ProjectLink name="comment2" path="/config/giscus.html">Giscus Config</ProjectLink>.
 
 ## Waline
 
@@ -128,7 +128,7 @@ export default defineUserConfig({
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
         serverURL: "YOUR_SERVER_URL", // your server url
       },
     },
@@ -146,7 +146,7 @@ export default {
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
         serverURL: "YOUR_SERVER_URL", // your server url
       },
     },
@@ -158,7 +158,7 @@ export default {
 
 ::: tip
 
-Config will be listed on [Plugin Config][comment2-waline-config].
+Config will be listed on <ProjectLink name="comment2" path="/config/waline.html">Waline Config</ProjectLink>.
 
 For more details, please see [Waline Docs](https://waline.js.org/en/)。
 
@@ -180,6 +180,22 @@ For more details, please see [Waline Docs](https://waline.js.org/en/)。
 1. Go to Overview, click the link under Domains, if the environment configuration is correct, you can see the prompt "Twikoo cloud function is running normally"
 1. Vercel Domains (with `https://` prefix, for example `https://xxx.vercel.app`) is your environment ID
 
-[comment2]: https://vuepress-theme-hope.github.io/v2/comment/
-[comment2-giscus-config]: https://vuepress-theme-hope.github.io/v2/comment/config/giscus.html
-[comment2-waline-config]: https://vuepress-theme-hope.github.io/v2/comment/config/waline.html
+## Artalk
+
+### Deploy Artalk Server
+
+See the [Artalk documentation](https://artalk.js.org/guide/deploy.html) for deploying artalk server.
+
+### Artalk Configuration
+
+Please set `provider: "Artalk"` and pass your server link to `server` in the plugin options.
+
+For other configuration items, see [Artalk Configuration](https://artalk.js.org/guide/frontend/config.html).
+
+::: note
+
+The plugin retains the `el` option and inserts Artalk itself on the page. At the same time, the plugin will automatically set the `pageTitle`, `pageKey` and `site` options for you according to the VuePress information.
+
+Before VuePress2 provides client configuration, the two function options `imgUploader` and `avatarURLBuilder` are not supported.
+
+:::

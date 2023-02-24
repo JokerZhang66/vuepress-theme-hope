@@ -1,17 +1,31 @@
-import { usePageFrontmatter, usePageData } from "@vuepress/client";
+import { usePageData, usePageFrontmatter } from "@vuepress/client";
+import { isLinkHttp, isPlainObject, removeEndingSlash } from "@vuepress/shared";
 import { useEventListener } from "@vueuse/core";
 import { computed, onMounted, watchEffect } from "vue";
+import {
+  type RequiredLocaleConfig,
+  useLocaleConfig,
+} from "vuepress-shared/client";
 
-import type { CopyrightPluginFrontmatter } from "../../shared/index.js";
+import {
+  type CopyrightLocaleData,
+  type CopyrightPluginFrontmatter,
+  type CopyrightPluginPageData,
+} from "../../shared/index.js";
 
-declare const COPYRIGHT_TRIGGER_WORDS: number;
+declare const COPYRIGHT_CANONICAL: string;
 declare const COPYRIGHT_DISABLE_COPY: boolean;
 declare const COPYRIGHT_DISABLE_SELECTION: boolean;
 declare const COPYRIGHT_GLOBAL: boolean;
+declare const COPYRIGHT_LOCALES: RequiredLocaleConfig<CopyrightLocaleData>;
+declare const COPYRIGHT_TRIGGER_WORDS: number;
+
+const canonical = COPYRIGHT_CANONICAL;
 
 export const setupCopyright = (): void => {
-  const page = usePageData<{ copyright: string }>();
   const frontmatter = usePageFrontmatter<CopyrightPluginFrontmatter>();
+  const locale = useLocaleConfig(COPYRIGHT_LOCALES);
+  const page = usePageData<CopyrightPluginPageData>();
 
   const enabled = computed(
     () =>
@@ -25,7 +39,7 @@ export const setupCopyright = (): void => {
     if (!enabled.value) return false;
 
     if (
-      typeof frontmatterOptions === "object" &&
+      isPlainObject(frontmatterOptions) &&
       "disableCopy" in frontmatterOptions
     )
       return frontmatterOptions.disableCopy;
@@ -39,13 +53,34 @@ export const setupCopyright = (): void => {
     if (!enabled.value) return false;
 
     if (
-      typeof frontmatterOptions === "object" &&
+      isPlainObject(frontmatterOptions) &&
       "disableSelection" in frontmatterOptions
     )
       return frontmatterOptions.disableSelection;
 
     return COPYRIGHT_DISABLE_SELECTION;
   });
+
+  const getCopyright = (): string => {
+    const { author: authorInfo = "", license: licenseInfo = "" } =
+      page.value.copyright;
+    const { author, license, link } = locale.value;
+
+    return [
+      authorInfo ? author.replace(":author", authorInfo) : "",
+      licenseInfo ? license.replace(":license", licenseInfo) : "",
+      link.replace(
+        ":link",
+        canonical
+          ? `${removeEndingSlash(
+              isLinkHttp(canonical) ? canonical : `https://${canonical}`
+            )}${page.value.path}`
+          : window.location.href
+      ),
+    ]
+      .filter((item) => item)
+      .join("\n");
+  };
 
   const onCopy = (event: ClipboardEvent): void => {
     const selection = getSelection();
@@ -54,15 +89,12 @@ export const setupCopyright = (): void => {
       const textRange = selection.getRangeAt(0);
 
       if (enabled.value) {
-        if (disableCopy.value) {
-          event.preventDefault();
-
-          return;
-        }
+        if (disableCopy.value) return event.preventDefault();
 
         if (textRange.toString().length >= COPYRIGHT_TRIGGER_WORDS) {
           event.preventDefault();
 
+          const copyright = getCopyright();
           const node = document.createElement("div");
 
           node.appendChild(selection.getRangeAt(0).cloneContents());
@@ -70,9 +102,7 @@ export const setupCopyright = (): void => {
           if (event.clipboardData) {
             event.clipboardData.setData(
               "text/html",
-              `${
-                node.innerHTML
-              }<hr><div class="copyright">${page.value.copyright.replace(
+              `${node.innerHTML}<hr><div class="copyright">${copyright.replace(
                 /\\n/g,
                 "<br>"
               )}</div>`
@@ -81,7 +111,7 @@ export const setupCopyright = (): void => {
               "text/plain",
               `${
                 selection.getRangeAt(0).cloneContents().textContent || ""
-              }\n------\n${page.value.copyright}`
+              }\n------\n${copyright}`
             );
           }
         }

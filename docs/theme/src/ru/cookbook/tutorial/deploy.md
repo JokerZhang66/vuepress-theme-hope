@@ -1,6 +1,7 @@
 ---
 title: Деплой проекта
-icon: launch
+icon: rocket
+order: 7
 category:
   - Учебник с примерами
   - Руководство

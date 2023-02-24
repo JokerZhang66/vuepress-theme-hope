@@ -1,117 +1,48 @@
-import { rollupTypescript } from "../../scripts/rollup.js";
+import { bundle } from "../../scripts/rollup.js";
 
 export default [
-  ...rollupTypescript("node/index", {
+  ...bundle("node/index", {
     external: [
-      "node:module",
-      "@vuepress/plugin-container",
-      "@vuepress/shared",
-      "@vuepress/utils",
-      "juice",
+      /^@mdit\/plugin-/,
       "markdown-it/lib/token.js",
       "markdown-it/lib/helpers/parse_link_label.js",
-      /^mathjax-full\//,
-      "katex",
-      "vuepress-plugin-sass-palette",
-      "vuepress-shared/node",
     ],
     dtsExternal: ["vuepress-shared"],
-    copy: [["client/styles", "client"]],
   }),
-  ...rollupTypescript("client/compact/index", {
-    external: ["vue", /\.scss$/],
-    dtsExternal: [/\.scss$/],
-    copy: [["compact/styles", "compact"]],
-  }),
-  ...rollupTypescript("client/components/ChartJS", {
-    external: ["chart.js/auto", "vue", "vuepress-shared/client", /\.scss$/],
-    dtsExternal: [/\.scss$/],
-  }),
-  ...rollupTypescript("client/components/CodeDemo", {
-    external: [
-      "balloon-css/balloon.css",
-      "vue",
-      "vuepress-shared/client",
-      /\.scss$/,
-    ],
-    dtsExternal: ["balloon-css/balloon.css", /\.scss$/],
-  }),
-  ...rollupTypescript("client/components/CodeTabs", {
-    external: ["@vuepress/client", "@vueuse/core", "vue", /\.scss$/],
-    dtsExternal: [/\.scss$/],
-  }),
-  ...rollupTypescript("client/components/ECharts", {
-    external: [
-      "@vueuse/core",
-      "echarts",
-      "vue",
-      "vuepress-shared/client",
-      /\.scss$/,
-    ],
-    dtsExternal: [/\.scss$/],
-  }),
-  ...rollupTypescript("client/components/FlowChart", {
-    external: [
-      "@vueuse/core",
-      "flowchart.js/src/flowchart.parse.js",
-      "vue",
-      "vuepress-shared/client",
-      /\.scss$/,
-    ],
-    dtsExternal: [/\.scss$/],
-  }),
-  ...rollupTypescript("client/components/Mermaid", {
-    external: [
-      "@mermaid-js/mermaid-mindmap/dist/mermaid-mindmap.esm.min.mjs",
-      "mermaid/dist/mermaid.esm.min.mjs",
-      "vue",
-      "vuepress-shared/client",
-      /\.scss$/,
-    ],
-    dtsExternal: [/\.scss$/],
-  }),
-  ...rollupTypescript("client/components/Playground", {
-    external: ["vue", "vuepress-shared/client", /\.scss$/],
-    dtsExternal: [/\.scss$/],
-  }),
-  ...rollupTypescript("client/components/VuePlayground", {
-    external: [
-      "@vuepress/client",
-      "@vue/repl",
-      "@vue/repl/style.css",
-      "vue",
-      "vuepress-shared/client",
-      /\.scss$/,
-    ],
-    dtsExternal: ["@vue/repl/style.css", /\.scss$/],
-  }),
-  ...rollupTypescript("client/components/Presentation", {
-    external: [
-      /^@temp/,
-      "@vuepress/client",
-      "vue",
-      "vuepress-shared/client",
-      /\.scss$/,
-      /\.css$/,
-    ],
-    dtsExternal: [/\.scss$/, /\.css$/],
-  }),
-  ...rollupTypescript("client/components/Tabs", {
-    external: ["@vuepress/client", "@vueuse/core", "vue", /\.scss$/],
-    dtsExternal: [/\.scss$/],
-  }),
-  ...rollupTypescript("client/SlidePage", {
-    external: [
-      "@vuepress/client",
-      "@vueuse/core",
-      "vue",
-      "vue-router",
-      "vuepress-shared/client",
-      /\.scss$/,
-    ],
-    dtsExternal: [/\.scss$/],
-  }),
-  ...rollupTypescript("client/reveal/index", {
-    external: [/^reveal\.js/],
-  }),
+  ...bundle(
+    {
+      base: "client",
+      files: [
+        "compact/index",
+        "components/ChartJS",
+        "components/CodeDemo",
+        "components/CodeTabs",
+        "components/ECharts",
+        "components/FlowChart",
+        "components/Mermaid",
+        "components/Playground",
+        "components/Presentation",
+        "components/Tabs",
+        "components/VuePlayground",
+        "SlidePage",
+        "reveal/index",
+      ],
+    },
+
+    {
+      external: [
+        "@vue/repl",
+        "balloon-css/balloon.css",
+        "chart.js/auto",
+        "echarts",
+        "flowchart.ts",
+        "mermaid/dist/mermaid.esm.min.mjs",
+        /^reveal\.js/,
+      ],
+      copy: [
+        ["client/styles", "client"],
+        ["client/compact/styles", "client/compact"],
+      ],
+    }
+  ),
 ];

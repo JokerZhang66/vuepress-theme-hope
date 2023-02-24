@@ -1,6 +1,6 @@
 ---
 title: Боковая панель
-icon: sidebar
+icon: fas fa-window-maximize fa-rotate-270
 order: 2
 category:
   - Макет
@@ -84,7 +84,7 @@ export default defineUserConfig({
       {
         text: "Guide",
         link: "/guide/README.md",
-        icon: "creative",
+        icon: "lightbulb",
         // only active in `/guide/`
         activeMatch: "^/guide/$",
       },
@@ -92,7 +92,7 @@ export default defineUserConfig({
       {
         text: "FAQ",
         link: "/faq.md",
-        icon: "question",
+        icon: "circle-question",
         // active in path starting with `/faq`
         // so it will active in path like `/faq/xxx.html`
         activeMatch: "^/zh/faq/",
@@ -114,7 +114,7 @@ export default {
       {
         text: "Guide",
         link: "/guide/README.md",
-        icon: "creative",
+        icon: "lightbulb",
         // only active in `/guide/`
         activeMatch: "^/guide/$",
       },
@@ -122,7 +122,7 @@ export default {
       {
         text: "FAQ",
         link: "/faq.md",
-        icon: "question",
+        icon: "circle-question",
         // active in path starting with `/faq`
         // so it will active in path like `/faq/xxx.html`
         activeMatch: "^/zh/faq/",
@@ -632,6 +632,14 @@ export default {
 В приведенной выше модификации, поскольку исходный массив боковой панели состоит из всех файлов по соответствующему пути, вы можете легко заменить его ключевым словом `"structure"`.
 
 Если вы используете структуру для создания папки с другими папками, вложенными в нее, соответствующая папка будет отображаться как группа. Таким образом, вы можете быть даже более агрессивным, например, установив `sidebar: "structure"`, чтобы все ваши боковые панели автоматически генерировались из файловой структуры.
+
+::: warning Limitations
+
+Since structure sidebar is depending on file structure and markdown frontmatter, any changes in markdown may update the structure sidebar. (E.g: setting `index: false` in frontmatter as described below)
+
+However, recalculating the sidebar could be expensive for large sites, so the theme will only recalculate with [`hotReload` enabled](../../config/theme/basic.md#hotreload).
+
+:::
 
 #### Расширенный контроль
 

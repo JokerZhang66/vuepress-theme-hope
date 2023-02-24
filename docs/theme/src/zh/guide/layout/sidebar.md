@@ -1,6 +1,6 @@
 ---
 title: 侧边栏
-icon: sidebar
+icon: fas fa-window-maximize fa-rotate-270
 order: 2
 category:
   - 布局
@@ -84,7 +84,7 @@ export default defineUserConfig({
       {
         text: "指南",
         link: "/zh/guide/README.md",
-        icon: "creative",
+        icon: "lightbulb",
         // 仅在 `/zh/guide/` 激活
         activeMatch: "^/zh/guide/$",
       },
@@ -92,7 +92,7 @@ export default defineUserConfig({
       {
         text: "常见问题",
         link: "/zh/faq.md",
-        icon: "question",
+        icon: "circle-question",
         // 会在 `/zh/faq` 开头的路径激活
         // 所以当你前往 `/zh/faq/xxx.html` 时也会激活
         activeMatch: "^/zh/faq",
@@ -114,7 +114,7 @@ export default {
       {
         text: "指南",
         link: "/zh/guide/README.md",
-        icon: "creative",
+        icon: "lightbulb",
         // 仅在 `/zh/guide/` 激活
         activeMatch: "^/zh/guide/$",
       },
@@ -122,7 +122,7 @@ export default {
       {
         text: "常见问题",
         link: "/zh/faq.md",
-        icon: "question",
+        icon: "circle-question",
         // 会在 `/zh/faq` 开头的路径激活
         // 所以当你前往 `/zh/faq/xxx.html` 时也会激活
         activeMatch: "^/zh/faq",
@@ -625,6 +625,14 @@ export default {
 在上述的修改中，由于原侧边栏数组即为相关路径下的全部文件，你可以轻松将其替换为 `"structure"` 关键词。
 
 如果你使用结构生成的文件夹下嵌套了其他文件夹，则对应的文件夹会被渲染成一个分组。所以你甚至可以更加激进，比如直接设置 `sidebar: "structure"` 让你的侧边栏全部从文件结构中自动生成。
+
+::: warning 限制
+
+由于结构侧边栏取决于文件结构和 Markdown Frontmatter，因此 Markdown 的任何更改都可能更新结构侧边栏。(例如: 如下所述在 Frontmatter 中设置 `index: false`)
+
+但是，对于大型网站，重新计算侧边栏是一个高耗时操作，因此主题只会在 [`hotReload` 启用](../../config/theme/basic.md#hotreload) 的情况下实时更新结构化侧边栏。
+
+:::
 
 #### 进阶控制
 

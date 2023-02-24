@@ -1,18 +1,30 @@
 import { usePreferredDark, useStorage } from "@vueuse/core";
-import { computed, inject, onMounted, watch } from "vue";
-import { useThemeData } from "@theme-hope/composables/index.js";
+import {
+  type App,
+  type ComputedRef,
+  type InjectionKey,
+  type Ref,
+  computed,
+  inject,
+  onMounted,
+  watch,
+} from "vue";
 
-import type { App, InjectionKey, Ref, WritableComputedRef } from "vue";
+import { useThemeData } from "@theme-hope/composables/index";
+
+import { type DarkmodeOptions } from "../../../../shared/index.js";
 
 export type DarkmodeStatus = "light" | "dark" | "auto";
 
-export type DarkModeRef = WritableComputedRef<boolean>;
+export type DarkModeRef = ComputedRef<boolean>;
 
 export type DarkModeStatusRef = Ref<DarkmodeStatus>;
 
 export interface DarkMode {
-  isDarkMode: DarkModeRef;
+  isDarkmode: DarkModeRef;
+  config: ComputedRef<DarkmodeOptions>;
   status: DarkModeStatusRef;
+  canToggle: ComputedRef<boolean>;
 }
 
 export const darkModeSymbol: InjectionKey<DarkMode> = Symbol.for("darkMode");
@@ -20,26 +32,26 @@ export const darkModeSymbol: InjectionKey<DarkMode> = Symbol.for("darkMode");
 /**
  * Inject dark mode global computed
  */
-export const useDarkMode = (): DarkMode => {
+export const useDarkmode = (): DarkMode => {
   const darkmode = inject(darkModeSymbol);
 
-  if (!darkmode) {
-    throw new Error("useDarkMode() is called without provider.");
-  }
+  if (!darkmode) throw new Error("useDarkmode() is called without provider.");
 
   return darkmode;
 };
 
-export const injectDarkMode = (app: App): void => {
+export const injectDarkmode = (app: App): void => {
   const themeData = useThemeData();
   const isDarkPreferred = usePreferredDark();
-  const darkmodeStorage = useStorage<DarkmodeStatus>(
+  const status = useStorage<DarkmodeStatus>(
     "vuepress-theme-hope-scheme",
     "auto"
   );
 
-  const isDarkMode = computed<boolean>(() => {
-    const { darkmode } = themeData.value;
+  const config = computed(() => themeData.value.darkmode || "switch");
+
+  const isDarkmode = computed<boolean>(() => {
+    const darkmode = config.value;
 
     // disable darkmode
     return darkmode === "disable"
@@ -52,36 +64,47 @@ export const injectDarkMode = (app: App): void => {
       ? isDarkPreferred.value
       : // toggle
       darkmode === "toggle"
-      ? darkmodeStorage.value === "dark"
+      ? status.value === "dark"
       : // switch
-        darkmodeStorage.value === "dark" ||
-        (darkmodeStorage.value === "auto" && isDarkPreferred.value);
+        status.value === "dark" ||
+        (status.value === "auto" && isDarkPreferred.value);
   });
 
-  app.provide(darkModeSymbol, { isDarkMode, status: darkmodeStorage });
+  const canToggle = computed(() => {
+    const darkmode = config.value;
+
+    return darkmode === "switch" || darkmode === "toggle";
+  });
+
+  app.provide(darkModeSymbol, {
+    canToggle,
+    config,
+    isDarkmode,
+    status,
+  });
 
   // provide global helpers
   Object.defineProperties(app.config.globalProperties, {
-    $isDarkMode: { get: () => isDarkMode.value },
+    $isDarkmode: { get: () => isDarkmode.value },
   });
 };
 
-export const setupDarkMode = (): void => {
-  const { isDarkMode } = useDarkMode();
+export const setupDarkmode = (): void => {
+  const { isDarkmode } = useDarkmode();
 
-  const updateDOM = (isDark = isDarkMode.value): void => {
-    const html = window?.document.querySelector("html");
-
-    html?.setAttribute("data-theme", isDark ? "dark" : "light");
-  };
+  const updateDOM = (isDark = isDarkmode.value): void =>
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDark ? "dark" : "light"
+    );
 
   onMounted(() => {
-    watch(isDarkMode, updateDOM, { immediate: true });
+    watch(isDarkmode, updateDOM, { immediate: true });
   });
 };
 
 declare module "vue" {
   export interface ComponentCustomProperties {
-    $isDarkMode: boolean;
+    $isDarkmode: boolean;
   }
 }

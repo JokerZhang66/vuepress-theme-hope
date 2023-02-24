@@ -6,6 +6,32 @@ title: YouTube
 
 <!-- more -->
 
+## 示例
+
+一个 YouTube 视频:
+
+<YouTube id="0JJPfz5dg20" />
+
+```md
+<YouTube id="0JJPfz5dg20" />
+```
+
+一个自定义设置的 YouTube 视频:
+
+<YouTube id="0JJPfz5dg20" disable-fullscreen />
+
+```md
+<YouTube id="0JJPfz5dg20" disable-fullscreen />
+```
+
+一个 YouTube 播放列表:
+
+<YouTube list-type="playlist" list="PLJNLwTPak6dhCRzVelZIs2-DfBp01NX_1" />
+
+```md
+<YouTube list-type="playlist" list="PLJNLwTPak6dhCRzVelZIs2-DfBp01NX_1" />
+```
+
 ## Props
 
 ### id
@@ -21,6 +47,13 @@ YouTube 视频 ID
 
 :::
 
+### title
+
+- 类型: `string`
+- 必填: 否
+
+YouTube 视频标题
+
 ### width
 
 - 类型: `string | number`
@@ -35,7 +68,7 @@ YouTube 组件宽度。
 
 YouTube 组件高度
 
-### radio
+### ratio
 
 - 类型: `number`
 - 默认值: `16 / 9`
@@ -145,29 +178,3 @@ YouTube 组件高度宽高比，只有当未指定 `height` 时有效。
 - 默认值: `false`
 
 是否禁用视频的键盘控制。
-
-## 演示
-
-一个 YouTube 视频:
-
-<YouTube id="0JJPfz5dg20" />
-
-```md
-<YouTube id="0JJPfz5dg20" />
-```
-
-一个自定义设置的 YouTube 视频:
-
-<YouTube id="0JJPfz5dg20" disable-fullscreen />
-
-```md
-<YouTube id="0JJPfz5dg20" disable-fullscreen />
-```
-
-一个 YouTube 播放列表:
-
-<YouTube list-type="playlist" list="PLJNLwTPak6dhCRzVelZIs2-DfBp01NX_1" />
-
-```md
-<YouTube list-type="playlist" list="PLJNLwTPak6dhCRzVelZIs2-DfBp01NX_1" />
-```

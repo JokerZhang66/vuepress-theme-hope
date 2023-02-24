@@ -1,6 +1,6 @@
 ---
 title: MdEnhance 插件配置
-icon: markdown
+icon: fab fa-markdown
 order: 6
 category:
   - 配置
@@ -26,7 +26,7 @@ tag:
 
 `vuepress-theme-hope` 会默认将 `container` 选项设置为 `true`。
 
-有关更多详细信息，请参见 [md-enhance 文档][md-enhance-config]。
+有关更多详细信息，请参见 <ProjectLink name="md-enhance" path="/zh/config.html">md-enhance 文档</ProjectLink>。
 
 :::
 
@@ -133,14 +133,21 @@ tag:
 
 是否启用标记格式支持。
 
-### imageLazyload
+### figure
+
+- 类型: `boolean`
+- 默认值: `false`
+
+是否启用图片 Figure 支持。
+
+### imgLazyload
 
 - 类型: `boolean`
 - 默认值: `false`
 
 是否使用原生方式懒加载页面图片。
 
-### imageMark
+### imgMark
 
 - 类型: `ImageMarkOptions | boolean`
 - 默认值: `false`
@@ -156,19 +163,19 @@ interface ImageMarkOptions {
 }
 ```
 
-### imageSize
+### imgSize
 
 - 类型: `boolean`
 - 默认值: `false`
 
 是否启用图片尺寸支持。
 
-### imageTitle
+### obsidianImgSize
 
 - 类型: `boolean`
 - 默认值: `false`
 
-是否启用图片标题支持。
+是否启用 obsidian 图片尺寸支持。
 
 ### tasklist
 
@@ -200,7 +207,7 @@ interface TaskListOptions {
 - 类型: `KatexOptions | boolean`
 - 默认值: `false`
 
-是否通过 $\KaTeX$ 启用 $\TeX$ 语法支持。你可以传入一个对象作为 $\KaTeX$ 的配置选项。
+是否通过 KaTeX 启用 $\TeX$ 语法支持。你可以传入一个对象作为 KaTeX 的配置选项。
 
 特别低，你可以通过 `katex.mhchem: true` 来启用 mhchem 扩展。
 
@@ -227,7 +234,7 @@ interface TaskListOptions {
 - 类型: `boolean`
 - 默认值: `false`
 
-是否启用 [Mermaid](https://mermaid-js.github.io/mermaid/#/) 支持。
+是否启用 [Mermaid](https://mermaid.js.org/) 支持。
 
 ### stylize
 
@@ -409,13 +416,6 @@ interface TaskListOptions {
   ```ts
   interface VuePlaygroundOptions {
     /**
-     * 是否在交互演示中显示代码
-     *
-     * @default false
-     */
-    showCode?: boolean;
-
-    /**
      * 指定 vue 版本
      */
     vueVersion?: string;
@@ -465,9 +465,9 @@ interface TaskListOptions {
     /**
      * 布局
      *
-     * @default 'vertical'
+     * @default 'horizontal'
      */
-    layout?: "vertical" | "horizontal";
+    layout?: "horizontal" | "vertical";
 
     /**
      * `vue/compiler-sfc` 配置项
@@ -612,7 +612,7 @@ CodePen 编辑器显示情况，第一位代表 HTML ，第二位代表 JS，第
 ### delay
 
 - 类型: `number`
-- 默认值: `500`
+- 默认值: `800`
 
 操作页面 DOM 的延时，单位 ms。
 
@@ -667,5 +667,3 @@ CodePen 编辑器显示情况，第一位代表 HTML ，第二位代表 JS，第
 - 必填: 否
 
 Markdown 增强插件的国际化配置。
-
-[md-enhance-config]: https://vuepress-theme-hope.github.io/v2/md-enhance/zh/config.html

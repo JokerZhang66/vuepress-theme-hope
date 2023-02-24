@@ -1,26 +1,28 @@
-import { computed, reactive, toRef } from "vue";
+import { type ComputedRef, type Ref, computed, toRef } from "vue";
 import {
+  type AuthorInfo,
+  type DateInfo,
   getAuthor,
   getCategory,
   getDate,
   getTag,
 } from "vuepress-shared/client";
 
+import { useThemeLocaleData } from "@theme-hope/composables/index";
+import { type PageInfoProps } from "@theme-hope/modules/info/components/PageInfo";
+import {
+  type PageCategory,
+  type PageTag,
+} from "@theme-hope/modules/info/utils/index";
+
 import { useCategoryMap } from "./categoryMap.js";
 import { useBlogOptions } from "./options.js";
 import { useTagMap } from "./tagMap.js";
-import { ArticleInfoType } from "../../../../shared/index.js";
-
-import { useThemeLocaleData } from "@theme-hope/composables/index.js";
-
-import type { ComputedRef, Ref } from "vue";
-import type { AuthorInfo, DateInfo } from "vuepress-shared";
-import type { PageInfoProps } from "@theme-hope/modules/info/components/PageInfo.js";
-import type {
-  PageCategory,
-  PageTag,
-} from "@theme-hope/modules/info/utils/index.js";
-import type { ArticleInfo, PageInfo } from "../../../../shared/index.js";
+import {
+  type ArticleInfo,
+  ArticleInfoType,
+  type PageInfo,
+} from "../../../../shared/index.js";
 
 export type AuthorRef = ComputedRef<AuthorInfo[]>;
 
@@ -76,28 +78,28 @@ export const useArticleInfo = (props: {
   info: ArticleInfo;
   path: string;
 }): {
-  config: PageInfoProps;
+  info: ComputedRef<PageInfoProps>;
   items: ComputedRef<PageInfo[] | false | undefined>;
 } => {
-  const info = toRef(props, "info");
+  const articleInfo = toRef(props, "info");
   const blogOptions = useBlogOptions();
-  const author = useArticleAuthor(info);
-  const category = useArticleCategory(info);
-  const tag = useArticleTag(info);
-  const date = useArticleDate(info);
+  const author = useArticleAuthor(articleInfo);
+  const category = useArticleCategory(articleInfo);
+  const tag = useArticleTag(articleInfo);
+  const date = useArticleDate(articleInfo);
 
-  const config = reactive<PageInfoProps>({
+  const info = computed(() => ({
     author: author.value,
     category: category.value,
     date: date.value,
-    localizedDate: info.value[ArticleInfoType.localizedDate] || "",
+    localizedDate: articleInfo.value[ArticleInfoType.localizedDate] || "",
     tag: tag.value,
-    isOriginal: info.value[ArticleInfoType.isOriginal] || false,
-    readingTime: info.value[ArticleInfoType.readingTime] || null,
+    isOriginal: articleInfo.value[ArticleInfoType.isOriginal] || false,
+    readingTime: articleInfo.value[ArticleInfoType.readingTime] || null,
     pageview: props.path,
-  });
+  }));
 
   const items = computed(() => blogOptions.value.articleInfo);
 
-  return { config, items };
+  return { info, items };
 };

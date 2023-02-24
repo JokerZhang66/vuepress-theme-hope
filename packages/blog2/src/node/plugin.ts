@@ -1,4 +1,5 @@
 import {
+  type PluginFunction,
   preparePageComponent,
   preparePageData,
   preparePagesComponents,
@@ -6,27 +7,43 @@ import {
   preparePagesRoutes,
 } from "@vuepress/core";
 import { watch } from "chokidar";
+import { getPageExcerpt } from "vuepress-shared/node";
 
 import { prepareCategory } from "./category.js";
+import { convertOptions } from "./compact.js";
+import { type BlogOptions, type PageWithExcerpt } from "./options.js";
 import { prepareType } from "./type.js";
 import { getPageMap, logger } from "./utils.js";
 
-import type { PluginFunction } from "@vuepress/core";
-import type { BlogOptions } from "./options.js";
-
 export const blogPlugin =
-  (options: BlogOptions): PluginFunction =>
+  (options: BlogOptions, legacy = true): PluginFunction =>
   (app) => {
+    // TODO: remove in V2 Stable
+    if (legacy)
+      convertOptions(options as BlogOptions & Record<string, unknown>);
+
     const {
       getInfo = (): Record<string, never> => ({}),
       filter = (page): boolean =>
         Boolean(page.filePathRelative) && !page.frontmatter["home"],
       metaScope = "_blog",
+      excerpt = true,
+      excerptSeparator = "<!-- more -->",
+      excerptLength = 300,
+      excerptFilter = filter,
+      isCustomElement = (): boolean => false,
+      category = [],
+      type = [],
+      slugify = (name: string): string =>
+        name
+          .replace(/[ _]/g, "-")
+          .replace(/[:?*|\\/<>]/g, "")
+          .toLowerCase(),
     } = options;
 
     let generatePageKeys: string[] = [];
 
-    if (app.env.isDebug) logger.info(`Options: ${options.toString()}`);
+    if (app.env.isDebug) logger.info("Options:", options);
 
     return {
       name: "vuepress-plugin-blog2",
@@ -36,6 +53,13 @@ export const blogPlugin =
       }),
 
       extendsPage: (page): void => {
+        if (excerpt && excerptFilter(page))
+          (<PageWithExcerpt>page).data["excerpt"] = getPageExcerpt(app, page, {
+            isCustomElement,
+            excerptSeparator,
+            excerptLength,
+          });
+
         if (filter(page))
           page.routeMeta = {
             ...(metaScope === ""
@@ -49,12 +73,16 @@ export const blogPlugin =
         const pageMap = getPageMap(filter, app);
 
         return Promise.all([
-          prepareCategory(app, options, pageMap, true).then((pageKeys) => {
-            generatePageKeys.push(...pageKeys);
-          }),
-          prepareType(app, options, pageMap, true).then((pageKeys) => {
-            generatePageKeys.push(...pageKeys);
-          }),
+          prepareCategory(app, { category, slugify }, pageMap, true).then(
+            (pageKeys) => {
+              generatePageKeys.push(...pageKeys);
+            }
+          ),
+          prepareType(app, { type, slugify }, pageMap, true).then(
+            (pageKeys) => {
+              generatePageKeys.push(...pageKeys);
+            }
+          ),
         ]).then(() => {
           if (app.env.isDebug) logger.info("temp file generated");
         });
@@ -76,29 +104,31 @@ export const blogPlugin =
             const pageMap = getPageMap(filter, app);
 
             return Promise.all([
-              prepareCategory(app, options, pageMap).then((pageKeys) => {
-                newGeneratedPageKeys.push(...pageKeys);
-              }),
-              prepareType(app, options, pageMap).then((pageKeys) => {
+              prepareCategory(app, { category, slugify }, pageMap).then(
+                (pageKeys) => {
+                  newGeneratedPageKeys.push(...pageKeys);
+                }
+              ),
+              prepareType(app, { type, slugify }, pageMap).then((pageKeys) => {
                 newGeneratedPageKeys.push(...pageKeys);
               }),
             ]).then(async () => {
-              const pagestoBeRemoved = generatePageKeys.filter(
+              const pagesToBeRemoved = generatePageKeys.filter(
                 (key) => !newGeneratedPageKeys.includes(key)
               );
-              const pagestoBeAdded = newGeneratedPageKeys.filter(
+              const pagesToBeAdded = newGeneratedPageKeys.filter(
                 (key) => !generatePageKeys.includes(key)
               );
 
-              if (pagestoBeAdded.length) {
+              if (pagesToBeAdded.length) {
                 if (app.env.isDebug)
                   logger.info(
-                    `New pages detected: ${pagestoBeAdded.toString()}`
+                    `New pages detected: ${pagesToBeAdded.toString()}`
                   );
 
                 // prepare page files
                 await Promise.all(
-                  pagestoBeAdded.map(async (pageKey) => {
+                  pagesToBeAdded.map(async (pageKey) => {
                     await preparePageComponent(
                       app,
                       app.pages.find(({ key }) => key === pageKey)!
@@ -112,13 +142,13 @@ export const blogPlugin =
               }
 
               // remove pages
-              if (pagestoBeRemoved.length) {
+              if (pagesToBeRemoved.length) {
                 if (app.env.isDebug)
                   logger.info(
-                    `Removing following pages: ${pagestoBeRemoved.toString()}`
+                    `Removing following pages: ${pagesToBeRemoved.toString()}`
                   );
 
-                pagestoBeRemoved.forEach((pageKey) => {
+                pagesToBeRemoved.forEach((pageKey) => {
                   app.pages.splice(
                     app.pages.findIndex(({ key }) => key === pageKey),
                     1
@@ -127,7 +157,7 @@ export const blogPlugin =
               }
 
               // prepare pages entry
-              if (pagestoBeRemoved.length || pagestoBeAdded.length) {
+              if (pagesToBeRemoved.length || pagesToBeAdded.length) {
                 await preparePagesComponents(app);
                 await preparePagesData(app);
                 await preparePagesRoutes(app);

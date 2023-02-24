@@ -1,6 +1,6 @@
 ---
 title: 插件选项
-icon: config
+icon: gears
 ---
 
 ## indexContent
@@ -65,7 +65,6 @@ export default defineUserConfig({
     searchProPlugin({
       customFields: [
         {
-          name: "category",
           getter: (page) => page.frontmatter.category,
           formatter: {
             "/": "Category: $content",
@@ -73,7 +72,6 @@ export default defineUserConfig({
           },
         },
         {
-          name: "tag",
           getter: (page) => page.frontmatter.tag,
           formatter: {
             "/": "Tag: $content",
@@ -147,6 +145,13 @@ export default defineUserConfig({
 有大量内容时，进行客户端搜素可能会很慢，在这种情况下你可能需要增加此值来确保开始搜索时用户已完成输入。
 
 :::
+
+## worker
+
+- 类型: `string`
+- 默认值: `search-pro.worker.js`
+
+输出的 Worker 文件名称
 
 ## hotReload
 

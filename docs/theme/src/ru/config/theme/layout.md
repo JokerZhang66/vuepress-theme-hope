@@ -1,6 +1,6 @@
 ---
 title: Опции макета темы
-icon: config
+icon: object-group
 order: 4
 category:
   - Конфиг
@@ -45,13 +45,13 @@ tag:
     | "Repo";
 
   interface HopeNavbarLayoutOptions {
-    left: NavbarComponent[];
+    start: NavbarComponent[];
     center: NavbarComponent[];
-    right: NavbarComponent[];
+    end: NavbarComponent[];
   }
   ```
 
-- По умолчанию: `{ left: ["Brand"], center: ["Links"], right: ["Language", "Repo", "Outlook", "Search"] }`
+- По умолчанию: `{ start: ["Brand"], center: ["Links"], end: ["Language", "Repo", "Outlook", "Search"] }`
 
 Настройте макет панели навигации.
 
@@ -179,6 +179,7 @@ tag:
 
   type SidebarSorter =
     | SidebarSorterFunction
+    | SidebarSorterFunction[]
     | SidebarSorterKeyword
     | SidebarSorterKeyword[];
   ```
@@ -189,8 +190,9 @@ tag:
 
 Вы можете:
 
-- заполнить пользовательскую функцию
-- предоставить одно или массив ключевых слов сортировщика
+- fill in a custom function
+- provide one sorter keyword
+- provide an array of custom function or sorter keyword
 
 Доступные ключевые слова:
 
@@ -332,7 +334,7 @@ tag:
 
 ### copyright
 
-- Тип: `string | boolean`
+- Тип: `string | false`
 - По умолчанию: `"Copyright © <author>"`
 
 Информация об авторских правах по умолчанию, установите для нее значение `false`, чтобы отключить ее по умолчанию.
@@ -352,6 +354,13 @@ tag:
 - По умолчанию: Key of current locale
 
 Домашний путь текущей локали, используемый в качестве ссылки для возврата домой и логотипа панели навигации.
+
+### rtl
+
+- Type: `boolean`
+- Default: `false`
+
+Whether use RTL layout.
 
 ### toc {#toc-heading}
 

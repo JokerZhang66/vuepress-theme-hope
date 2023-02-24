@@ -1,6 +1,6 @@
 ---
 title: 博主信息
-icon: blog
+icon: circle-info
 order: 2
 category:
   - 博客
@@ -52,6 +52,7 @@ tag:
 - `"Bitbucket"`: Bitbucket
 - `"Dingding"`: 钉钉
 - `"Discord"`: Discord
+- `"Douban"`: 豆瓣
 - `"Dribbble"`: Dribbble
 - `"Email"`: 邮件
 - `"Evernote"`: 印象笔记
@@ -72,6 +73,8 @@ tag:
 - `"Reddit"`: 红迪
 - `"Rss"`: RSS 地址
 - `"Steam"`: 蒸汽
+- `"Skype"`: Skype
+- `"Telegram"`: 电报
 - `"Twitter"`: 推特
 - `"Wechat"`: 微信
 - `"Weibo"`: 微博
@@ -100,7 +103,7 @@ const __dirname = getDirname(import.meta.url);
 export default defineUserConfig({
   theme: hopeTheme({
     blog: {
-      media: {
+      medias: {
         // GitHub 已经内置了图标
         GitHub: "https://github.com/Mister-Hope",
         // 一个自定义媒体 MediaX (仅作示例)
@@ -135,7 +138,7 @@ const __dirname = getDirname(import.meta.url);
 export default {
   theme: hopeTheme({
     blog: {
-      media: {
+      medias: {
         // GitHub 已经内置了图标
         GitHub: "https://github.com/Mister-Hope",
         // 一个自定义媒体 MediaX (仅作示例)

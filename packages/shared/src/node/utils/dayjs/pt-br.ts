@@ -1,6 +1,7 @@
 // Portuguese (Brazil) [pt-br]
 import type dayjs from "dayjs";
-import type { Locale } from "./locale.js";
+
+import { type Locale } from "./locale.js";
 
 const locale: Partial<Locale> = {
   name: "pt-br",
@@ -41,6 +42,6 @@ const locale: Partial<Locale> = {
   },
 };
 
-export const loadPtBrLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("pt-br", locale);
+export const loadPtBrLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("pt-br", locale);
 };

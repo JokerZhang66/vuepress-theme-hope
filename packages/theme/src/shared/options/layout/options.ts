@@ -1,11 +1,10 @@
-import type { FooterLocaleOptions } from "./footer.js";
-import type { DocsRepoLocaleOptions } from "./info.js";
-import type { MetaLocateData, MetaLocaleOptions } from "./meta.js";
-import type { NavbarLocaleData, NavbarLocaleOptions } from "./navbar.js";
-import type { SidebarLocaleOptions, SidebarSorter } from "./sidebar.js";
-import type { RouteLocaleData } from "./route.js";
-
-import type { PageInfo } from "../../info.js";
+import { type FooterLocaleOptions } from "./footer.js";
+import { type DocsRepoLocaleOptions } from "./info.js";
+import { type MetaLocaleOptions, type MetaLocateData } from "./meta.js";
+import { type NavbarLocaleData, type NavbarLocaleOptions } from "./navbar.js";
+import { type RouteLocaleData } from "./route.js";
+import { type SidebarLocaleOptions, type SidebarSorter } from "./sidebar.js";
+import { type PageInfo } from "../../info.js";
 
 export interface LayoutLocaleData {
   /**
@@ -72,13 +71,13 @@ export interface LayoutLocaleOptions
   /**
    * Article Info display configuration
    *
-   * @see https://vuepress-theme-hope.github.io/v2/components/guide/article-info.html
+   * @see https://theme-hope.vuejs.press/guide/feature/page-info.html
    *
    * 文章信息配置
    *
-   * @see https://vuepress-theme-hope.gitee.io/v2/components/zh/guide/article-info.html
+   * @see https://theme-hope.vuejs.press/zh/guide/feature/page-info.html
    *
-   * @default ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"]
+   * @default ["Author", "Original", "Date", "PageView", "ReadingTime", "Category", "Tag"]
    */
   pageInfo?: PageInfo[] | false;
 
@@ -88,6 +87,13 @@ export interface LayoutLocaleOptions
    * 是否在桌面模式下展示标题列表
    */
   toc?: boolean;
+
+  /**
+   * Whether rtl layout should be used
+   *
+   * 是否使用 rtl 布局
+   */
+  rtl?: boolean;
 
   /**
    * Whether display nextLink
@@ -141,13 +147,29 @@ export interface LayoutOptions {
   mobileBreakPoint?: number;
 
   /**
+   * Window width detecting wide screen in pixels.
+   *
+   * @description This should be the same value with `$pc` value in `config.scss`.
+   *
+   * 切换宽屏的窗口宽度，单位像素。
+   *
+   * @description 该值应与 `config.scss` 中的 `$pc` 值相同。
+   *
+   * @default 1440
+   */
+  wideBreakPoint?: number;
+
+  /**
    * Sorter of structure sidebar
    *
    * 结构化侧边栏排序器
    *
-   * @default 'order'
+   * @default ["readme", "index", "title", "filename"]
    */
   sidebarSorter?: SidebarSorter;
 }
 
-export type LayoutConfig = Pick<LayoutOptions, "mobileBreakPoint">;
+export type LayoutConfig = Pick<
+  LayoutOptions,
+  "mobileBreakPoint" | "wideBreakPoint"
+>;

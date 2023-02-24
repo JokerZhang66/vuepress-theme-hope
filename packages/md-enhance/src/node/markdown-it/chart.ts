@@ -1,7 +1,6 @@
+import { container } from "@mdit/plugin-container";
+import { type PluginSimple } from "markdown-it";
 import { utoa } from "vuepress-shared/node";
-import { container } from "./container.js";
-
-import type { PluginSimple } from "markdown-it";
 
 export const chart: PluginSimple = (md) => {
   container(md, {
@@ -9,7 +8,7 @@ export const chart: PluginSimple = (md) => {
     openRender: (tokens, index) => {
       const title = tokens[index].info
         .trimStart()
-        // 'chart' length
+        // "chart" length
         .slice(5)
         .trim();
 
@@ -24,7 +23,7 @@ export const chart: PluginSimple = (md) => {
         if (type === "container_chart_close") break;
 
         if (!content) continue;
-        if (type === "fence") {
+        if (type === "fence")
           if (info === "json") {
             config = utoa(content);
             configType = "json";
@@ -32,7 +31,6 @@ export const chart: PluginSimple = (md) => {
             config = utoa(content);
             configType = "js";
           }
-        }
 
         // set to an unexist token type
         tokens[i].type = "chart_empty";

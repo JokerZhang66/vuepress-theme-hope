@@ -1,6 +1,6 @@
 ---
 title: Plugin Options
-icon: config
+icon: gears
 ---
 
 ## indexContent
@@ -65,7 +65,6 @@ export default defineUserConfig({
     searchProPlugin({
       customFields: [
         {
-          name: "category",
           getter: (page) => page.frontmatter.category,
           formatter: {
             "/": "Category: $content",
@@ -73,7 +72,6 @@ export default defineUserConfig({
           },
         },
         {
-          name: "tag",
           getter: (page) => page.frontmatter.tag,
           formatter: {
             "/": "Tag: $content",
@@ -147,6 +145,13 @@ Delay to start searching after input.
 Performing client search with huge contents could be slow, so under this case you might need to increase this value to ensure user finish input before searching.
 
 :::
+
+## worker
+
+- Type: `string`
+- Default: `search-pro.worker.js`
+
+Output Worker filename
 
 ## hotReload
 
@@ -227,7 +232,8 @@ Multilingual configuration of the search plugin.
 - **Simplified Chinese** (zh-CN)
 - **Traditional Chinese** (zh-TW)
 - **English (United States)** (en-US)
-- **German** (de-AT)
+- **German** (de-DE)
+- **German (Australia)** (de-AT)
 - **Russian** (ru-RU)
 - **Ukrainian** (uk-UA)
 - **Vietnamese** (vi-VN)
@@ -239,5 +245,6 @@ Multilingual configuration of the search plugin.
 - **Japanese** (ja-JP)
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
+- **Finnish** (fi-FI)
 
 :::

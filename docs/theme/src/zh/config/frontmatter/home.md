@@ -1,6 +1,6 @@
 ---
 title: 主页 Frontmatter 配置
-icon: config
+icon: home
 order: 4
 category:
   - 配置
@@ -86,7 +86,7 @@ tag:
 
 主页操作
 
-### features
+## features
 
 - 类型: `ThemeHomeFeatureOptions[]`
 

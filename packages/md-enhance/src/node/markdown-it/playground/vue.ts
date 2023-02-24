@@ -1,8 +1,9 @@
-import { deepAssign } from "vuepress-shared/node";
-import type {
-  PlaygroundData,
-  PlaygroundOptions,
-  VuePresetPlaygroundOptions,
+import { deepAssign, entries, fromEntries } from "vuepress-shared/node";
+
+import {
+  type PlaygroundData,
+  type PlaygroundOptions,
+  type VuePresetPlaygroundOptions,
 } from "../../typings/index.js";
 
 const VUE_SUPPORTED_EXTENSIONS = [
@@ -14,6 +15,10 @@ const VUE_SUPPORTED_EXTENSIONS = [
   "tsx",
   "json",
 ];
+
+const DEFAULT_VUE_CDN = "https://sfc.vuejs.org/vue.runtime.esm-browser.js";
+const DEFAULT_VUE_SR_CDN =
+  "https://sfc.vuejs.org/server-renderer.esm-browser.js";
 
 export const getVuePlaygroundPreset = (
   options: VuePresetPlaygroundOptions = {}
@@ -30,6 +35,58 @@ export const getVuePlaygroundPreset = (
       ...localSettings,
     };
 
+    const fileInfo = fromEntries(
+      entries(files)
+        .filter(([, { ext }]) => VUE_SUPPORTED_EXTENSIONS.includes(ext))
+        .map(([key, { content }]) => {
+          if (key === "import-map.json") {
+            const importMap = <
+              {
+                imports: Record<string, string>;
+                scopes?: Record<string, Record<string, string>>;
+              }
+            >JSON.parse(content);
+
+            return [
+              key,
+              JSON.stringify(
+                deepAssign(
+                  {
+                    imports: {
+                      // insure vue exists
+                      vue: DEFAULT_VUE_CDN,
+                      // insure vue/server-renderer exists
+                      ...(settings.ssr
+                        ? {
+                            // eslint-disable-next-line @typescript-eslint/naming-convention
+                            "vue/server-renderer": DEFAULT_VUE_SR_CDN,
+                          }
+                        : {}),
+                    },
+                  },
+                  importMap
+                )
+              ),
+            ];
+          }
+
+          return [key, content];
+        })
+    );
+
+    if (settings.ssr && !fileInfo["import-map.json"])
+      fileInfo["import-map.json"] = JSON.stringify(
+        {
+          imports: {
+            vue: DEFAULT_VUE_CDN,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "vue/server-renderer": DEFAULT_VUE_SR_CDN,
+          },
+        },
+        null,
+        2
+      );
+
     return {
       key,
       title,
@@ -42,51 +99,7 @@ export const getVuePlaygroundPreset = (
           settings.ssr ? "__SSR__" : ""
         }${
           // code base64
-          Buffer.from(
-            JSON.stringify(
-              Object.fromEntries(
-                Object.entries(files)
-                  .filter(([, { ext }]) =>
-                    VUE_SUPPORTED_EXTENSIONS.includes(ext)
-                  )
-                  .map(([key, { content }]) => {
-                    if (key === "import-map.json") {
-                      const importMap = <
-                        {
-                          imports: Record<string, string>;
-                          scopes?: Record<string, Record<string, string>>;
-                        }
-                      >JSON.parse(content);
-
-                      return [
-                        key,
-                        JSON.stringify(
-                          deepAssign(
-                            {},
-                            {
-                              // insure vue exists and vue/server-render exists when ssr is on
-                              imports: {
-                                vue: "https://sfc.vuejs.org/vue.runtime.esm-browser.js",
-                                ...(settings.ssr
-                                  ? {
-                                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                                      "vue/server-renderer":
-                                        "https://sfc.vuejs.org/server-renderer.esm-browser.js",
-                                    }
-                                  : {}),
-                              },
-                            },
-                            importMap
-                          )
-                        ),
-                      ];
-                    }
-
-                    return [key, content];
-                  })
-              )
-            )
-          ).toString("base64")
+          Buffer.from(JSON.stringify(fileInfo)).toString("base64")
         }`
       ),
     };

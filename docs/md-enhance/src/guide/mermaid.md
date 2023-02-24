@@ -1,9 +1,9 @@
 ---
 title: Mermaid
-icon: diagram
+icon: chart-pie
 ---
 
-Let the Markdown file support [mermaid](https://mermaid-js.github.io/mermaid/#/) in your VuePress site.
+Let the Markdown file support [mermaid](https://mermaid.js.org/) in your VuePress site.
 
 <!-- more -->
 
@@ -57,13 +57,16 @@ export default {
 
 ## Usage
 
-Please see [mermaid](https://mermaid-js.github.io/mermaid/#/).
+Please see [mermaid](https://mermaid.js.org/).
 
 ## Demo
 
 ### Flowchart
 
 ```mermaid
+---
+title: Flowchart
+---
 flowchart TB
     c1-->a2
     subgraph one
@@ -84,6 +87,9 @@ flowchart TB
 
 ````md
 ```mermaid
+---
+title: Flowchart
+---
 flowchart TB
     c1-->a2
     subgraph one
@@ -596,6 +602,36 @@ root((VuePress))
       (feed2)
       (sitemap2)
       (seo2)
+```
+````
+
+:::
+
+### Timeline
+
+```timeline
+title Timeline of Industrial Revolution
+section 17th-20th century
+    Industry 1.0 : Machinery, Water power, Steam <br>power
+    Industry 2.0 : Electricity, Internal combustion engine, Mass production
+    Industry 3.0 : Electronics, Computers, Automation
+section 21st century
+    Industry 4.0 : Internet, Robotics, Internet of Things
+    Industry 5.0 : Artificial intelligence, Big data,3D printing
+```
+
+::: details Code
+
+````md
+```timeline
+title Timeline of Industrial Revolution
+section 17th-20th century
+    Industry 1.0 : Machinery, Water power, Steam <br>power
+    Industry 2.0 : Electricity, Internal combustion engine, Mass production
+    Industry 3.0 : Electronics, Computers, Automation
+section 21st century
+    Industry 4.0 : Internet, Robotics, Internet of Things
+    Industry 5.0 : Artificial intelligence, Big data,3D printing
 ```
 ````
 

@@ -3,8 +3,7 @@ import theme from "./theme.js";
 
 export default config(
   {
-    base: `feed`,
-    indexName: "vuepress-theme-hope-feed2",
+    name: "feed2",
   },
   {
     locales: {
@@ -17,7 +16,7 @@ export default config(
       "/zh/": {
         lang: "zh-CN",
         title: "Feed 生成器",
-        description: "VuePress Feed 插件",
+        description: "VuePress2 Feed 插件",
       },
     },
 

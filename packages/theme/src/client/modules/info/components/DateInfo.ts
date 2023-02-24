@@ -1,11 +1,9 @@
 import { ClientOnly, usePageLang } from "@vuepress/client";
-import { defineComponent, h } from "vue";
+import { type PropType, type VNode, defineComponent, h } from "vue";
+import { type DateInfo } from "vuepress-shared/client";
 
-import { CalendarIcon } from "@theme-hope/modules/info/components/icons.js";
-import { useMetaLocale } from "@theme-hope/modules/info/composables/index.js";
-
-import type { PropType, VNode } from "vue";
-import type { DateInfo } from "vuepress-shared";
+import { CalendarIcon } from "@theme-hope/modules/info/components/icons";
+import { useMetaLocale } from "@theme-hope/modules/info/composables/index";
 
 export default defineComponent({
   name: "DateInfo",
@@ -13,16 +11,31 @@ export default defineComponent({
   inheritAttrs: false,
 
   props: {
+    /**
+     * Date information
+     *
+     * 日期信息
+     */
     date: {
       type: Object as PropType<DateInfo | null>,
       default: null,
     },
 
+    /**
+     * Localized date text
+     *
+     * 本地化的日期文字
+     */
     localizedDate: {
       type: String,
       default: "",
     },
 
+    /**
+     * Whether in pure mode
+     *
+     * 是否处于纯净模式
+     */
     pure: Boolean,
   },
 
@@ -35,7 +48,7 @@ export default defineComponent({
         ? h(
             "span",
             {
-              class: "date-info",
+              class: "page-date-info",
               "aria-label": `${metaLocale.value.date}${props.pure ? "" : "📅"}`,
               ...(props.pure ? {} : { "data-balloon-pos": "down" }),
             },

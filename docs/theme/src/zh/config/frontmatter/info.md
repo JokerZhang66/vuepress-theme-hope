@@ -1,6 +1,6 @@
 ---
 title: 信息 Frontmatter 配置
-icon: config
+icon: circle-info
 order: 1
 category:
   - 配置
@@ -89,7 +89,7 @@ tag:
 
 - 类型: `DateString`
 - 必填: 否
-- 格式: `YYYY-MM-DD` 或 `YYYY/MM/DD hh:mm:ss`
+- 格式: `YYYY-MM-DD` 或 `YYYY-MM-DD hh:mm:ss`
 
 写作时间。
 

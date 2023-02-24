@@ -1,4 +1,4 @@
-import type { ThemeLocaleData } from "../../shared/index.js";
+import { type ThemeLocaleData } from "../../shared/index.js";
 
 export const frLocale: ThemeLocaleData = {
   lang: "fr-FR",
@@ -35,8 +35,6 @@ export const frLocale: ThemeLocaleData = {
     all: "Tout",
     intro: "Introduction personnelle",
     star: "Étoile",
-    slides: "Slides",
-    encrypt: "Chiffré",
   },
 
   paginationLocales: {
@@ -62,6 +60,7 @@ export const frLocale: ThemeLocaleData = {
 
   routeLocales: {
     skipToContent: "Aller au contenu principal",
+    notFoundTitle: "Page non trouvée",
     notFoundMsg: [
       "Il n'y a rien ici.",
       "Comment êtes vous arrivés ici ?",

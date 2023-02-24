@@ -1,17 +1,19 @@
-import type { GitPluginOptions } from "@vuepress/plugin-git";
-import type { CommentOptions } from "vuepress-plugin-comment2";
-import type { AvailableComponent } from "vuepress-plugin-components";
-import type { CopyCodeOptions } from "vuepress-plugin-copy-code2";
-import type { CopyrightOptions } from "vuepress-plugin-copyright2";
-import type { FeedOptions } from "vuepress-plugin-feed2";
-import type { MarkdownEnhanceOptions } from "vuepress-plugin-md-enhance";
-import type { PhotoSwipeOptions } from "vuepress-plugin-photo-swipe";
-import type { PWAOptions } from "vuepress-plugin-pwa2";
-import type { ReadingTimeOptions } from "vuepress-plugin-reading-time2";
-import type { SitemapOptions } from "vuepress-plugin-sitemap2";
-import type { SeoOptions } from "vuepress-plugin-seo2";
+import { type GitPluginOptions } from "@vuepress/plugin-git";
+import { type AutoCatalogOptions } from "vuepress-plugin-auto-catalog";
+import { type CommentOptions } from "vuepress-plugin-comment2";
+import { type ComponentOptions } from "vuepress-plugin-components";
+import { type CopyCodeOptions } from "vuepress-plugin-copy-code2";
+import { type CopyrightOptions } from "vuepress-plugin-copyright2";
+import { type FeedOptions } from "vuepress-plugin-feed2";
+import { type MarkdownEnhanceOptions } from "vuepress-plugin-md-enhance";
+import { type PhotoSwipeOptions } from "vuepress-plugin-photo-swipe";
+import { type PWAOptions } from "vuepress-plugin-pwa2";
+import { type ReadingTimeOptions } from "vuepress-plugin-reading-time2";
+import { type SeoOptions } from "vuepress-plugin-seo2";
+import { type SitemapOptions } from "vuepress-plugin-sitemap2";
 
-import type { BlogPluginOptions } from "./blog.js";
+import { type BlogPluginOptions } from "./blog.js";
+import { type PrismjsOptions } from "./prism.js";
 
 export interface PluginsOptions {
   /**
@@ -22,6 +24,15 @@ export interface PluginsOptions {
    * @default true
    */
   activeHeaderLinks?: boolean;
+
+  /**
+   * Auto catalog plugin Options
+   *
+   * 自动目录插件选项
+   *
+   * @default true
+   */
+  autoCatalog?: AutoCatalogOptions | boolean;
 
   /**
    * Blog plugin options
@@ -37,48 +48,46 @@ export interface PluginsOptions {
    *
    * @description FontIcon is used internally, so it will be registered anyway.
    *
-   * @see https://vuepress-theme-hope.github.io/v2/components/config.html
+   * @see https://plugin-components.vuejs.press/config.html
    *
    * 需要启用的插件
    *
    * @description FontIcon 被内部使用，所以它无论如何都会被注册。
    *
-   * @see https://vuepress-theme-hope.github.io/v2/zh/components/config.html
-   *
-   * @default ['Badge']
+   * @see https://plugin-components.vuejs.press/zh/config.html
    */
-  components?: Exclude<AvailableComponent, "FontIcon">[];
+  components?: ComponentOptions;
 
   /**
    * Comment plugin options
    *
-   * @see http://vuepress-theme-hope.github.io/v2/comment/config/
+   * @see https://plugin-comment2.vuejs.press/config/
    *
    * 评论插件配置
    *
-   * @see http://vuepress-theme-hope.github.io/v2/comment/zh/config/
+   * @see https://plugin-comment2.vuejs.press/zh/config/
    */
   comment?: CommentOptions | false;
 
   /**
    * code copy plugin options
    *
-   * @see http://vuepress-theme-hope.github.io/v2/copy-code/config/
+   * @see https://plugin-copy-code2.vuejs.press/config/
    *
    * 代码复制插件配置
    *
-   * @see http://vuepress-theme-hope.github.io/v2/copy-code/zh/config/
+   * @see https://plugin-copy-code2.vuejs.press/zh/config/
    */
   copyCode?: CopyCodeOptions | false;
 
   /**
    * Copyright Plugin options
    *
-   * @see http://vuepress-theme-hope.github.io/v2/copyright/config.html
+   * @see https://plugin-copyright2.vuejs.press/config.html
    *
-   * 代码复制插件配置
+   * 版权信息插件配置
    *
-   * @see http://vuepress-theme-hope.github.io/v2/copyright/zh/config.html
+   * @see https://plugin-copyright2.vuejs.press/zh/config.html
    *
    * @default false
    */
@@ -96,11 +105,11 @@ export interface PluginsOptions {
   /**
    * Feed plugin options
    *
-   * @see http://vuepress-theme-hope.github.io/v2/feed/config/
+   * @see https://plugin-feed2.vuejs.press/config/
    *
    * Feed 插件配置
    *
-   * @see http://vuepress-theme-hope.github.io/v2/feed/zh/config/
+   * @see https://plugin-feed2.vuejs.press/zh/config/
    */
   feed?: Omit<FeedOptions, "hostname">;
 
@@ -122,13 +131,42 @@ export interface PluginsOptions {
   /**
    * md-enhance plugin options
    *
-   * @see http://vuepress-theme-hope.github.io/v2/md-enhance/config/
+   * @see https://plugin-md-enhance.vuejs.press/config/
    *
    * md-enhance 插件配置
    *
-   * @see http://vuepress-theme-hope.github.io/v2/md-enhance/zh/config/
+   * @see https://plugin-md-enhance.vuejs.press/zh/config/
    */
-  mdEnhance?: MarkdownEnhanceOptions | false;
+  mdEnhance?:
+    | (Omit<MarkdownEnhanceOptions, "container"> & {
+        /**
+         * Whether to enable custom container including
+         *
+         * - info
+         * - note
+         * - tip
+         * - warning
+         * - danger
+         * - details
+         *
+         * ⚠ The last 4 items conflict with default theme and will override it’s style.
+         *
+         * 是否启用自定义容器
+         *
+         * - info
+         * - note
+         * - tip
+         * - warning
+         * - danger
+         * - details
+         *
+         * ⚠ 最后四个会和默认主题冲突，且会覆盖默认主题的样式与行为。
+         *
+         * @default true
+         */
+        container?: boolean;
+      })
+    | false;
 
   /**
    * Enable @vuepress/nprogress or not
@@ -144,11 +182,11 @@ export interface PluginsOptions {
    *
    * @description This plugin is enabled by default
    *
-   * @see http://vuepress-theme-hope.github.io/v2/photo-swipe/config/
+   * @see https://plugin-photo-swipe.vuejs.press/config/
    *
    * 图片预览插件配置
    *
-   * @see http://vuepress-theme-hope.github.io/v2/photo-swipe/zh/config/
+   * @see https://plugin-photo-swipe.vuejs.press/zh/config/
    *
    * @default true
    */
@@ -161,16 +199,16 @@ export interface PluginsOptions {
    *
    * @default true
    */
-  prismjs?: boolean;
+  prismjs?: PrismjsOptions | boolean;
 
   /**
    * PWA plugin options
    *
-   * @see http://vuepress-theme-hope.github.io/v2/pwa/config/
+   * @see https://plugin-pwa2.vuejs.press/config/
    *
    * PWA 插件配置
    *
-   * @see http://vuepress-theme-hope.github.io/v2/pwa/zh/config/
+   * @see https://plugin-pwa2.vuejs.press/zh/config/
    *
    * @default false
    */
@@ -179,11 +217,11 @@ export interface PluginsOptions {
   /**
    * ReadingTime options
    *
-   * @see http://vuepress-theme-hope.github.io/v2/reading-time/
+   * @see https://plugin-reading-time2.vuejs.press/
    *
    * 阅读时间插件配置
    *
-   * @see http://vuepress-theme-hope.github.io/v2/reading-time/zh/
+   * @see https://plugin-reading-time2.vuejs.press/zh/
    *
    * @default true
    */
@@ -192,11 +230,11 @@ export interface PluginsOptions {
   /**
    * SEO plugin options
    *
-   * @see http://vuepress-theme-hope.github.io/v2/seo/config/
+   * @see https://plugin-seo2.vuejs.press/config/
    *
    * SEO 插件配置
    *
-   * @see http://vuepress-theme-hope.github.io/v2/seo/zh/config/
+   * @see https://plugin-seo2.vuejs.press/zh/config/
    *
    * @default true
    */
@@ -205,11 +243,11 @@ export interface PluginsOptions {
   /**
    * Sitemap plugin options
    *
-   * @see http://vuepress-theme-hope.github.io/v2/sitemap/config/
+   * @see https://plugin-sitemap2.vuejs.press/config/
    *
    * Sitemap 插件配置
    *
-   * @see http://vuepress-theme-hope.github.io/v2/sitemap/zh/config/
+   * @see https://plugin-sitemap2.vuejs.press/zh/config/
    *
    * @default true
    */

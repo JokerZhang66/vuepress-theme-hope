@@ -1,4 +1,5 @@
-import { chalk } from "@vuepress/utils";
+import { colors } from "@vuepress/utils";
+
 import { logger } from "../utils.js";
 
 export interface DeprecatedLoggerOptions {
@@ -18,9 +19,9 @@ export const deprecatedLogger = ({
 }: DeprecatedLoggerOptions): void => {
   if (deprecatedOption in options) {
     logger.warn(
-      `${chalk.magenta(deprecatedOption)} is ${chalk.yellow("deprecated")}${
+      `${colors.magenta(deprecatedOption)} is ${colors.yellow("deprecated")}${
         scope ? ` in ${scope}` : ""
-      }, please use "${chalk.magenta(newOption)}" instead.${
+      }, please use "${colors.magenta(newOption)}" instead.${
         msg ? `\n${msg}` : ""
       }`
     );
@@ -35,9 +36,13 @@ export const deprecatedLogger = ({
           temp[key] = temp[key] || {};
 
           temp = temp[key] as Record<string, unknown>;
-        } else temp[key] = options[deprecatedOption];
+        } else {
+          temp[key] = options[deprecatedOption];
+        }
       });
-    } else options[newOption] = options[deprecatedOption];
+    } else {
+      options[newOption] = options[deprecatedOption];
+    }
 
     delete options[deprecatedOption];
   }

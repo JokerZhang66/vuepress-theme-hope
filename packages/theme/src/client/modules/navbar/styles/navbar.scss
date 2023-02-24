@@ -29,12 +29,12 @@
 
   backdrop-filter: saturate(150%) blur(12px);
 
-  .hide-navbar &.auto-hide {
-    transform: translateY(-100%);
+  @media print {
+    display: none;
   }
 
-  &.hide-icon .icon {
-    display: none !important;
+  .hide-navbar &.auto-hide {
+    transform: translateY(-100%);
   }
 
   .nav-link {
@@ -46,14 +46,18 @@
     }
 
     .icon {
-      margin-right: 0.25em;
+      margin-inline-end: 0.25em;
       font-size: 1em;
     }
   }
+
+  &.hide-icon .nav-links .icon {
+    display: none !important;
+  }
 }
 
-.navbar-left,
-.navbar-right,
+.navbar-start,
+.navbar-end,
 .navbar-center {
   display: flex;
   flex: 1;
@@ -64,16 +68,16 @@
     margin: 0 0.25rem !important;
 
     &:first-child {
-      margin-left: 0 !important;
+      margin-inline-start: 0 !important;
     }
 
     &:last-child {
-      margin-right: 0 !important;
+      margin-inline-end: 0 !important;
     }
   }
 }
 
-.navbar-left {
+.navbar-start {
   justify-content: start;
 }
 
@@ -81,20 +85,6 @@
   justify-content: center;
 }
 
-.navbar-right {
+.navbar-end {
   justify-content: end;
-}
-
-// docsearch fix
-// stylelint-disable selector-class-pattern
-.DocSearch {
-  &.DocSearch-Button {
-    margin-left: 0;
-  }
-}
-
-#docsearch-container {
-  @media (max-width: 750px) {
-    min-width: 36px !important;
-  }
 }

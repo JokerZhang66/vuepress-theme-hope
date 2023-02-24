@@ -1,10 +1,12 @@
-import type { PWAOptions } from "./options.js";
-import type { ManifestOption } from "../shared/index.js";
+import { isAbsoluteUrl } from "vuepress-shared/node";
+
+import { type PWAOptions } from "./options.js";
+import { type ManifestOption } from "../shared/index.js";
 
 const appendBaseHelper = (base: string, link: string): string =>
-  link.startsWith("/") ? link.replace(/^\//, base) : link;
+  isAbsoluteUrl(link) ? link.replace(/^\//, base) : link;
 
-export const appendBasetoManifest = (
+export const appendBaseToManifest = (
   base: string,
   manifest: ManifestOption
 ): ManifestOption => {
@@ -50,5 +52,5 @@ export const appendBase = (base: string, options: PWAOptions): void => {
     options.msTile.image = appendBaseHelper(base, options.msTile.image);
 
   if (options.manifest)
-    options.manifest = appendBasetoManifest(base, options.manifest);
+    options.manifest = appendBaseToManifest(base, options.manifest);
 };

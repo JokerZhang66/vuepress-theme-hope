@@ -1,6 +1,6 @@
 ---
 title: Руководство по вкладу
-icon: creative
+icon: lightbulb
 category:
   - FAQ
 ---
@@ -25,7 +25,7 @@ pnpm i
 
 ```sh
 corepack enable
-corepack prepare pnpm@7.17.0 --activate
+corepack prepare pnpm@7.27.1 --activate
 ```
 
 :::
@@ -46,6 +46,7 @@ corepack prepare pnpm@7.17.0 --activate
 ├── demo → Demo projects
 │
 ├── docs → document directory
+│ ├── auto-catalog → auto-catalog plugin document
 │ ├── blog → blog2 plugin document
 │ ├── comment → comment2 plugin document
 │ ├── components → components plugin document
@@ -56,6 +57,7 @@ corepack prepare pnpm@7.17.0 --activate
 │ ├── photo-swipe → photo-swipe document
 │ ├── pwa → pwa2 plugin document
 │ ├── reading-time → reading-time2 plugin document
+│ ├── rtl → rtl plugin document
 │ ├── remove-pwa → remove-pwa plugin document
 │ ├── sass-palette → sass-palette plugin document
 │ ├── search-pro → search-pro plugin document
@@ -63,6 +65,7 @@ corepack prepare pnpm@7.17.0 --activate
 │ └── theme → theme document
 │
 ├── packages → project source code
+│ ├── auto-catalog → auto-catalog plugin
 │ ├── blog2 → blog2 plugin
 │ ├── comment2 → comment2 plugin
 │ ├── components → components plugin
@@ -75,6 +78,7 @@ corepack prepare pnpm@7.17.0 --activate
 │ ├── pwa2 → pwa2 plugin
 │ ├── reading-time2 → reading-time2 plugin
 │ ├── remove-pwa → remove-pwa plugin
+│ ├── rtl → rtl plugin
 │ ├── sass-palette → sass-palette plugin
 │ ├── search-pro → search-pro plugin
 │ ├── seo2 → seo2 plugin

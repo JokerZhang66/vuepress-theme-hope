@@ -1,19 +1,17 @@
-import { useRouter, useRoute } from "vue-router";
+import { isLinkHttp, isLinkMailto } from "@vuepress/shared";
+import { useRoute, useRouter } from "vue-router";
+import { isAbsoluteUrl } from "vuepress-shared/client";
 
 export const useNavigate = (): ((url: string) => void) => {
   const router = useRouter();
   const route = useRoute();
 
   return (url) => {
-    if (url) {
-      if (url.startsWith("/")) {
+    if (url)
+      if (isAbsoluteUrl(url)) {
         // Inner absolute path
         if (route.path !== url) void router.push(url);
-      } else if (
-        url.startsWith("http://") ||
-        url.startsWith("https://") ||
-        url.startsWith("mailto:")
-      ) {
+      } else if (isLinkHttp(url) || isLinkMailto(url)) {
         // Outer url
         if (window) window.open(url);
       } else {
@@ -22,6 +20,5 @@ export const useNavigate = (): ((url: string) => void) => {
 
         void router.push(`${base}/${encodeURI(url)}`);
       }
-    }
   };
 };

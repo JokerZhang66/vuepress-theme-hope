@@ -1,4 +1,4 @@
-import type { PWALocaleConfig } from "../shared/index.js";
+import { type PWALocaleConfig } from "../shared/index.js";
 
 /** Multi language config for pwa popup */
 export const pwaLocales: PWALocaleConfig = {
@@ -45,6 +45,21 @@ export const pwaLocales: PWALocaleConfig = {
       "該應用可以安裝在你的 PC 或行動裝置上。這將使該 Web 應用程式外觀和行為與其他應用程式相同。它將在出現在應用程式列表中，並可以固定到主畫面，開始菜單或任務欄。此 Web 應用程式還將能夠與其他應用程式和你的操作系統安全地進行交互。",
     hint: "發現新内容可用",
     update: "新内容已就绪",
+  },
+
+  "/de/": {
+    install: "Installieren",
+    iOSInstall: "Drucke den Share-Button und dann 'zu Homescreen hinzufügen'",
+    cancel: "Abbrechen",
+    close: "Schließen",
+    prevImage: "Vorheriges Bild",
+    nextImage: "Nächstes Bild",
+    desc: "Berschreibung",
+    feature: "Funktionen",
+    explain:
+      "Diese App kann auf Ihrem PC oder Mobilgerät installiert werden. Dadurch sieht diese Web-App aus und verhält sich wie jede andere installierte App. Sie finden sie in Ihren App-Listen und können sie an den Startbildschirm, die Startmenüs oder die Taskleisten anheften. Diese installierte Web-App kann auch sicher mit anderen Apps und Ihrem Betriebssystem interagieren.",
+    hint: "Neuer Inhalt gefunden.",
+    update: "Neue Inhalte sind verfügbar.",
   },
 
   "/de-at/": {
@@ -233,5 +248,36 @@ export const pwaLocales: PWALocaleConfig = {
       "이 앱은 PC 또는 모바일 장치에 설치할 수 있습니다. 이렇게 하면 이 웹 앱은 다른 설치된 앱과 마찬가지로 표시되고 작동합니다. 앱 목록에서 찾을 수 있으며 홈 화면, 시작 메뉴, 작업 표시줄에 고정할 수 있습니다. 설치된 웹 앱은 다른 앱과 안전하게 상호 작용할 수 있습니다.",
     hint: "새로운 콘텐츠를 찾았습니다.",
     update: "새로운 콘텐츠가 있습니다.",
+  },
+
+  "/fi/": {
+    install: "Asenna",
+    iOSInstall: "Paina Jaa-painiketta ja sitten 'Lisää kotiin'-painiketta",
+    cancel: "Peruuta",
+    close: "Sulje",
+    prevImage: "Edellinen kuva",
+    nextImage: "Seuraava kuva",
+    desc: "Kuvaus",
+    feature: "Avainominaisuudet",
+    explain:
+      "Tämä sovellus on asennettavissa tietokoneelle tai mobiililaitteelle. Tämä mahdollistaa sovelluksen toiminnan tietokoneohjelmana. Löydät sen sovelluslistasta ja voit kiinnittää sen työpöydälle, kotinäytölle, tehtäväpalkkiin tai muulle listalle. Asennettu sovellus voi turvallisesti olla vuorovaikutuksessa muiden sovellusten ja käyttöjärjestelmäsi kanssa.",
+    hint: "Uutta sisältöä.",
+    update: "Uutta sisältöä on saatavilla.",
+  },
+
+  "/hu/": {
+    install: "Telepítés",
+    iOSInstall:
+      "Nyomd meg a megosztás gombot, majd a 'Hozzáadás a kezdőképernyőhöz' opciót",
+    cancel: "Mégse",
+    close: "Bezárás",
+    prevImage: "Előző kép",
+    nextImage: "Következő kép",
+    desc: "Leírás",
+    feature: "Főbb jellemzők",
+    explain:
+      "Ez az alkalmazás telepíthető PC-re vagy mobil eszközre. Ez lehetővé teszi, hogy ez a webalkalmazás úgy nézzen ki és viselkedjen, mint bármely más telepített alkalmazás. Az alkalmazáslistában találod majd, és hozzáadhatod a kezdőképernyőhöz, indító menühöz vagy a feladatok sávjához. Az telepített webalkalmazás biztonságosan interakcióba léphet más alkalmazásokkal és az operációs rendszerrel.",
+    hint: "Új tartalom érhető el.",
+    update: "Új tartalom érhető el.",
   },
 };

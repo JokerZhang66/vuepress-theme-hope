@@ -1,4 +1,6 @@
-export type DarkmodeConfig =
+import { type FontIconAssets } from "vuepress-plugin-components";
+
+export type DarkmodeOptions =
   | "switch"
   | "auto"
   | "toggle"
@@ -77,18 +79,27 @@ export interface AppearanceOptions {
    * - `"enable"`: 强制深色模式
    * - `"disable"`: 禁用深色模式
    *
-   * @default 'auto-switch'
+   * @default "auto-switch"
    */
-  darkmode?: DarkmodeConfig;
+  darkmode?: DarkmodeOptions;
 
   /**
-   * Theme color configuration
+   * Theme color picker configuration
    *
-   * 主题色选项配置
+   * 主题色选择器配置
    *
    * @default false
    */
   themeColor?: Record<string, string> | false;
+
+  /**
+   * Whether display print button in desktop mode
+   *
+   * 是否在桌面模式下显示打印按钮
+   *
+   * @default true
+   */
+  print?: boolean;
 
   /**
    * Full screen button
@@ -104,26 +115,18 @@ export interface AppearanceOptions {
    *
    * 字体图标资源链接
    *
-   * @description `'iconfont'` and `'fontawesome'` keywords are supported
+   * @description `"iconfont"` and `"fontawesome"` keywords are supported
    */
-  iconAssets?:
-    | "iconfont"
-    | "fontawesome"
-    | `//${string}`
-    | `http://${string}`
-    | `https://${string}`;
+  iconAssets?: FontIconAssets;
 
   /**
    * Font Icon class prefix
    *
    * 字体图标 class 前缀
    *
-   * @default ''
+   * @default ""
    */
   iconPrefix?: string;
 }
 
-export type AppearanceConfig = AppearanceOptions &
-  Required<
-    Pick<AppearanceOptions, "darkmode" | "fullscreen" | "pure" | "themeColor">
-  >;
+export type AppearanceConfig = AppearanceOptions;

@@ -2,12 +2,15 @@ import stripTags from "striptags";
 
 const removals: string | RegExp[] = [
   // code blocks
-  /(?:^|\n).*?(`{3,}).*?\n[\s\S]*?\1\n/gm,
-
+  /(?:^|\n).*?(`{3,}).*?\n[\s\S]*?\1(?:\n|$)/gm,
+  // directives
+  /^@/gm,
   // hr
   /^[-*]{3,}$/gm,
   // footnotes
   /\[\^.+?\](: .*?$)?/gm,
+  // toc
+  /^[[toc]]$/gm,
 ];
 
 const replacers: [string | RegExp, string][] = [
@@ -47,9 +50,8 @@ export const md2text = (content: string): string => {
       /(?:^|\n).*?(:{3,})\s*(?:.+?)(?:\s+(.*))?\n([\s\S]*?)\1\n/gm,
       "$2\n$3"
     )) !== text
-  ) {
+  )
     text = removedContainerText;
-  }
 
   // remove contents
   text = removals.reduce(

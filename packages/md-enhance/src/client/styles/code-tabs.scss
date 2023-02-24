@@ -12,7 +12,11 @@
 
   white-space: nowrap;
 
-  transition: background var(--color-transition);
+  transition: background var(--vp-ct);
+
+  @media print {
+    display: none;
+  }
 
   @media (max-width: hope-config.$mobile) {
     margin-right: -1.5rem;
@@ -28,7 +32,7 @@
 
   min-width: 3rem;
   margin: 0;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 6px 6px 0 0;
 
   background: transparent;
@@ -40,7 +44,7 @@
 
   cursor: pointer;
 
-  transition: background var(--color-transition), color var(--color-transition);
+  transition: background var(--vp-ct), color var(--vp-ct);
 
   &:hover {
     background: var(--code-tabs-nav-hover-color, #434a57);
@@ -67,6 +71,7 @@
   }
 
   &.active {
+    padding: 6px 16px;
     background: var(--code-bg-color, #282c34);
 
     &::before {
@@ -106,6 +111,12 @@
 
     @media (max-width: hope-config.$mobile) {
       margin: 0.85rem -1.5rem;
+    }
+
+    code {
+      @media print {
+        white-space: pre-wrap;
+      }
     }
   }
 }

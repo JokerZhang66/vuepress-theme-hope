@@ -12,12 +12,12 @@ tag:
 
 `vuepress-theme-hope` 允许你启用博客风格的首页。
 
-你需要在相应的页面的 frontmatter 中，设置 `home: true` 和 `layout: Blog` 来使用博客主页。
+你需要在相应的页面的 frontmatter 中，设置 `home: true` 和 `layout: BlogHome` 来使用博客主页。
 
 <!-- more -->
 
-![首页截图](./assets/blog-light.png#light)
-![首页截图](./assets/blog-dark.png#dark)
+![首页截图](./assets/blog-light.jpg#light)
+![首页截图](./assets/blog-dark.jpg#dark)
 
 ## 主页信息
 

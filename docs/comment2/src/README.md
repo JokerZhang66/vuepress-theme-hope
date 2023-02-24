@@ -13,7 +13,7 @@ actions:
   - text: Config 🛠
     link: /config/
 
-footer: Theme by <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
+footer: Theme by <a href="https://theme-hope.vuejs.press" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
 
 copyright: false
 ---
@@ -25,19 +25,19 @@ copyright: false
 @tab pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-comment2@next
+pnpm add -D vuepress-plugin-comment2
 ```
 
 @tab yarn
 
 ```bash
-yarn add -D vuepress-plugin-comment2@next
+yarn add -D vuepress-plugin-comment2
 ```
 
 @tab npm
 
 ```bash
-npm i -D vuepress-plugin-comment2@next
+npm i -D vuepress-plugin-comment2
 ```
 
 :::
@@ -81,3 +81,9 @@ export default {
 ## Migrating from V1
 
 See [Migration Guide](./migration.md).
+
+<NetlifyBadge />
+
+<script setup lang="ts">
+import NetlifyBadge from "@NetlifyBadge";
+</script>

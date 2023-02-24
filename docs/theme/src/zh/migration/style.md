@@ -1,6 +1,6 @@
 ---
 title: 样式迁移指南
-icon: style
+icon: wand-magic-sparkles
 category:
   - 迁移
 tag:
@@ -38,7 +38,7 @@ tag:
 
 移动至 `palette.scss`。
 
-- 新增 `$bg-color-secondary`
+- 新增 `$bg-color-secondary`，`$bg-color-tertiary`
 
 - `$accentColor` 重命名为 `$theme-color`
 
@@ -60,7 +60,7 @@ tag:
 
   现在你只需要在主题选项中设置主题色
 
-- `$codeBgColor`, `$darkCodeBgColor` 移除，请在 `config.scss` 中配置 `$code-light-theme` 和 `$code-dark-theme`。
+- `$codeBgColor`, `$darkCodeBgColor` 移除，请在主题选项中设置 `plugins.prismjs` (prismjs)，或在 `config.scss` 中配置 `$code-bg-color` (shiki)。
 
 ### 字体
 

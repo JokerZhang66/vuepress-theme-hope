@@ -1,16 +1,24 @@
-import { computed, defineComponent, h, resolveComponent } from "vue";
 import { usePageData, usePageFrontmatter } from "@vuepress/client";
+import {
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  resolveComponent,
+} from "vue";
 
-import FadeSlideY from "@theme-hope/components/transitions/FadeSlideY.js";
-import SkipLink from "@theme-hope/components/SkipLink.js";
-import { useMobile } from "@theme-hope/composables/index.js";
+import CommonWrapper from "@theme-hope/components/CommonWrapper";
+import HomePage from "@theme-hope/components/HomePage";
+import NormalPage from "@theme-hope/components/NormalPage";
+import SkipLink from "@theme-hope/components/SkipLink";
+import FadeSlideY from "@theme-hope/components/transitions/FadeSlideY";
 import {
   useThemeData,
   useThemeLocaleData,
-} from "@theme-hope/composables/index.js";
+  useWindowSize,
+} from "@theme-hope/composables/index";
 
-import type { DefineComponent, VNode } from "vue";
-import type { ThemePageFrontmatter } from "../../shared/index.js";
+import { type ThemePageFrontmatter } from "../../shared/index.js";
 
 declare const ENABLE_BLOG: boolean;
 
@@ -23,33 +31,30 @@ export default defineComponent({
     const themeLocale = useThemeLocaleData();
     const page = usePageData();
     const frontmatter = usePageFrontmatter<ThemePageFrontmatter>();
-    const isMobile = useMobile();
+    const { isMobile } = useWindowSize();
 
-    const sidebarDisplay = computed(
-      () =>
-        themeLocale.value.blog.sidebarDisplay ||
-        themeData.value.blog.sidebarDisplay ||
-        "mobile"
+    const sidebarDisplay = computed(() =>
+      ENABLE_BLOG
+        ? themeLocale.value.blog?.sidebarDisplay ||
+          themeData.value.blog?.sidebarDisplay ||
+          "mobile"
+        : "none"
     );
 
     return (): VNode[] => [
       h(SkipLink),
       h(
-        <DefineComponent>resolveComponent("CommonWrapper"),
+        CommonWrapper,
         {},
         {
           default: () =>
             frontmatter.value.home
-              ? h(resolveComponent("HomePage"))
-              : h(FadeSlideY, () =>
-                  h(resolveComponent("NormalPage"), { key: page.value.path })
-                ),
-          ...(ENABLE_BLOG && sidebarDisplay.value !== "none"
+              ? h(HomePage)
+              : h(FadeSlideY, () => h(NormalPage, { key: page.value.path })),
+          ...(sidebarDisplay.value !== "none"
             ? { navScreenBottom: () => h(resolveComponent("BloggerInfo")) }
             : {}),
-          ...(ENABLE_BLOG &&
-          !isMobile.value &&
-          sidebarDisplay.value === "always"
+          ...(!isMobile.value && sidebarDisplay.value === "always"
             ? { sidebar: () => h(resolveComponent("BloggerInfo")) }
             : {}),
         }

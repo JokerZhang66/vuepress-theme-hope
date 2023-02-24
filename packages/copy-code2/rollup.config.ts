@@ -1,26 +1,11 @@
-import { rollupTypescript } from "../../scripts/rollup.js";
+import { bundle } from "../../scripts/rollup.js";
 
 export default [
-  ...rollupTypescript("node/index", {
-    external: [
-      "vuepress-shared",
-      "@vuepress/core",
-      "@vuepress/utils",
-      "vuepress-shared/node",
-      "vuepress-plugin-sass-palette",
-    ],
+  ...bundle("node/index", {
     dtsExternal: ["vuepress-shared"],
   }),
-  ...rollupTypescript("client/config", {
-    external: [
-      "@vuepress/client",
-      "balloon-css/balloon.css",
-      "vue",
-      "vue-router",
-      "vuepress-shared/client",
-      /\.scss$/,
-    ],
-    dtsExternal: ["balloon-css/balloon.css", /\.scss$/],
+  ...bundle("client/config", {
+    external: ["balloon-css/balloon.css"],
     copy: [["client/styles", "client"]],
   }),
 ];

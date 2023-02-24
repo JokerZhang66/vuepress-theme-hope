@@ -1,30 +1,35 @@
-import { useEventListener, useThrottleFn } from "@vueuse/core";
 import { usePageData, usePageFrontmatter } from "@vuepress/client";
+import { useEventListener, useThrottleFn } from "@vueuse/core";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import {
+  type ComponentPublicInstance,
+  type DefineComponent,
   Transition,
+  type VNode,
   computed,
   defineComponent,
   h,
-  onBeforeUnmount,
   onMounted,
+  onUnmounted,
   ref,
   resolveComponent,
   watch,
 } from "vue";
 import { useRouter } from "vue-router";
-import { isComponentRegistered, RenderDefault } from "vuepress-shared/client";
+import { RenderDefault, hasGlobalComponent } from "vuepress-shared/client";
 
-import PageFooter from "@theme-hope/components/PageFooter.js";
+import PageFooter from "@theme-hope/components/PageFooter";
 import {
-  useMobile,
   useThemeLocaleData,
-} from "@theme-hope/composables/index.js";
-import { useSidebarItems } from "@theme-hope/modules/sidebar/composables/index.js";
+  useWindowSize,
+} from "@theme-hope/composables/index";
+import Navbar from "@theme-hope/modules/navbar/components/Navbar";
+import Sidebar from "@theme-hope/modules/sidebar/components/Sidebar";
+import { useSidebarItems } from "@theme-hope/modules/sidebar/composables/index";
 
-import type { DefineComponent, VNode } from "vue";
-import type {
-  ThemeNormalPageFrontmatter,
-  ThemeProjectHomePageFrontmatter,
+import {
+  type ThemeNormalPageFrontmatter,
+  type ThemeProjectHomePageFrontmatter,
 } from "../../shared/index.js";
 
 import "../styles/common.scss";
@@ -33,16 +38,19 @@ export default defineComponent({
   name: "CommonWrapper",
 
   props: {
-    /** @description Whether enable navbar */
-    navbar: {
-      type: Boolean,
-      default: true,
-    },
-    /** @description Whether enable sidebar */
-    sidebar: {
-      type: Boolean,
-      default: true,
-    },
+    /**
+     * Whether disable navbar
+     *
+     * 是否禁用导航栏
+     */
+    noNavbar: Boolean,
+
+    /**
+     * Whether disable sidebar
+     *
+     * 是否禁用侧边栏
+     */
+    noSidebar: Boolean,
   },
 
   setup(props, { slots }) {
@@ -52,13 +60,14 @@ export default defineComponent({
       ThemeProjectHomePageFrontmatter | ThemeNormalPageFrontmatter
     >();
     const themeLocale = useThemeLocaleData();
-    const isMobile = useMobile();
+    const { isMobile, isWide } = useWindowSize();
+    const sidebar = ref<ComponentPublicInstance>();
 
     // navbar
     const hideNavbar = ref(false);
 
     const enableNavbar = computed(() => {
-      if (props.navbar === false) return false;
+      if (props.noNavbar) return false;
 
       if (
         frontmatter.value.navbar === false ||
@@ -78,7 +87,7 @@ export default defineComponent({
     const sidebarItems = useSidebarItems();
 
     const enableSidebar = computed(() => {
-      if (props.sidebar === false) return false;
+      if (props.noSidebar) return false;
 
       return (
         frontmatter.value.sidebar !== false &&
@@ -111,10 +120,9 @@ export default defineComponent({
         // horizontal swipe
         Math.abs(dx) > Math.abs(dy) * 1.5 &&
         Math.abs(dx) > 40
-      ) {
+      )
         if (dx > 0 && touchStart.x <= 80) toggleMobileSidebar(true);
         else toggleMobileSidebar(false);
-      }
     };
 
     const enableToc = computed(() =>
@@ -132,7 +140,6 @@ export default defineComponent({
       0;
 
     // close sidebar after navigation
-    let unregisterRouterHook: () => void;
     let lastDistance = 0;
 
     useEventListener(
@@ -146,7 +153,9 @@ export default defineComponent({
             if (!isMobileSidebarOpen.value) hideNavbar.value = true;
           }
           // scroll up
-          else hideNavbar.value = false;
+          else {
+            hideNavbar.value = false;
+          }
 
           lastDistance = distance;
         },
@@ -160,107 +169,123 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      unregisterRouterHook = router.afterEach((): void => {
+      const unregisterRouterHook = router.afterEach((): void => {
         toggleMobileSidebar(false);
       });
-    });
 
-    onBeforeUnmount(() => {
-      unregisterRouterHook();
+      onUnmounted(() => {
+        unregisterRouterHook();
+      });
+
+      watch(isMobileSidebarOpen, (value) => {
+        const sidebarElement = sidebar.value!.$el as HTMLElement;
+
+        if (value)
+          disableBodyScroll(sidebarElement, {
+            reserveScrollBarGap: true,
+          });
+        else enableBodyScroll(sidebarElement);
+      });
     });
 
     return (): VNode =>
       h(
-        "div",
-        {
-          class: [
-            "theme-container",
-            // classes
+        hasGlobalComponent("GlobalEncrypt")
+          ? <DefineComponent>resolveComponent("GlobalEncrypt")
+          : RenderDefault,
+        () =>
+          h(
+            "div",
             {
-              "no-navbar": !enableNavbar.value,
-              "no-sidebar":
-                !enableSidebar.value &&
-                !(
-                  slots["sidebar"] ||
-                  slots["sidebarTop"] ||
-                  slots["sidebarBottom"]
-                ),
-              "has-toc": enableToc.value,
-              "hide-navbar": hideNavbar.value,
-              "sidebar-collapsed":
-                !isMobile.value && isDesktopSidebarCollapsed.value,
-              "sidebar-open": isMobile.value && isMobileSidebarOpen.value,
+              class: [
+                "theme-container",
+                // classes
+                {
+                  "no-navbar": !enableNavbar.value,
+                  "no-sidebar":
+                    !enableSidebar.value &&
+                    !(
+                      slots["sidebar"] ||
+                      slots["sidebarTop"] ||
+                      slots["sidebarBottom"]
+                    ),
+                  "has-toc": enableToc.value,
+                  "hide-navbar": hideNavbar.value,
+                  "sidebar-collapsed":
+                    !isMobile.value &&
+                    !isWide.value &&
+                    isDesktopSidebarCollapsed.value,
+                  "sidebar-open": isMobile.value && isMobileSidebarOpen.value,
+                },
+                frontmatter.value.containerClass || "",
+              ],
+              onTouchStart,
+              onTouchEnd,
             },
-            frontmatter.value.containerClass || "",
-          ],
-          onTouchStart,
-          onTouchEnd,
-        },
-        h(
-          isComponentRegistered("GlobalEncrypt")
-            ? <DefineComponent>resolveComponent("GlobalEncrypt")
-            : RenderDefault,
-          () => [
-            // navbar
-            enableNavbar.value
-              ? h(
-                  <DefineComponent>resolveComponent("Navbar"),
-                  { onToggleSidebar: () => toggleMobileSidebar() },
-                  {
-                    leftStart: () => slots["navbarLeftStart"]?.(),
-                    leftEnd: () => slots["navbarLeftEnd"]?.(),
-                    centerStart: () => slots["navbarCenterStart"]?.(),
-                    centerEnd: () => slots["navbarCenterEnd"]?.(),
-                    rightStart: () => slots["navbarRightStart"]?.(),
-                    rightEnd: () => slots["navbarRightEnd"]?.(),
-                    screenTop: () => slots["navScreenTop"]?.(),
-                    screenBottom: () => slots["navScreenBottom"]?.(),
-                  }
-                )
-              : null,
-            // sidebar mask
-            h(Transition, { name: "fade" }, () =>
-              isMobileSidebarOpen.value
-                ? h("div", {
-                    class: "sidebar-mask",
-                    onClick: () => toggleMobileSidebar(false),
-                  })
-                : null
-            ),
-            // toggle sidebar button
-            h(Transition, { name: "fade" }, () =>
-              isMobile.value
-                ? null
-                : h(
-                    "div",
+            [
+              // navbar
+              enableNavbar.value
+                ? h(
+                    Navbar,
+                    { onToggleSidebar: () => toggleMobileSidebar() },
                     {
-                      class: "toggle-sidebar-wrapper",
-                      onClick: () => toggleDesktopSidebar(),
-                    },
-                    h("span", {
-                      class: [
-                        "arrow",
-                        isDesktopSidebarCollapsed.value ? "right" : "left",
-                      ],
-                    })
+                      startBefore: () => slots["navbarStartBefore"]?.(),
+                      startAfter: () => slots["navbarStartAfter"]?.(),
+                      centerBefore: () => slots["navbarCenterBefore"]?.(),
+                      centerAfter: () => slots["navbarCenterAfter"]?.(),
+                      endBegin: () => slots["navbarEndBegin"]?.(),
+                      endAfter: () => slots["navbarEndAfter"]?.(),
+                      screenTop: () => slots["navScreenTop"]?.(),
+                      screenBottom: () => slots["navScreenBottom"]?.(),
+                    }
                   )
-            ),
-            // sidebar
-            h(
-              <DefineComponent>resolveComponent("Sidebar"),
-              {},
-              {
-                ...(slots["sidebar"]
-                  ? { default: (): VNode[] | undefined => slots["sidebar"]?.() }
-                  : {}),
-                top: () => slots["sidebarTop"]?.(),
-                bottom: () => slots["sidebarBottom"]?.(),
-              }
-            ),
-            slots["default"]?.(),
-            h(PageFooter),
-          ]
-        )
+                : null,
+              // sidebar mask
+              h(Transition, { name: "fade" }, () =>
+                isMobileSidebarOpen.value
+                  ? h("div", {
+                      class: "sidebar-mask",
+                      onClick: () => toggleMobileSidebar(false),
+                    })
+                  : null
+              ),
+              // toggle sidebar button
+              h(Transition, { name: "fade" }, () =>
+                isMobile.value
+                  ? null
+                  : h(
+                      "div",
+                      {
+                        class: "toggle-sidebar-wrapper",
+                        onClick: () => toggleDesktopSidebar(),
+                      },
+                      h("span", {
+                        class: [
+                          "arrow",
+                          isDesktopSidebarCollapsed.value ? "end" : "start",
+                        ],
+                      })
+                    )
+              ),
+              // sidebar
+              h(
+                Sidebar,
+                { ref: sidebar },
+                {
+                  ...(slots["sidebar"]
+                    ? {
+                        default: (): VNode[] | undefined =>
+                          slots["sidebar"]?.(),
+                      }
+                    : {}),
+                  top: () => slots["sidebarTop"]?.(),
+                  bottom: () => slots["sidebarBottom"]?.(),
+                }
+              ),
+              slots["default"]?.(),
+              h(PageFooter),
+            ]
+          )
       );
   },
 });

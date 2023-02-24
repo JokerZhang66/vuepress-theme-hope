@@ -1,6 +1,6 @@
 ---
 title: Theme Appearance Options
-icon: config
+icon: palette
 order: 5
 category:
   - Config
@@ -21,7 +21,23 @@ These options are only valid when setting directly under the theme options, sett
 
 ## iconAssets <Badge text="Root only" type="warning" />
 
-- Type: `` "iconfont" | "fontawesome" | `//${string}` | `http://${string}` | `https://${string}`  ``
+- Type: `FontIconAssets`
+
+  ```ts
+  type Link =
+    | `/${string}`
+    | `//${string}`
+    | `http://${string}`
+    | `https://${string}`;
+
+  export type FontIconAssets =
+    | "iconfont"
+    | "fontawesome"
+    | "fontawesome-with-brand"
+    | Link
+    | Link[];
+  ```
+
 - Required: No
 - Details: [Interface → Icon](../../guide/interface/icon.md)
 
@@ -53,7 +69,7 @@ If you don’t need this feature, set `darkmode: "disable"` to disable it.
 - Default: `false`
 - Details: [Interface → ThemeColor](../../guide/interface/theme-color.md)
 
-Theme color configuration.
+Theme color picker configuration.
 
 ## fullscreen <Badge text="Root only" type="warning" />
 
@@ -86,6 +102,19 @@ You should keep this option same value with `$tablet` in `.vuepress/config.scss`
 
 :::
 
+## wideBreakPoint <Badge text="Root only" type="warning" />
+
+- Type: `number`
+- Default: `1440`
+
+Window width switching wide screen view and desktop view in pixels
+
+::: warning
+
+You should keep this option same value with `$pc` in `.vuepress/config.scss`
+
+:::
+
 ## pure <Badge text="Root only" type="warning" />
 
 - Type: `boolean`
@@ -101,6 +130,13 @@ Enabling this will disable some of the fancy styles.
 Useful when you want to provide "A pure document site".
 
 :::
+
+## print <Badge text="Root only" type="warning" />
+
+- Type: `boolean`
+- Default: `true`
+
+Whether display print icon in desktop mode.
 
 ## iconPrefix <Badge text="Root only" type="warning" />
 

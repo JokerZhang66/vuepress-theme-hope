@@ -4,7 +4,7 @@ title: Home
 icon: home
 heroImage: /logo.svg
 heroText: vuepress-plugin-components
-tagline: Components lib plugin for VuePress2
+tagline: Useful components for VuePress2
 actions:
   - text: Get Started 💡
     link: /guide/
@@ -13,7 +13,7 @@ actions:
   - text: Config 🛠
     link: /config.html
 
-footer: Theme by <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
+footer: Theme by <a href="https://theme-hope.vuejs.press" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
 
 copyright: false
 ---
@@ -25,19 +25,19 @@ copyright: false
 @tab pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-components@next
+pnpm add -D vuepress-plugin-components
 ```
 
 @tab yarn
 
 ```bash
-yarn add -D vuepress-plugin-components@next
+yarn add -D vuepress-plugin-components
 ```
 
 @tab npm
 
 ```bash
-npm i -D vuepress-plugin-components@next
+npm i -D vuepress-plugin-components
 ```
 
 :::
@@ -77,3 +77,9 @@ export default {
 ```
 
 :::
+
+<NetlifyBadge />
+
+<script setup lang="ts">
+import NetlifyBadge from "@NetlifyBadge";
+</script>

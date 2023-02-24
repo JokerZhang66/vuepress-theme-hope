@@ -1,11 +1,11 @@
-import { mergeViteConfig } from "vuepress-shared/node";
-
-import type { App } from "@vuepress/core";
-import type { ViteBundlerOptions } from "@vuepress/bundler-vite";
-import type {
-  LoaderOptions,
-  WebpackBundlerOptions,
+import { type ViteBundlerOptions } from "@vuepress/bundler-vite";
+import {
+  type LoaderOptions,
+  type WebpackBundlerOptions,
 } from "@vuepress/bundler-webpack";
+import { type App } from "@vuepress/core";
+import { isFunction, isString } from "@vuepress/shared";
+import { getBundlerName, mergeViteConfig } from "vuepress-shared/node";
 
 type LoaderContext = Exclude<
   LoaderOptions["additionalData"],
@@ -15,7 +15,7 @@ type LoaderContext = Exclude<
   : never;
 
 /**
- * Use 'additionalData' to make `${id}-config` available in scss
+ * Use "additionalData" to make `${id}-config` available in scss
  *
  * @param config VuePress Bundler config
  * @param app VuePress Node App
@@ -26,10 +26,10 @@ export const injectConfigModule = (
   app: App,
   id: string
 ): void => {
-  const { bundler } = app.options;
+  const bundlerName = getBundlerName(app);
 
   // for vite
-  if (bundler.name.endsWith("vite")) {
+  if (bundlerName === "vite") {
     const viteBundlerConfig = <ViteBundlerOptions>config;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -53,12 +53,11 @@ export const injectConfigModule = (
                 source: string,
                 file: string
               ): Promise<string> => {
-                const originalContent =
-                  typeof originalAdditionalData === "string"
-                    ? `${originalAdditionalData}${source}`
-                    : typeof originalAdditionalData === "function"
-                    ? await originalAdditionalData(source, file)
-                    : source;
+                const originalContent = isString(originalAdditionalData)
+                  ? `${originalAdditionalData}${source}`
+                  : isFunction(originalAdditionalData)
+                  ? await originalAdditionalData(source, file)
+                  : source;
 
                 return originalContent.match(
                   new RegExp(`@use\\s+["']@sass-palette\\/${id}-config["'];`)
@@ -74,7 +73,7 @@ export const injectConfigModule = (
   }
 
   // for webpack
-  if (bundler.name.endsWith("webpack")) {
+  else if (bundlerName === "webpack") {
     const webpackBundlerConfig = <WebpackBundlerOptions>config;
 
     if (!webpackBundlerConfig.scss) webpackBundlerConfig.scss = {};
@@ -85,15 +84,14 @@ export const injectConfigModule = (
       content: string,
       loaderContext: LoaderContext
     ): string => {
-      const originalContent =
-        typeof additionalData === "string"
-          ? `${additionalData}${content}`
-          : typeof additionalData === "function"
-          ? additionalData(content, loaderContext)
-          : content;
+      const originalContent = isString(additionalData)
+        ? `${additionalData}${content}`
+        : isFunction(additionalData)
+        ? additionalData(content, loaderContext)
+        : content;
 
       return originalContent.match(
-        new RegExp(`@use\\s+["']@sass-palette\\/${id}-config["'];`)
+        new RegExp(`@use\\s+(["'])@sass-palette\\/${id}-config\\1;`)
       )
         ? originalContent
         : `@use "@sass-palette/${id}-config";\n${originalContent}`;

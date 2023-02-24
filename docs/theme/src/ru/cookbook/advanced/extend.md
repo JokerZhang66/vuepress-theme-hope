@@ -1,6 +1,7 @@
 ---
 title: Расширение темы
-icon: extend
+icon: clone
+order: 4
 category:
   - Продвинутый
 tag:
@@ -18,7 +19,17 @@ tag:
 
 В файле ввода установите `extends: hopeTheme(options)`, чтобы расширить тему `vuepress-theme-hope`.
 
-Одноименные алиасы (`alias`) и макеты (`layouts`) вашей собственной только что созданной темы имеют более высокий приоритет по сравнению с расширенной темой `vuepress-theme-hope`, что означает, что вы можете переопределить `vuepress-theme-hope` компоненты через `alias`.
+The aliases of the same name (`alias`) and layouts (`layouts`) of your own newly created theme has higher priority over the extended theme `vuepress-theme-hope`, which means that you can override `vuepress-theme-hope` components via `alias` option in theme api, and you can add or override layouts via `layouts` in client config file.
+
+The theme provide the following layouts:
+
+- Layout
+- NotFound
+- Slide (Only available when presentation is enabled)
+- BlogCategory (Only available when blog is enabled)
+- BlogHome (Only available when blog is enabled)
+- BlogType (Only available when blog is enabled)
+- Timeline (Only available when blog is enabled)
 
 ::: code-tabs#language
 
@@ -32,17 +43,17 @@ import type { ThemeOptions } from "vuepress-theme-hope";
 
 const __dirname = getDirname(import.meta.url);
 
-export const localTheme = (options: ThemeOptions) => ({
+export default (options: ThemeOptions) => ({
   name: "vuepress-theme-local",
 
   extends: hopeTheme(options),
 
   alias: {
     // Вы можете переопределить или добавить псевдонимы здесь
-    // Например, здесь мы меняем компонент HomePage vuepress-theme-hope на component/HomePage.js под нашей собственной темой
-    "@theme-hope/components/HomePage.js": path.resolve(
+    // Например, здесь мы меняем компонент HomePage vuepress-theme-hope на component/HomePage.vue под нашей собственной темой
+    "@theme-hope/components/HomePage": path.resolve(
       __dirname,
-      "./components/HomePage.js"
+      "./components/HomePage.vue"
     ),
   },
 });
@@ -64,25 +75,13 @@ export default (options) => ({
 
   alias: {
     // Вы можете переопределить или добавить псевдонимы здесь
-    // Например, здесь мы меняем компонент HomePage vuepress-theme-hope на component/HomePage.js под нашей собственной темой
-    "@theme-hope/components/HomePage.js": path.resolve(
+    // Например, здесь мы меняем компонент HomePage vuepress-theme-hope на component/HomePage.vue под нашей собственной темой
+    "@theme-hope/components/HomePage": path.resolve(
       __dirname,
-      "./components/HomePage.js"
+      "./components/HomePage.vue"
     ),
   },
 });
-```
-
-:::
-
-::: tip
-
-Если вы хотите использовать файлы `vue`, вы можете создать простую оболочку js, написав:
-
-```js
-// wrapper.js
-import YouComponent from "./YouComponent.vue";
-export default YouComponent;
 ```
 
 :::

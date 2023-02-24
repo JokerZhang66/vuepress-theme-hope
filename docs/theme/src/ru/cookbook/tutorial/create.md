@@ -1,6 +1,7 @@
 ---
 title: Создание проекта
-icon: creative
+icon: folder-plus
+order: 2
 category:
   - Учебник с примерами
   - Руководство
@@ -36,11 +37,14 @@ tag:
 Выполните следующую команду в терминале:
 
 ```sh
-pnpm create vuepress-theme-hope@next my-docs
+# pnpm
+pnpm create vuepress-theme-hope my-docs
 
-# Or
+# yarn
+yarn create vuepress-theme-hope my-docs
 
-npm create vuepress-theme-hope@next my-docs
+# npm
+npm init vuepress-theme-hope my-docs
 ```
 
 ::: tip Аргумент папки

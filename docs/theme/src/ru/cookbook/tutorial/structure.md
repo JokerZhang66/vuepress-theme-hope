@@ -1,6 +1,7 @@
 ---
 title: Структура проекта
-icon: tree
+icon: folder-tree
+order: 6
 category:
   - Учебник с примерами
   - Руководство

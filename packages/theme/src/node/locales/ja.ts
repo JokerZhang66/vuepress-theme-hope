@@ -1,4 +1,4 @@
-import type { ThemeLocaleData } from "../../shared/index.js";
+import { type ThemeLocaleData } from "../../shared/index.js";
 
 export const jaLocale: ThemeLocaleData = {
   lang: "ja-JP",
@@ -35,8 +35,6 @@ export const jaLocale: ThemeLocaleData = {
     all: "すべて",
     intro: "自己紹介",
     star: "コレクション",
-    slides: "スライド",
-    encrypt: "暗号化",
   },
 
   paginationLocales: {
@@ -62,6 +60,7 @@ export const jaLocale: ThemeLocaleData = {
 
   routeLocales: {
     skipToContent: "メインコンテンツへスキップ",
+    notFoundTitle: "ページが見つかりません",
     notFoundMsg: [
       "ここには何もありません。",
       "どうやってここにたどり着いたのか?",

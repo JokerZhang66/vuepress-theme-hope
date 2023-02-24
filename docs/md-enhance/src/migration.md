@@ -1,6 +1,6 @@
 ---
 title: V2 Migration
-icon: change
+icon: code-compare
 ---
 
 ## Legacy Mode
@@ -17,7 +17,7 @@ You can pass the second argument `true` to enable legacy mode when calling `mdEn
 
 - image mark support
 
-  Use `#light` and `#dark` suffix to mark images to display them in light mode or dark mode via `imageMark` option.
+  Use `#light` and `#dark` suffix to mark images to display them in light mode or dark mode via `imgMark` option.
 
 - `v-pre` support
 
@@ -95,6 +95,10 @@ You can pass the second argument `true` to enable legacy mode when calling `mdEn
   - `@include(filename{start-})`
   - `@include(filename{-end})`
 
+  Also you can include file region:
+
+  - `@include(filename#region)`
+
 - tabs support
 
   Use `tabs` container to create tabs via `tabs` option.
@@ -161,7 +165,7 @@ You can pass the second argument `true` to enable legacy mode when calling `mdEn
   ::: code-group-item pnpm
 
   ```bash
-  pnpm create vuepress-theme-hope@next [dir]
+  pnpm create vuepress-theme-hope [dir]
   ```
 
   :::
@@ -169,7 +173,7 @@ You can pass the second argument `true` to enable legacy mode when calling `mdEn
   ::: code-group-item npm:active
 
   ```bash
-  npm init vuepress-theme-hope@next [dir]
+  npm init vuepress-theme-hope [dir]
   ```
 
   :::
@@ -185,13 +189,13 @@ You can pass the second argument `true` to enable legacy mode when calling `mdEn
   @tab pnpm
 
   ```bash
-  pnpm create vuepress-theme-hope@next [dir]
+  pnpm create vuepress-theme-hope [dir]
   ```
 
   @tab:active npm
 
   ```bash
-  npm init vuepress-theme-hope@next [dir]
+  npm init vuepress-theme-hope [dir]
   ```
 
   :::

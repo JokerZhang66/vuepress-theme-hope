@@ -1,14 +1,11 @@
 import { withBase } from "@vuepress/client";
-import { defineComponent, h, onMounted, watch, ref } from "vue";
+import { isString } from "@vuepress/shared";
+import { useMutationObserver } from "@vueuse/core";
+import { type VNode, defineComponent, h, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import {
-  EyeIcon,
-  FireIcon,
-} from "@theme-hope/modules/info/components/icons.js";
-import { useMetaLocale } from "@theme-hope/modules/info/composables/index.js";
-
-import type { VNode } from "vue";
+import { EyeIcon, FireIcon } from "@theme-hope/modules/info/components/icons";
+import { useMetaLocale } from "@theme-hope/modules/info/composables/index";
 
 export default defineComponent({
   name: "PageViewInfo",
@@ -16,11 +13,21 @@ export default defineComponent({
   inheritAttrs: false,
 
   props: {
+    /**
+     * Whether show pageview and it's path
+     *
+     * 是否显示浏览量以及其路径
+     */
     pageview: {
       type: [Boolean, String],
       default: false,
     },
 
+    /**
+     * Whether in pure mode
+     *
+     * 是否处于纯净模式
+     */
     pure: Boolean,
   },
 
@@ -28,29 +35,17 @@ export default defineComponent({
     const route = useRoute();
     const metaLocale = useMetaLocale();
 
+    const pageviewElement = ref<HTMLSpanElement>();
     const pageViews = ref(0);
 
-    // show fire icon depending on the views number
-    const getCount = (): void => {
-      const countElement = document.querySelector(".waline-pageview-count");
-
-      if (countElement) {
-        const count = countElement.textContent;
+    useMutationObserver(
+      pageviewElement,
+      () => {
+        const count = pageviewElement.value!.textContent;
 
         if (count && !isNaN(Number(count))) pageViews.value = Number(count);
-        else setTimeout(getCount, 500);
-      }
-    };
-
-    onMounted(() => {
-      setTimeout(getCount, 1500);
-    });
-
-    watch(
-      () => route.path,
-      (newValue: string, oldValue: string) => {
-        if (newValue !== oldValue) setTimeout(getCount, 500);
-      }
+      },
+      { childList: true }
     );
 
     return (): VNode | null =>
@@ -58,7 +53,7 @@ export default defineComponent({
         ? h(
             "span",
             {
-              class: "visitor-info",
+              class: "page-pageview-info",
               "aria-label": `${metaLocale.value.views}${
                 props.pure ? "" : "🔢"
               }`,
@@ -69,12 +64,13 @@ export default defineComponent({
               h(
                 "span",
                 {
+                  ref: pageviewElement,
                   class: "waline-pageview-count",
+                  id: "ArtalkPV",
                   /** visitorID */
-                  "data-path":
-                    typeof props.pageview === "string"
-                      ? props.pageview
-                      : withBase(route.path),
+                  "data-path": isString(props.pageview)
+                    ? props.pageview
+                    : withBase(route.path),
                 },
                 "..."
               ),

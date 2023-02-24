@@ -1,34 +1,35 @@
-import { droppedLogger } from "./utils.js";
+import { isPlainObject } from "@vuepress/shared";
 
-import type { FeedOptions } from "../typings/index.js";
+import { deprecatedLogger, droppedLogger } from "./utils.js";
+import { type FeedOptions } from "../typings/index.js";
 
 /** @deprecated */
 export const convertOptions = (
-  options: FeedOptions & Record<string, unknown>
+  options: FeedOptions &
+    Record<string, unknown> & {
+      output?: {
+        atom?: { enable?: boolean; path?: string };
+        json?: { enable?: boolean; path?: string };
+        rss?: { enable?: boolean; path?: string };
+      };
+    }
 ): void => {
-  // @ts-ignore
-  // eslint-disable-next-line
-  options.atom = options["output"]?.atom?.enable ?? true;
+  const output = options["output"];
 
-  // @ts-ignore
-  // eslint-disable-next-line
-  options.json = options["output"]?.json?.enable ?? true;
+  if (isPlainObject(output)) {
+    options.atom = output.atom?.enable ?? false;
+    options.json = output.json?.enable ?? false;
+    options.rss = output.rss?.enable ?? false;
+    options.atomOutputFilename = output.atom?.path ?? "atom.xml";
+    options.jsonOutputFilename = output.json?.path ?? "feed.json";
+    options.rssOutputFilename = output.rss?.path ?? "rss.xml";
+  }
 
-  // @ts-ignore
-  // eslint-disable-next-line
-  options.rss = options["output"]?.rss?.enable ?? true;
-
-  // @ts-ignore
-  // eslint-disable-next-line
-  options.atomOutputFilename = options["output"]?.atom?.path ?? "atom.xml";
-
-  // @ts-ignore
-  // eslint-disable-next-line
-  options.jsonOutputFilename = options["output"]?.json?.path ?? "feed.json";
-
-  // @ts-ignore
-  // eslint-disable-next-line
-  options.jsonOutputFilename = options["output"]?.rss?.path ?? "rss.xml";
+  deprecatedLogger({
+    options,
+    deprecatedOption: "customElements",
+    newOption: "removedElements",
+  });
 
   droppedLogger(options, "output");
 };

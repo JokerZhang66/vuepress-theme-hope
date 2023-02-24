@@ -1,6 +1,6 @@
 ---
 title: 任务列表
-icon: check
+icon: square-check
 category:
   - Markdown
 tag:
@@ -60,10 +60,10 @@ export default {
 
 ## 例子
 
-- [ ] Plan A
-- [x] Plan B
+- [ ] 计划 A
+- [x] 计划 B
 
 ```md
-- [ ] Plan A
-- [x] Plan B
+- [ ] 计划 A
+- [x] 计划 B
 ```

@@ -1,26 +1,27 @@
+import { type ViteBundlerOptions } from "@vuepress/bundler-vite";
+import { type WebpackBundlerOptions } from "@vuepress/bundler-webpack";
+import { type App } from "@vuepress/core";
 import {
+  addViteConfig,
   addViteOptimizeDepsExclude,
   addViteOptimizeDepsInclude,
+  getBundlerName,
   tagHint,
 } from "vuepress-shared/node";
-
-import type { App } from "@vuepress/core";
-import type { ViteBundlerOptions } from "@vuepress/bundler-vite";
-import type { WebpackBundlerOptions } from "@vuepress/bundler-webpack";
 
 /**
  * Add tags as customElement
  *
- * @param config VuePress Bundler config
+ * @param bundlerOptions VuePress Bundler config
  * @param app VuePress Node App
  * @param customElements tags recognized as custom element
  */
-export const checkTag = (config: unknown, app: App): void => {
-  const { bundler } = app.options;
+export const checkTag = (bundlerOptions: unknown, app: App): void => {
+  const bundlerName = getBundlerName(app);
 
   // for vite
-  if (bundler.name.endsWith("vite")) {
-    const viteBundlerConfig = config as ViteBundlerOptions;
+  if (bundlerName === "vite") {
+    const viteBundlerConfig = <ViteBundlerOptions>bundlerOptions;
 
     if (!viteBundlerConfig.vuePluginOptions)
       viteBundlerConfig.vuePluginOptions = {};
@@ -49,8 +50,8 @@ export const checkTag = (config: unknown, app: App): void => {
   }
 
   // for webpack
-  if (bundler.name.endsWith("webpack")) {
-    const webpackBundlerConfig = config as WebpackBundlerOptions;
+  else if (bundlerName === "webpack") {
+    const webpackBundlerConfig = bundlerOptions as WebpackBundlerOptions;
 
     if (!webpackBundlerConfig.vue) webpackBundlerConfig.vue = {};
     if (!webpackBundlerConfig.vue.compilerOptions)
@@ -74,9 +75,20 @@ export const checkTag = (config: unknown, app: App): void => {
   }
 };
 
-export const extendsBundlerOptions = (config: unknown, app: App): void => {
-  addViteOptimizeDepsInclude({ app, config }, "@vueuse/core");
-  addViteOptimizeDepsExclude({ app, config }, "@theme-hope");
+/**
+ * @private
+ */
+export const extendsBundlerOptions = (
+  bundlerOptions: unknown,
+  app: App
+): void => {
+  addViteConfig(bundlerOptions, app, {
+    build: {
+      chunkSizeWarningLimit: 1024,
+    },
+  });
+  addViteOptimizeDepsInclude(bundlerOptions, app, "@vueuse/core");
+  addViteOptimizeDepsExclude(bundlerOptions, app, "@theme-hope");
 
-  checkTag(config, app);
+  checkTag(bundlerOptions, app);
 };

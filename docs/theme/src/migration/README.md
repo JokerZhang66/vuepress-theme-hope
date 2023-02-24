@@ -1,6 +1,6 @@
 ---
 title: V2 Migration
-icon: change
+icon: code-compare
 ---
 
 This guide helps you migrate from V1 to V2.
@@ -23,7 +23,7 @@ The migration helper automatically converts your v1 config to v2 config, and giv
 
 All you need to do is:
 
-1. Install `vuepress@next` and `vuepress-theme-hope@next`;
+1. Install `vuepress@next` and `vuepress-theme-hope`;
 
 1. Try to start the project, and read the logs;
 

@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 // German (Austria) [de-at]
+import { isArray } from "@vuepress/shared";
 import type dayjs from "dayjs";
-import type { Locale } from "./locale.js";
+
+import { type Locale } from "./locale.js";
 
 const texts = {
   s: "ein paar Sekunden",
@@ -24,7 +25,7 @@ const relativeTimeFormatter = (
 ): string => {
   let l = texts[key];
 
-  if (Array.isArray(l)) l = l[withoutSuffix ? 0 : 1];
+  if (isArray(l)) l = l[withoutSuffix ? 0 : 1];
 
   return l.replace("%d", number);
 };
@@ -80,6 +81,6 @@ const locale: Partial<Locale> = {
   },
 };
 
-export const loadDeAtLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("de-at", locale);
+export const loadDeAtLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("de-at", locale);
 };

@@ -1,6 +1,6 @@
 ---
 title: Опции функции темы
-icon: config
+icon: splotch
 order: 3
 category:
   - Конфиг
@@ -15,7 +15,7 @@ tag:
 
 ## Параметры блога
 
-Тема добавляет функцию блога с помощью [`vuepress-plugin-blog2`][blog2], и по умолчанию эта функция **отключена**.
+Тема добавляет функцию блога с помощью <ProjectLink name="blog2">`vuepress-plugin-blog2`</ProjectLink>, и по умолчанию эта функция **отключена**.
 
 Чтобы включить плагин блога и использовать параметры по умолчанию, вы можете установить для `plugins.blog` значение `true` в параметрах темы.
 
@@ -82,6 +82,7 @@ tag:
 - `"Bitbucket"`
 - `"Dingding"`
 - `"Discord"`
+- `"Douban"`
 - `"Dribbble"`
 - `"Email"`
 - `"Evernote"`
@@ -102,6 +103,8 @@ tag:
 - `"Reddit"`
 - `"Rss"`
 - `"Steam"`
+- `"Skype"`
+- `"Telegram"`
 - `"Twitter"`
 - `"Wechat"`
 - `"Weibo"`
@@ -160,6 +163,12 @@ tag:
 - `"ReadingTime"`
 - `"Word"`
 
+::: warning Limitation
+
+ReadingTime and Word are not available in devServer by default, [see reasons and how to enable it](./basic.md#hotreload).
+
+:::
+
 ## Зашифровать конфигурацию <Badge text="Только root" type="warning" />
 
 Для получения дополнительной информации смотрите [Введение в шифрование](../../guide/feature/encrypt.md).
@@ -203,5 +212,3 @@ tag:
 ```
 
 :::
-
-[blog2]: https://vuepress-theme-hope.github.io/v2/blog/

@@ -1,8 +1,6 @@
-import { defineComponent, h } from "vue";
+import { type VNode, defineComponent, h } from "vue";
 
 import { PLAY_SVG } from "./icons.js";
-
-import type { VNode } from "vue";
 
 import "../styles/playground.scss";
 
@@ -11,7 +9,18 @@ export default defineComponent({
   name: "Playground",
 
   props: {
+    /**
+     * Playground title
+     *
+     * 演示标题
+     */
     title: { type: String, default: "" },
+
+    /**
+     * Playground link
+     *
+     * 演示链接
+     */
     link: { type: String, required: true },
   },
 
@@ -33,9 +42,8 @@ export default defineComponent({
         ]),
         h(
           "div",
-          { class: "preview-container" },
+          { class: "playground-container" },
           h("iframe", {
-            class: "iframe-preview",
             src: decodeURIComponent(props.link),
           })
         ),

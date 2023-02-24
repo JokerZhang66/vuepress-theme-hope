@@ -2,13 +2,13 @@
   "extends": "../../tsconfig.build.base.json",
   "compilerOptions": {
     "baseUrl": "./",
-    "lib": ["dom", "es2021"],
+    "lib": ["DOM", "ESNext"],
     "rootDir": "./src",
     "outDir": "./lib",
     "inlineSources": true,
     "paths": {
-      "@theme-hope/*": ["./src/client/*"]
+      "@theme-hope/*": ["./src/client/*.js"]
     }
   },
-  "include": ["./src", "./src/*.d.ts"]
+  "include": ["./src/client", "./src/shared", "./src/*.d.ts"]
 }

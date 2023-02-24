@@ -1,4 +1,4 @@
-import type { ThemeLocaleData } from "../../shared/index.js";
+import { type ThemeLocaleData } from "../../shared/index.js";
 
 export const koLocale: ThemeLocaleData = {
   lang: "ko-KR",
@@ -35,8 +35,6 @@ export const koLocale: ThemeLocaleData = {
     all: "모두",
     intro: "개인 소개",
     star: "별",
-    slides: "슬라이드",
-    encrypt: "암호화",
   },
 
   paginationLocales: {
@@ -62,6 +60,7 @@ export const koLocale: ThemeLocaleData = {
 
   routeLocales: {
     skipToContent: "본문으로 건너뛰기",
+    notFoundTitle: "페이지를 찾을 수 없습니다.",
     notFoundMsg: [
       "여기에는 아무것도 없습니다.",
       "어떻게 여기까지 왔어?",

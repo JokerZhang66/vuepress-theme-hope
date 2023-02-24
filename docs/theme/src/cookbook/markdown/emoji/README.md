@@ -1,24 +1,9 @@
 ---
 title: Emoji List
-icon: emoji
+icon: face-smile
+dir:
+  order: 3
+article: false
 ---
 
-## People
-
-- [View Detail](people.md)
-
-## Nature
-
-- [View Detail](nature.md)
-
-## Object
-
-- [View Detail](object.md)
-
-## Location
-
-- [View Detail](place.md)
-
-## Symbol
-
-- [View Detail](symbol.md)
+<AutoCatalog />

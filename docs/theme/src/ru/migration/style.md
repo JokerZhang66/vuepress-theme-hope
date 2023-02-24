@@ -1,6 +1,6 @@
 ---
 title: Руководство по миграции стилей
-icon: style
+icon: wand-magic-sparkles
 category:
   - Миграция
 tag:
@@ -38,7 +38,7 @@ tag:
 
 Перемещено в `palette.scss`.
 
-- Добавлено `$bg-color-secondary`
+- Добавлено `$bg-color-secondary`, `$bg-color-tertiary`
 
 - `$accentColor` переименован в `$theme-color`
 
@@ -60,7 +60,7 @@ tag:
 
   Теперь вам просто нужно установить цвет темы в настройках темы
 
-- `$codeBgColor`, `$darkCodeBgColor` удалены, вместо них установлены `$code-light-theme` и `$code-dark-theme` в `config.scss`.
+- `$codeBgColor`, `$darkCodeBgColor` removed, please set `plugins.prismjs` (prismjs) in theme options, or configure `$code-bg-color` (shiki) in `config.scss`.
 
 ### Шрифт
 

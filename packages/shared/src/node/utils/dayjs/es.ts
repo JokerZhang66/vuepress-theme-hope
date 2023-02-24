@@ -1,6 +1,7 @@
 // Spanish [es]
 import type dayjs from "dayjs";
-import type { Locale } from "./locale.js";
+
+import { type Locale } from "./locale.js";
 
 const locale: Partial<Locale> = {
   name: "es",
@@ -39,6 +40,6 @@ const locale: Partial<Locale> = {
   ordinal: (n) => `${n}º`,
 };
 
-export const loadEsLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("es", locale);
+export const loadEsLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("es", locale);
 };

@@ -1,6 +1,6 @@
 ---
 title: Вкладки
-icon: tab
+icon: table-columns
 index: 2
 category:
   - Markdown
@@ -133,7 +133,7 @@ npm должен быть установлен вместе с Node.js.
 Если вы используете Node.js v16+, вы можете использовать corepack для включения pnpm:
 
 ```bash
-corepack prepare pnpm@7.17.0 --activated
+corepack prepare pnpm@7.27.1 --activated
 ```
 
 В противном случае вы можете установить его с помощью npm:
@@ -151,13 +151,13 @@ npm i -g pnpm
 @tab Использование npm#npm
 
 ```bash
-npm i -D vuepress-plugin-md-enhance@next
+npm i -D vuepress-plugin-md-enhance
 ```
 
 @tab Использование pnpm#pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-md-enhance@next
+pnpm add -D vuepress-plugin-md-enhance
 ```
 
 :::

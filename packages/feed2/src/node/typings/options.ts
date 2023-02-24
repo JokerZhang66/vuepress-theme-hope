@@ -1,5 +1,6 @@
-import type { Page } from "@vuepress/core";
-import type { FeedChannelOption, FeedGetter } from "./feed.js";
+import { type Page } from "@vuepress/core";
+
+import { type FeedChannelOption, type FeedGetter } from "./feed.js";
 
 export interface BaseFeedOptions {
   /**
@@ -57,9 +58,9 @@ export interface BaseFeedOptions {
    *
    * 需要移除的自定义组件或元素
    *
-   * @default ['ExternalLinkIcon']
+   * @default ["ExternalLinkIcon"]
    */
-  customElements?: string[];
+  removedElements?: (string | RegExp)[] | ((tagName: string) => boolean);
 
   /**
    * A custom filter function, used to filter feed items.
@@ -118,16 +119,34 @@ export interface BaseFeedOptions {
    *
    * Atom 格式输出路径，相对于输出路径。
    *
-   * @default 'atom.xml'
+   * @default "atom.xml"
    */
   atomOutputFilename?: string;
+
+  /**
+   * Atom xsl template file path
+   *
+   * Atom xsl 模板文件路径
+   *
+   * @default "vuepress-plugin-feed2/templates/atom.xsl"
+   */
+  atomXslTemplate?: string;
+
+  /**
+   * Atom xsl filename, relative to dest folder.
+   *
+   * Atom xsl 输出路径，相对于输出路径。
+   *
+   * @default "atom.xsl"
+   */
+  atomXslFilename?: string;
 
   /**
    * JSON syntax output filename, relative to dest folder.
    *
    * JSON 格式输出路径，相对于输出路径。
    *
-   * @default 'feed.json'
+   * @default "feed.json"
    */
   jsonOutputFilename?: string;
 
@@ -136,9 +155,27 @@ export interface BaseFeedOptions {
    *
    * RSS 格式输出路径，相对于输出路径。
    *
-   * @default 'rss.xml'
+   * @default "rss.xml"
    */
   rssOutputFilename?: string;
+
+  /**
+   * RSS xsl template file path
+   *
+   * RSS xsl 模板文件路径
+   *
+   * @default "vuepress-plugin-feed2/templates/rss.xsl"
+   */
+  rssXslTemplate?: string;
+
+  /**
+   * RSS xsl filename, relative to dest folder.
+   *
+   * RSS xsl 输出路径，相对于输出路径。
+   *
+   * @default "rss.xsl"
+   */
+  rssXslFilename?: string;
 
   /**
    * Feed generation controller

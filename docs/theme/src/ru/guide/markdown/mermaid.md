@@ -1,6 +1,6 @@
 ---
 title: Mermaid
-icon: diagram
+icon: chart-pie
 category:
   - Markdown
 tag:
@@ -8,7 +8,7 @@ tag:
   - Markdown
 ---
 
-Пусть файл Markdown поддерживает [mermaid](https://mermaid-js.github.io/mermaid/#/) на вашем сайте VuePress.
+Пусть файл Markdown поддерживает [mermaid](https://mermaid.js.org/) на вашем сайте VuePress.
 
 <!-- more -->
 
@@ -65,13 +65,16 @@ export default {
 
 ## Использование
 
-Пожалуйста, смотрите [mermaid](https://mermaid-js.github.io/mermaid/#/).
+Пожалуйста, смотрите [mermaid](https://mermaid.js.org/).
 
 ## Демо
 
 ### Блок-схема
 
 ```mermaid
+---
+title: Flowchart
+---
 flowchart TB
     c1-->a2
     subgraph one
@@ -92,6 +95,9 @@ flowchart TB
 
 ````md
 ```mermaid
+---
+title: Flowchart
+---
 flowchart TB
     c1-->a2
     subgraph one
@@ -608,6 +614,34 @@ root((VuePress))
 ````
 
 :::
+
+### Timeline
+
+```timeline
+title Timeline of Industrial Revolution
+section 17th-20th century
+    Industry 1.0 : Machinery, Water power, Steam <br>power
+    Industry 2.0 : Electricity, Internal combustion engine, Mass production
+    Industry 3.0 : Electronics, Computers, Automation
+section 21st century
+    Industry 4.0 : Internet, Robotics, Internet of Things
+    Industry 5.0 : Artificial intelligence, Big data,3D printing
+```
+
+::: details Code
+
+````md
+```timeline
+title Timeline of Industrial Revolution
+section 17th-20th century
+    Industry 1.0 : Machinery, Water power, Steam <br>power
+    Industry 2.0 : Electricity, Internal combustion engine, Mass production
+    Industry 3.0 : Electronics, Computers, Automation
+section 21st century
+    Industry 4.0 : Internet, Robotics, Internet of Things
+    Industry 5.0 : Artificial intelligence, Big data,3D printing
+```
+````
 
 ### Сложный пример
 

@@ -1,6 +1,6 @@
 ---
 title: Конфиг плагина PWA
-icon: app
+icon: mobile-screen
 order: 7
 category:
   - Конфиг
@@ -24,7 +24,7 @@ tag:
 
 ::: info
 
-Подробности смотрите в [документации плагина pwa2][pwa-config].
+Подробности смотрите в <ProjectLink name="pwa2" path="/config.html">документации плагина pwa2</ProjectLink>.
 
 :::
 
@@ -302,5 +302,3 @@ tag:
 - Обязательный: Нет
 
 Конфигурация локалей для плагина pwa.
-
-[pwa-config]: https://vuepress-theme-hope.github.io/v2/pwa/config.html

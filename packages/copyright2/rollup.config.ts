@@ -1,16 +1,8 @@
-import { rollupTypescript } from "../../scripts/rollup.js";
+import { bundle } from "../../scripts/rollup.js";
 
 export default [
-  ...rollupTypescript("node/index", {
-    external: [
-      "@vuepress/core",
-      "@vuepress/shared",
-      "@vuepress/utils",
-      "vuepress-shared/node",
-    ],
+  ...bundle("node/index", {
     dtsExternal: ["vuepress-shared"],
   }),
-  ...rollupTypescript("client/config", {
-    external: ["@vuepress/client", "@vueuse/core", "vue", /\.scss$/],
-  }),
+  ...bundle("client/config"),
 ];

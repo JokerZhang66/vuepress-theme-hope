@@ -1,13 +1,19 @@
-import { ClientOnly } from "@vuepress/client";
 import { useStorage } from "@vueuse/core";
-import { defineComponent, h, ref, watch } from "vue";
-import type { PropType, VNode } from "vue";
+import {
+  type PropType,
+  type VNode,
+  defineComponent,
+  h,
+  onMounted,
+  ref,
+  watch,
+} from "vue";
 
 import "../styles/tabs.scss";
 
 export interface TabProps extends Record<string, unknown> {
   title: string;
-  value?: string;
+  id?: string;
 }
 
 const tabStore = useStorage<Record<string, string>>("VUEPRESS_TAB_STORE", {});
@@ -17,12 +23,41 @@ export default defineComponent({
   name: "Tabs",
 
   props: {
-    active: { type: Number, default: 0 },
+    /**
+     * Active tab index
+     *
+     * 激活的标签页序号
+     */
+    active: {
+      type: Number,
+      default: 0,
+    },
+
+    /**
+     * tab data
+     *
+     * 标签页数据
+     */
     data: {
       type: Array as PropType<TabProps[]>,
       required: true,
     },
-    id: { type: String, required: true },
+
+    /**
+     * Tab id
+     *
+     * 标签页 id
+     */
+    id: {
+      type: String,
+      required: true,
+    },
+
+    /**
+     * tab id
+     *
+     * 标签页 id
+     */
     tabId: {
       type: String,
       default: "",
@@ -30,20 +65,8 @@ export default defineComponent({
   },
 
   setup(props, { slots }) {
-    const getInitialIndex = (): number => {
-      if (props.tabId) {
-        const valueIndex = props.data.findIndex(
-          ({ title, value = title }) => tabStore.value[props.tabId] === value
-        );
-
-        if (valueIndex !== -1) return valueIndex;
-      }
-
-      return props.active;
-    };
-
     // index of current active item
-    const activeIndex = ref(getInitialIndex());
+    const activeIndex = ref(props.active);
 
     // refs of the tab buttons
     const tabRefs = ref<HTMLUListElement[]>([]);
@@ -51,7 +74,7 @@ export default defineComponent({
     // update store
     const updateStore = (): void => {
       if (props.tabId) {
-        const { title, value = title } = props.data[activeIndex.value];
+        const { title, id: value = title } = props.data[activeIndex.value];
 
         tabStore.value[props.tabId] = value;
       }
@@ -85,65 +108,82 @@ export default defineComponent({
       updateStore();
     };
 
-    watch(
-      () => tabStore.value[props.tabId],
-      (newValue, oldValue) => {
-        if (props.tabId && newValue !== oldValue) {
-          const index = props.data.findIndex(
-            ({ title, value = title }) => value === newValue
-          );
+    const getInitialIndex = (): number => {
+      if (props.tabId) {
+        const valueIndex = props.data.findIndex(
+          ({ title, id: value = title }) =>
+            tabStore.value[props.tabId] === value
+        );
 
-          if (index !== -1) activeIndex.value = index;
-        }
+        if (valueIndex !== -1) return valueIndex;
       }
-    );
+
+      return props.active;
+    };
+
+    onMounted(() => {
+      activeIndex.value = getInitialIndex();
+
+      watch(
+        () => tabStore.value[props.tabId],
+        (newValue, oldValue) => {
+          if (props.tabId && newValue !== oldValue) {
+            const index = props.data.findIndex(
+              ({ title, id: value = title }) => value === newValue
+            );
+
+            if (index !== -1) activeIndex.value = index;
+          }
+        }
+      );
+    });
 
     return (): VNode | null =>
-      h(ClientOnly, () =>
-        h("div", { class: "tab-list" }, [
-          h(
-            "div",
-            { class: "tab-list-nav", role: "tablist" },
-            props.data.map(({ title }, index) => {
+      props.data.length
+        ? h("div", { class: "tab-list" }, [
+            h(
+              "div",
+              { class: "tab-list-nav", role: "tablist" },
+              props.data.map(({ title }, index) => {
+                const isActive = index === activeIndex.value;
+
+                return h(
+                  "button",
+                  {
+                    ref: (element) => {
+                      if (element)
+                        tabRefs.value[index] = <HTMLUListElement>element;
+                    },
+                    class: ["tab-list-nav-item", { active: isActive }],
+                    role: "tab",
+                    "aria-controls": `tab-${props.id}-${index}`,
+                    "aria-selected": isActive,
+                    onClick: () => {
+                      activeIndex.value = index;
+                      updateStore();
+                    },
+                    onKeydown: (event: KeyboardEvent) =>
+                      keyboardHandler(event, index),
+                  },
+                  title
+                );
+              })
+            ),
+            props.data.map(({ title, id: value = title }, index) => {
               const isActive = index === activeIndex.value;
 
               return h(
-                "button",
+                "div",
                 {
-                  ref: (element) => {
-                    if (element)
-                      tabRefs.value[index] = <HTMLUListElement>element;
-                  },
-                  class: ["tab-list-nav-item", { active: isActive }],
-                  role: "tab",
-                  "aria-controls": `tab-${props.id}-${index}`,
-                  "aria-selected": isActive,
-                  onClick: () => {
-                    activeIndex.value = index;
-                    updateStore();
-                  },
-                  onKeydown: (event: KeyboardEvent) =>
-                    keyboardHandler(event, index),
+                  class: ["tab-item", { active: isActive }],
+                  id: `tab-${props.id}-${index}`,
+                  role: "tabpanel",
+                  "aria-expanded": isActive,
                 },
-                title
+                slots[`tab${index}`]?.({ title, value, isActive })
               );
-            })
-          ),
-          props.data.map(({ title, value = title }, index) => {
-            const isActive = index === activeIndex.value;
-
-            return h(
-              "div",
-              {
-                class: ["tab-item", { active: isActive }],
-                id: `tab-${props.id}-${index}`,
-                role: "tabpanel",
-                "aria-expanded": isActive,
-              },
-              slots[`tab${index}`]?.({ title, value, isActive })
-            );
-          }),
-        ])
-      );
+            }),
+          ])
+        : null;
   },
 });

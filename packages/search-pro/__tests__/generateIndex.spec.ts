@@ -1,11 +1,10 @@
-import { createBaseApp } from "@vuepress/core";
+import { type Page, createBaseApp } from "@vuepress/core";
 import { path } from "@vuepress/utils";
 import { describe, expect, it } from "vitest";
-import { generatePageIndex } from "../src/node/generateIndex";
+import { getPageExcerpt } from "vuepress-shared/node";
 
 import { emptyTheme } from "./__fixtures__/theme/empty.js";
-
-import type { Page } from "@vuepress/core";
+import { generatePageIndex } from "../src/node/generateIndex";
 
 const app = createBaseApp({
   bundler: {} as any,
@@ -18,18 +17,30 @@ await app.init();
 describe("generateIndex", () => {
   it("Should generate index", () => {
     app.pages.forEach((page) => {
+      page.data["excerpt"] = getPageExcerpt(app, page, {
+        excerptLength: 0,
+      });
+
       expect(generatePageIndex(page)).toMatchSnapshot();
     });
   });
 
   it("Should generate full index", () => {
     app.pages.forEach((page) => {
+      page.data["excerpt"] = getPageExcerpt(app, page, {
+        excerptLength: 0,
+      });
+
       expect(generatePageIndex(page, [], true)).toMatchSnapshot();
     });
   });
 
   it("Should support customFields", () => {
     app.pages.forEach((page) => {
+      page.data["excerpt"] = getPageExcerpt(app, page, {
+        excerptLength: 0,
+      });
+
       expect(
         generatePageIndex(page, [
           {

@@ -1,6 +1,6 @@
 ---
 title: 导航栏
-icon: navbar
+icon: window-maximize
 order: 1
 category:
   - 布局
@@ -82,7 +82,7 @@ export default defineUserConfig({
       {
         text: "指南",
         link: "/zh/guide/README.md",
-        icon: "creative",
+        icon: "lightbulb",
         // 仅在 `/zh/guide/` 激活
         activeMatch: "^/zh/guide/$",
       },
@@ -90,7 +90,7 @@ export default defineUserConfig({
       {
         text: "常见问题",
         link: "/zh/faq.md",
-        icon: "question",
+        icon: "circle-question",
         // 会在 `/zh/faq` 开头的路径激活
         // 所以当你前往 `/zh/faq/xxx.html` 时也会激活
         activeMatch: "^/zh/faq",
@@ -112,7 +112,7 @@ export default {
       {
         text: "指南",
         link: "/zh/guide/README.md",
-        icon: "creative",
+        icon: "lightbulb",
         // 仅在 `/zh/guide/` 激活
         activeMatch: "^/zh/guide/$",
       },
@@ -120,7 +120,7 @@ export default {
       {
         text: "常见问题",
         link: "/zh/faq.md",
-        icon: "question",
+        icon: "circle-question",
         // 会在 `/zh/faq` 开头的路径激活
         // 所以当你前往 `/zh/faq/xxx.html` 时也会激活
         activeMatch: "^/zh/faq",
@@ -164,7 +164,7 @@ export default defineUserConfig({
     navbar: [
       {
         text: "基础",
-        icon: "info",
+        icon: "circle-info",
         children: ["/zh/basic/markdown.md", "/zh/basic/vuepress.md"],
       },
     ],
@@ -183,7 +183,7 @@ export default {
     navbar: [
       {
         text: "基础",
-        icon: "info",
+        icon: "circle-info",
         children: ["/zh/basic/markdown.md", "/zh/basic/vuepress.md"],
       },
     ],
@@ -211,7 +211,7 @@ export default defineUserConfig({
     navbar: [
       {
         text: "基础",
-        icon: "info",
+        icon: "circle-info",
         prefix: "/zh/basic/",
         children: ["markdown.md", "vuepress.md"],
       },
@@ -231,7 +231,7 @@ export default {
     navbar: [
       {
         text: "基础",
-        icon: "info",
+        icon: "circle-info",
         prefix: "/zh/basic/",
         children: ["markdown.md", "vuepress.md"],
       },
@@ -258,7 +258,7 @@ export default defineUserConfig({
     navbar: [
       {
         text: "插件列表",
-        icon: "plugin",
+        icon: "puzzle-piece",
         children: [
           {
             text: "内置插件",
@@ -290,7 +290,7 @@ export default {
     navbar: [
       {
         text: "插件列表",
-        icon: "plugin",
+        icon: "puzzle-piece",
         children: [
           {
             text: "内置插件",
@@ -315,7 +315,7 @@ export default {
 
 ## 禁用导航栏
 
-你可以设置 `navbar: false` 来禁用所有页面的导航栏:
+你可以在主题选项中设置 `navbar: false` 来禁用所有页面的导航栏:
 
 ::: code-tabs#language
 
@@ -355,6 +355,41 @@ export default {
 navbar: false
 ---
 ```
+
+## 禁用导航栏图标
+
+你可以在主题选项中设置 `navbarIcon: false` 来禁用所有页面的导航栏图标:
+
+::: code-tabs#language
+
+@tab TS
+
+```ts
+// .vuepress/config.ts
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
+
+export default defineUserConfig({
+  theme: hopeTheme({
+    navbarIcon: false,
+  }),
+});
+```
+
+@tab JS
+
+```js
+// .vuepress/config.js
+import { hopeTheme } from "vuepress-theme-hope";
+
+export default {
+  theme: hopeTheme({
+    navbarIcon: false,
+  }),
+};
+```
+
+:::
 
 ## 网站图标
 
@@ -531,7 +566,7 @@ export default {
 
 ## 布局配置
 
-主题允许您自定义导航栏布局。 您可以在 `navbarLayout` 选项下的 `left`、`center` 和 `right` 键中添加组件。
+主题允许你自定义导航栏布局。 你可以在 `navbarLayout` 选项下的 `start`、`center` 和 `end` 键中添加组件。
 
 可用组件:
 
@@ -556,9 +591,9 @@ import { hopeTheme } from "vuepress-theme-hope";
 export default defineUserConfig({
   theme: hopeTheme({
     navbarLayout: {
-      left: ["Brand"],
+      start: ["Brand"],
       center: ["Links"],
-      right: ["Language", "Repo", "Outlook", "Search"],
+      end: ["Language", "Repo", "Outlook", "Search"],
     },
   }),
 });
@@ -573,9 +608,9 @@ import { hopeTheme } from "vuepress-theme-hope";
 export default {
   theme: hopeTheme({
     navbarLayout: {
-      left: ["Brand"],
+      start: ["Brand"],
       center: ["Links"],
-      right: ["Language", "Repo", "Outlook", "Search"],
+      end: ["Language", "Repo", "Outlook", "Search"],
     },
   }),
 };

@@ -1,36 +1,30 @@
+import { type PluginFunction } from "@vuepress/core";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
-import { getLocales } from "vuepress-shared/node";
 
-import { backToTopLocales } from "./locales.js";
+import { extendsBundlerOptions } from "./bundler.js";
+import { convertOptions } from "./compact/index.js";
+import { getDefine } from "./define.js";
+import { type ComponentOptions } from "./options/index.js";
 import { prepareConfigFile } from "./prepare.js";
-import { getIconPrefix, logger } from "./utils.js";
-
-import type { PluginFunction } from "@vuepress/core";
-import type { ComponentOptions } from "./options.js";
+import { logger } from "./utils.js";
 
 export const componentsPlugin =
-  (options: ComponentOptions): PluginFunction =>
+  (options: ComponentOptions, legacy = true): PluginFunction =>
   (app) => {
-    if (app.env.isDebug) logger.info(`Options: ${options.toString()}`);
+    // TODO: Remove this in v2 stable
+    if (legacy)
+      convertOptions(options as ComponentOptions & Record<string, unknown>);
+    if (app.env.isDebug) logger.info("Options:", options);
 
     useSassPalettePlugin(app, { id: "hope" });
 
     return {
       name: "vuepress-plugin-components",
 
-      define: {
-        BACK_TO_TOP_LOCALES: getLocales({
-          app,
-          name: "backToTop",
-          default: backToTopLocales,
-          config: options.backToTopLocales,
-        }),
-        ICON_PREFIX:
-          typeof options.iconPrefix === "string"
-            ? options.iconPrefix
-            : getIconPrefix(options.iconAssets),
-      },
+      define: getDefine(options, legacy),
 
-      clientConfigFile: (app) => prepareConfigFile(app, options),
+      extendsBundlerOptions,
+
+      clientConfigFile: (app) => prepareConfigFile(app, options, legacy),
     };
   };

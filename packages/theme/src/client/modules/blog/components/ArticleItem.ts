@@ -1,18 +1,20 @@
 import { withBase } from "@vuepress/client";
-import { defineComponent, h, toRef, unref } from "vue";
-import { RouterLink, useRouter } from "vue-router";
+import { type PropType, type VNode, defineComponent, h, toRef } from "vue";
+import { RouterLink } from "vue-router";
 
-import PageInfo from "@theme-hope/modules/info/components/PageInfo.js";
 import {
   SlideIcon,
   StickyIcon,
-} from "@theme-hope/modules/blog/components/icons/index.js";
-import { useArticleInfo } from "@theme-hope/modules/blog/composables/index.js";
-import { LockIcon } from "@theme-hope/modules/encrypt/components/icons.js";
-import { ArticleInfoType, PageType } from "../../../../shared/index.js";
+} from "@theme-hope/modules/blog/components/icons/index";
+import { useArticleInfo } from "@theme-hope/modules/blog/composables/index";
+import { LockIcon } from "@theme-hope/modules/encrypt/components/icons";
+import PageInfo from "@theme-hope/modules/info/components/PageInfo";
 
-import type { PropType, VNode } from "vue";
-import type { ArticleInfo } from "../../../../shared/index.js";
+import {
+  type ArticleInfo,
+  ArticleInfoType,
+  PageType,
+} from "../../../../shared/index.js";
 
 import "../styles/article-item.scss";
 
@@ -20,17 +22,27 @@ export default defineComponent({
   name: "ArticleItem",
 
   props: {
+    /**
+     * Article information
+     *
+     * 文章信息
+     */
     info: {
       type: Object as PropType<ArticleInfo>,
       required: true,
     },
+
+    /**
+     * Article path
+     *
+     * 文章路径
+     */
     path: { type: String, required: true },
   },
 
   setup(props) {
-    const router = useRouter();
-    const { config, items } = useArticleInfo(props);
     const info = toRef(props, "info");
+    const { info: articleInfo, items } = useArticleInfo(props);
 
     return (): VNode =>
       h(
@@ -42,9 +54,6 @@ export default defineComponent({
             class: "article",
             vocab: "https://schema.org/",
             typeof: "Article",
-            onClick: () => {
-              void router.push(props.path);
-            },
           },
           [
             info.value[ArticleInfoType.sticky] ? h(StickyIcon) : null,
@@ -69,13 +78,13 @@ export default defineComponent({
             ]),
             info.value[ArticleInfoType.excerpt]
               ? h("div", {
-                  class: "excerpt",
+                  class: "article-excerpt",
                   innerHTML: info.value[ArticleInfoType.excerpt],
                 })
               : null,
             h("hr", { class: "hr" }),
             h(PageInfo, {
-              config: unref(config),
+              info: articleInfo.value,
               ...(items.value ? { items: items.value } : {}),
             }),
           ]

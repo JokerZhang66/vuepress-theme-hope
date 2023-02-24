@@ -1,6 +1,6 @@
 ---
 title: 配置迁移指南
-icon: config
+icon: gears
 category:
   - 迁移
 tag:
@@ -113,6 +113,8 @@ tag:
 
 - 移除 `displayAllHeaders`
 
+- 支持从文件结构中生成侧边栏
+
 ### 导航栏侧边栏配置统一
 
 - 导航栏配置中的 `items` 改为 `children`
@@ -161,7 +163,7 @@ tag:
 
 - `blog.perPage` 重命名为 `blog.articlePerPage`
 
-- `blog.autoExcerpt` 移动至 `plugins.blog.autoExcerpt`，且默认值由 `true` 改为 `false`
+- `blog.autoExcerpt` 移动至 `plugins.blog.excerptLength`
 
 ### 加密配置
 
@@ -199,7 +201,7 @@ tag:
 
 - `comment` 移动至 `plugins.comment`
 
-  - 添加 `twikoo` 和 `giscus` 评论服务的支持 ![新增](https://img.shields.io/badge/-New-brightgreen)
+  - 添加 `artalk`、`twikoo` 和 `giscus` 评论服务的支持 ![新增](https://img.shields.io/badge/-New-brightgreen)
 
   - Vssue 目前缺失 ![警告](https://img.shields.io/badge/-warning-yellow)
 
@@ -217,7 +219,9 @@ tag:
 
 - `feed` 移动至 `plugins.feed`
 
-  - 支持通过 `plugins.feed.customElements` 选项移除自定义组件和元素 ![新增](https://img.shields.io/badge/-新增-brightgreen)
+  - 支持通过 `plugins.feed.removedElements` 选项移除自定义组件和元素 ![新增](https://img.shields.io/badge/-新增-brightgreen)
+
+  - 可视化的 Atom 和 RSS 流，支持通过 `plugins.feed.atomXslFilename` `plugins.feed.atomXslTemplate` `plugins.feed.rssXslFilename` 和 `plugins.feed.rssXslTemplate` 配置 ![新增](https://img.shields.io/badge/-新增-brightgreen)
 
   - 通过 `plugins.feed.getter` 选项完全自定义 Feed 生成 ![新增](https://img.shields.io/badge/-新增-brightgreen)
 
@@ -255,7 +259,7 @@ tag:
 
   - 图像标记支持 ![新增](https://img.shields.io/badge/-新增-brightgreen)
 
-    通过 `plugins.mdEnhance.imageMark` 使用 `#light` 和 `#dark` 后缀标记图像以在日间模式或夜间模式下显示它们。
+    通过 `plugins.mdEnhance.imgMark` 使用 `#light` 和 `#dark` 后缀标记图像以在日间模式或夜间模式下显示它们。
 
   - Chart.js 支持 ![新增](https://img.shields.io/badge/-新增-brightgreen)
 
@@ -321,6 +325,10 @@ tag:
     - `@include(filename{start-})`
     - `@include(filename{-end})`
 
+    同时你也可以导入文件区域:
+
+    - `@include(filename#region)`
+
   - 选项卡支持 ![新增](https://img.shields.io/badge/-新增-brightgreen)
 
     新增 `plugins.mdEnhance.tabs` 选项通过 `tabs` 容器创建选项卡。
@@ -343,7 +351,7 @@ tag:
 
   - `mdEnhance.codegroup` 重命名为 `plugins.mdEnhance.codetabs` ![警告](https://img.shields.io/badge/-warning-yellow)
 
-  - `plugins.mdEnhance.lazyLoad` 改为 `plugins.mdEnhance.imageLazyload`，默认值由 `true` 改为 `false` ![警告](https://img.shields.io/badge/-warning-yellow)
+  - `plugins.mdEnhance.lazyLoad` 改为 `plugins.mdEnhance.imgLazyload`，默认值由 `true` 改为 `false` ![警告](https://img.shields.io/badge/-warning-yellow)
 
   - 移除 `plugins.mdEnhance.enableAll` ![移除](https://img.shields.io/badge/-removed-red)
 
@@ -408,6 +416,8 @@ tag:
     现在你可以编辑所有 `<head>` 标签，而不是仅 `<meta>` 标签。
 
 - `sitemap` 移动至 `plugins.sitemap`
+
+  - 可视化的站点地图，支持通过 `plugins.sitemap.sitemapXSLFilename` 和 `plugins.sitemap.sitemapXSLTemplate` 配置 ![新增](https://img.shields.io/badge/-新增-brightgreen)
 
   - `plugins.sitemap.priority` ![新增](https://img.shields.io/badge/-新增-brightgreen): 设置优先级的默认值
 

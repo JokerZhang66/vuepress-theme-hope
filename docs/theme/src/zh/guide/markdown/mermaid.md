@@ -1,6 +1,6 @@
 ---
 title: Mermaid
-icon: diagram
+icon: chart-pie
 category:
   - Markdown
 tag:
@@ -8,7 +8,7 @@ tag:
   - 图表
 ---
 
-让你的 VuePress 站点中的 Markdown 文件支持 [mermaid](https://mermaid-js.github.io/mermaid/#/)。
+让你的 VuePress 站点中的 Markdown 文件支持 [mermaid](https://mermaid.js.org/)。
 
 <!-- more -->
 
@@ -65,13 +65,16 @@ export default {
 
 ## 使用
 
-详见 [mermaid 官方文档](https://mermaid-js.github.io/mermaid/#/)。
+详见 [mermaid 官方文档](https://mermaid.js.org/)。
 
 ## 例子
 
 ### 流程图
 
 ```mermaid
+---
+title: Flowchart
+---
 flowchart TB
     c1-->a2
     subgraph one
@@ -92,6 +95,9 @@ flowchart TB
 
 ````md
 ```mermaid
+---
+title: Flowchart
+---
 flowchart TB
     c1-->a2
     subgraph one
@@ -604,6 +610,36 @@ root((VuePress))
       (feed2)
       (sitemap2)
       (seo2)
+```
+````
+
+:::
+
+### 时间线
+
+```timeline
+title Timeline of Industrial Revolution
+section 17th-20th century
+    Industry 1.0 : Machinery, Water power, Steam <br>power
+    Industry 2.0 : Electricity, Internal combustion engine, Mass production
+    Industry 3.0 : Electronics, Computers, Automation
+section 21st century
+    Industry 4.0 : Internet, Robotics, Internet of Things
+    Industry 5.0 : Artificial intelligence, Big data,3D printing
+```
+
+::: details 代码
+
+````md
+```timeline
+title Timeline of Industrial Revolution
+section 17th-20th century
+    Industry 1.0 : Machinery, Water power, Steam <br>power
+    Industry 2.0 : Electricity, Internal combustion engine, Mass production
+    Industry 3.0 : Electronics, Computers, Automation
+section 21st century
+    Industry 4.0 : Internet, Robotics, Internet of Things
+    Industry 5.0 : Artificial intelligence, Big data,3D printing
 ```
 ````
 

@@ -20,12 +20,32 @@ tag:
 
 ## 选项
 
-### autoExcerpt
+### excerpt
 
 - 类型: `boolean`
-- 默认值: `false`
+- 默认值: `true`
 
-是否为每个页面生成摘录。
+是否生成摘要。
+
+### excerptSeparator
+
+- 类型: `string`
+- 默认值: `<!-- more -->`
+
+摘要分隔符。
+
+### excerptLength
+
+- 类型: `number`
+- 默认值: `300`
+
+自动生成的摘要的长度。
+
+::: note
+
+摘要的长度会尽可能的接近这个值。如果设置为 `0`，意味着不自动生成摘要。
+
+:::
 
 ### filter
 
@@ -35,6 +55,61 @@ tag:
 页面过滤器，此函数用于鉴别页面是否作为文章。
 
 默认情况下，所有从 Markdown 源文件中生成的非主页页面，会被作为文章。
+
+### excerptFilter
+
+- 类型: `(page: Page) => boolean`
+- 默认值: `filter` 选项
+
+页面过滤器，此函数用于鉴别插件是否需要生成摘要。
+
+### type
+
+- 类型: `BlogTypeOptions[]`
+
+  ```ts
+  interface BlogTypeOptions {
+    /**
+     * 唯一的类型名称
+     */
+    key: string;
+
+    /**
+     * 一个过滤函数来决定页面是否满足此类型
+     */
+    filter: (page: Page) => boolean;
+
+    /**
+     * 页面排序器
+     */
+    sorter?: (pageA: Page, pageB: Page) => number;
+
+    /**
+     * 待注册的页面路径
+     *
+     * @default '/:key/'
+     */
+    path?: string | false;
+
+    /**
+     * 页面布局组件名称
+     *
+     * @default 'BlogType'
+     */
+    layout?: string;
+
+    /**
+     * Front Matter 配置
+     */
+    frontmatter?: (localePath: string) => Record<string, string>;
+  }
+  ```
+
+- 默认值: `[]`
+- 详情:
+  - [指南 → 文章列表](../../guide/blog/article.md#其他类型的文章)
+
+额外的文章类型。
 
 ### article
 
@@ -70,20 +145,6 @@ tag:
 - 默认值: `/tag/:name/`
 
 标签列表路由路径。`:name` 会被自动替换为标签名称。
-
-### encrypted
-
-- 类型: `string`
-- 默认值: `/encrypted/`
-
-加密文章列表路由路径。
-
-### slide
-
-- 类型: `string`
-- 默认值: `/slide/`
-
-幻灯片列表路由路径。
 
 ### star
 

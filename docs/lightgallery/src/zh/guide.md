@@ -1,6 +1,6 @@
 ---
 title: 指南
-icon: creative
+icon: lightbulb
 ---
 
 此插件会使用 Lightgallery 让正文内的图片在点击时进入浏览模式浏览。
@@ -15,12 +15,46 @@ icon: creative
 
 你被警告了！
 
-如果你对此表示担忧，你可以考虑使用 [vuepress-plugin-photo-swipe](https://vuepress-theme-hope.github.io/v2/photo-swipe/zh/)。
+如果你对此表示担忧，你可以考虑使用 <ProjectLink name="photo-swipe" path="/zh/">vuepress-plugin-photo-swipe</ProjectLink>。
 
 :::
 
 ## 演示
 
-![Logo1](/logo.png)
-![Logo2](/logo.png)
-![Logo3](/logo.png)
+<!-- markdownlint-disable -->
+
+<div class="image-preview">
+  <img src="/assets/image/1.jpg" />
+  <img src="/assets/image/2.jpg" />
+  <img src="/assets/image/3.jpg" />
+</div>
+
+<style>
+  .image-preview {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .image-preview > img {
+     box-sizing: border-box;
+     width: 33.3% !important;
+     padding: 9px;
+     border-radius: 16px;
+  }
+
+  @media (max-width: 719px){
+    .image-preview > img {
+      width: 50% !important;
+    }
+  }
+
+  @media (max-width: 419px){
+    .image-preview > img {
+      width: 100% !important;
+    }
+  }
+</style>
+
+<!-- markdownlint-restore -->

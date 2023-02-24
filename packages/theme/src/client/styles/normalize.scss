@@ -88,3 +88,15 @@ th,
 td {
   border-color: var(--grey14);
 }
+
+@media print {
+  @page {
+    --text-color: #000 !important;
+    --bg-color: #fff !important;
+  }
+
+  // ensure line numbers and ext hint are placed at right place
+  div[class*="language-"] {
+    position: relative !important;
+  }
+}

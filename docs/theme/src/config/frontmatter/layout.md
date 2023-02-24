@@ -1,6 +1,6 @@
 ---
 title: Layout Frontmatter Config
-icon: config
+icon: object-group
 order: 2
 category:
   - Config
@@ -97,14 +97,14 @@ Sidebar group information used for [structure sidebar](../../guide/layout/sideba
 ### dir.text
 
 - Type: `string`
-- Default: title of README.md
+- Default: title of `README.md`
 
 Group title.
 
 ### dir.icon
 
 - Type: `string`
-- Default: icon of README.md
+- Default: icon of `README.md`
 
 Group icon.
 
@@ -124,7 +124,7 @@ Whether Dir is clickable.
 
 ::: note
 
-Setting to `true` means setting group link to link of README.md.
+Setting to `true` means setting group link to link of `README.md`.
 
 :::
 
@@ -135,7 +135,7 @@ Setting to `true` means setting group link to link of README.md.
 
 Whether index current dir
 
-## dir.order
+### dir.order
 
 - Type: `number`
 

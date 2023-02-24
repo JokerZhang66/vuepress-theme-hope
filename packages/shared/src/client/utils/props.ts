@@ -1,5 +1,5 @@
-import { zlibSync, unzlibSync, strToU8, strFromU8 } from "fflate/browser";
-import type { DeflateOptions } from "fflate";
+import { type DeflateOptions } from "fflate";
+import { strFromU8, strToU8, unzlibSync, zlibSync } from "fflate/browser";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 declare const __VUEPRESS_SSR__: boolean;

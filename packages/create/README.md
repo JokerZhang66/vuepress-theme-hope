@@ -1,20 +1,21 @@
 # create-vuepress-theme-hope
 
-[![Version](https://img.shields.io/npm/v/create-vuepress-theme-hope/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/create-vuepress-theme-hope.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/create-vuepress-theme-hope?style=flat-square&logo=npm)](https://www.npmjs.com/package/create-vuepress-theme-hope)
+[![Version](https://img.shields.io/npm/v/create-vuepress-theme-hope.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/create-vuepress-theme-hope.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/create-vuepress-theme-hope?style=flat-square&logo=npm)](https://www.npmjs.com/package/create-vuepress-theme-hope)
 
 Create template shortcut for vuepress-theme-hope.
 
 ## Usage
 
 ```bash
-npm init vuepress-theme-hope@next <dir>
-```
+# npm
+npm init vuepress-theme-hope <dir>
 
-<!-- Or
-
-```bash
+# yarn
 yarn create vuepress-theme-hope <dir>
-``` -->
+
+# pnpm
+pnpm create vuepress-theme-hope <dir>
+```
 
 ---
 
@@ -23,11 +24,12 @@ yarn create vuepress-theme-hope <dir>
 ## 使用
 
 ```bash
-npm init vuepress-theme-hope@next <dir>
-```
+# npm
+npm init vuepress-theme-hope <dir>
 
-<!-- 或
-
-```bash
+# yarn
 yarn create vuepress-theme-hope <dir>
-``` -->
+
+# pnpm
+pnpm create vuepress-theme-hope <dir>
+```

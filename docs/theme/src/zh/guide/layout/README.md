@@ -1,6 +1,6 @@
 ---
 title: 布局
-icon: layout
+icon: object-group
 index: false
 dir:
   order: 4
@@ -17,6 +17,8 @@ dir:
 - [页脚](footer.md)
 
 - [页面](page.md)
+
+- [目录页](catalog.md)
 
 - [主页](home.md)
 

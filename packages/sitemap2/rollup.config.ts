@@ -1,11 +1,5 @@
-import { rollupTypescript } from "../../scripts/rollup.js";
+import { bundle } from "../../scripts/rollup.js";
 
-export default rollupTypescript("node/index", {
-  external: [
-    "@vuepress/core",
-    "@vuepress/shared",
-    "@vuepress/utils",
-    "sitemap",
-    "vuepress-shared/node",
-  ],
+export default bundle("node/index", {
+  external: ["sitemap"],
 });

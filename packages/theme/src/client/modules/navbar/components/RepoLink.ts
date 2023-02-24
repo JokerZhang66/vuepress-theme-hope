@@ -1,15 +1,13 @@
-import { defineComponent, h, resolveComponent } from "vue";
-
+import { type VNode, defineComponent, h, resolveComponent } from "vue";
 import {
   BitbucketIcon,
-  GiteeIcon,
   GitHubIcon,
+  GiteeIcon,
   GitlabIcon,
   SourceIcon,
-} from "@theme-hope/modules/navbar/components/icons/index.js";
-import { useNavbarRepo } from "@theme-hope/modules/navbar/composables/index.js";
+} from "vuepress-shared/client";
 
-import type { VNode } from "vue";
+import { useNavbarRepo } from "@theme-hope/modules/navbar/composables/index";
 
 import "../styles/repo-link.scss";
 

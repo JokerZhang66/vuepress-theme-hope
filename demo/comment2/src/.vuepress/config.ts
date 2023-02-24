@@ -16,31 +16,13 @@ export default defineUserConfig({
 
     repo: "vuepress-theme-hope/vuepress-theme-hope/tree/main/demo/comment2/",
 
-    navbar: ["README.md", "test.md"],
+    navbar: ["/", "/test", "/test2"],
   }),
 
   plugins: [
+    // @ts-ignore
     commentPlugin({
-      /**
-       * Using Giscus
-       */
       provider: "Giscus",
-      repo: "vuepress-theme-hope/giscus-discussions",
-      repoId: "R_kgDOG_Pt2A",
-      category: "Announcements",
-      categoryId: "DIC_kwDOG_Pt2M4COD69",
-
-      /**
-       * Using twikoo
-       */
-      // provider: "Twikoo",
-      // envId: "https://twikoo.ccknbc.vercel.app",
-
-      /**
-       * Using Waline
-       */
-      // provider: "Waline",
-      // serverURL: "https://vuepress-theme-hope-comment.vercel.app",
     }),
   ],
 });

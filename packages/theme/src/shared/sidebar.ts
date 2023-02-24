@@ -1,4 +1,4 @@
-import type { AutoLinkOptions, TextItemOptions } from "./utils.js";
+import { type AutoLinkOptions, type TextItemOptions } from "./utils.js";
 
 export type SidebarPageItem = AutoLinkOptions;
 
@@ -76,7 +76,12 @@ export type SidebarArrayOptions = SidebarItem[];
 
 export type SidebarObjectOptions = Record<
   string,
-  SidebarArrayOptions | "structure" | false
+  SidebarArrayOptions | "structure" | "heading" | false
 >;
 
-export type SidebarOptions = SidebarArrayOptions | SidebarObjectOptions;
+export type SidebarOptions =
+  | SidebarArrayOptions
+  | SidebarObjectOptions
+  | "structure"
+  | "heading"
+  | false;

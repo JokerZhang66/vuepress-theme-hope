@@ -1,7 +1,8 @@
-import type { LocaleConfig } from "@vuepress/core";
-import type {
-  PhotoSwipeInitOptions,
-  PhotoSwipeLocaleData,
+import { type LocaleConfig } from "@vuepress/core";
+
+import {
+  type PhotoSwipeInitOptions,
+  type PhotoSwipeLocaleData,
 } from "../shared/index.js";
 
 export interface PhotoSwipeOptions {
@@ -10,9 +11,9 @@ export interface PhotoSwipeOptions {
    *
    * 图片选择器
    *
-   * @default '.theme-default-content :not(a) > img'
+   * @default ".theme-default-content :not(a) > img:not(no-view)"
    */
-  selector?: string;
+  selector?: string | string[];
 
   /**
    * The delay of photo-swipe fetching page images, in ms
@@ -23,7 +24,7 @@ export interface PhotoSwipeOptions {
    *
    * 如果你使用的主题有切换动画，建议配置此选项为 `切换动画时长 + 200`
    *
-   * @default 500
+   * @default 800
    */
   delay?: number;
 

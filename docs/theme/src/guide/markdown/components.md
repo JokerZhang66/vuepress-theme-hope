@@ -1,6 +1,6 @@
 ---
 title: Components
-icon: plugin
+icon: puzzle-piece
 category:
   - Markdown
 tag:
@@ -12,19 +12,183 @@ By using `vuepress-plugin-components`, you can import and use some components in
 
 Available components:
 
+- ArtPlayer
+- AudioPlayer
 - Badge
 - BiliBili
 - CodePen
 - FontIcon
 - PDF
+- Replit
+- SiteInfo
 - StackBlitz
 - VideoPlayer
 - YouTube
-  By default, `<Badge />` and `<FontIcon />` is enabled.
 
-To enable components, you should set `plugin.components` with an array of components name.
+By default, `<Badge />` and `<FontIcon />` is enabled.
+
+To enable components, you should set `plugin.components.components` with an array of components name.
 
 <!-- more -->
+
+::: code-tabs#language
+
+@tab TS
+
+```ts {8-10}
+// .vuepress/config.ts
+import { defineUserConfig } from "vuepress";
+import { hopeTheme } from "vuepress-theme-hope";
+
+export default defineUserConfig({
+  theme: hopeTheme({
+    plugins: {
+      components: {
+        // components you want
+        components: [
+          "AudioPlayer",
+          "Badge",
+          "BiliBili",
+          "CodePen",
+          "PDF",
+          "Replit",
+          "StackBlitz",
+          "VideoPlayer",
+          "YouTube",
+        ],
+      },
+    },
+  }),
+});
+```
+
+@tab JS
+
+```js {7-9}
+// .vuepress/config.js
+import { hopeTheme } from "vuepress-theme-hope";
+
+export default {
+  theme: hopeTheme({
+    plugins: {
+      components: {
+        // components you want
+        components: [
+          "AudioPlayer",
+          "Badge",
+          "BiliBili",
+          "CodePen",
+          "PDF",
+          "Replit",
+          "StackBlitz",
+          "VideoPlayer",
+          "YouTube",
+        ],
+      },
+    },
+  }),
+};
+```
+
+:::
+
+## ArtPlayer
+
+A video player:
+
+<ArtPlayer src="https://mse-demo.u2sb.com/caminandes_03_llamigos_720p.mp4" />
+
+```md
+<ArtPlayer src="https://mse-demo.u2sb.com/caminandes_03_llamigos_720p.mp4" />
+```
+
+A video player with poster:
+
+<ArtPlayer
+  src="https://mse-demo.u2sb.com/caminandes_03_llamigos_720p.mp4"
+  poster="/poster.svg"
+/>
+
+```md
+<ArtPlayer
+  src="https://mse-demo.u2sb.com/caminandes_03_llamigos_720p.mp4"
+  poster="/poster.svg"
+/>
+```
+
+A video player with custom settings:
+
+<ArtPlayer
+  src="https://mse-demo.u2sb.com/caminandes_03_llamigos_720p.mp4"
+  airplay
+  aspect-ratio
+  auto-size
+  auto-orientation
+  auto-playback
+  fast-forward
+  flip
+  fullscreen-web
+  lock
+  loop
+  is-live
+  muted
+  mini-progress-bar
+  pip
+  screenshot
+  subtitle-offset
+/>
+
+```md
+<ArtPlayer
+  src="https://mse-demo.u2sb.com/caminandes_03_llamigos_720p.mp4"
+  airplay
+  aspect-ratio
+  auto-size
+  auto-orientation
+  auto-playback
+  fast-forward
+  flip
+  fullscreen-web
+  lock
+  loop
+  is-live
+  muted
+  mini-progress-bar
+  pip
+  screenshot
+  subtitle-offset
+/>
+```
+
+See <ProjectLink name="components" path="/guide/artplayer.html">ArtPlayer</ProjectLink> page for available props.
+
+## AudioPlayer
+
+An audio player:
+
+<AudioPlayer src="/assets/sample.mp3" />
+
+```md
+<AudioPlayer src="/assets/sample.mp3" />
+```
+
+An audio player with poster and title:
+
+<AudioPlayer
+  src="/assets/sample.mp3"
+  title="A Sample Audio"
+  poster="/logo.svg"
+/>
+
+```md
+<AudioPlayer
+  src="/assets/sample.mp3"
+  title="A Sample Audio"
+  poster="/logo.svg"
+/>
+```
+
+See <ProjectLink name="components" path="/guide/audioplayer.html">AudioPlayer</ProjectLink> page for available props.
 
 ## Badge
 
@@ -36,7 +200,7 @@ A badge component.
 - <Badge text="info" type="info" vertical="middle" />
 - <Badge text="note" type="note" vertical="middle" />
 
-See [Badge][badge] page for available props.
+See <ProjectLink name="components" path="/guide/badge.html">Badge</ProjectLink> page for available props.
 
 ## BiliBili
 
@@ -52,21 +216,21 @@ A bilibili video:
 
 A bilibili video with start time and page:
 
-<BiliBili bvid="BV1kt411o7C3" :ratio="9/16" :time="60" :page="2" />
+<BiliBili bvid="BV1kt411o7C3" ratio="16:9" time="60" page="2" />
 
 ```md
-<BiliBili bvid="BV1kt411o7C3" :ratio="9/16" :time="60" :page="2" />
+<BiliBili bvid="BV1kt411o7C3" ratio="16:9" time="60" page="2" />
 ```
 
 A bilibili video with custom settings:
 
-<BiliBili bvid="BV1kt411o7C3" :high-quality="false" :danmaku="false" />
+<BiliBili bvid="BV1kt411o7C3" low-quality no-danmaku />
 
 ```md
-<BiliBili bvid="BV1kt411o7C3" :high-quality="false" :danmaku="false" />
+<BiliBili bvid="BV1kt411o7C3" low-quality no-danmaku />
 ```
 
-See [BiliBili][bilibili] page for available props.
+See <ProjectLink name="components" path="/guide/bilibili.html">BiliBili</ProjectLink> page for available props.
 
 ## CodePen
 
@@ -74,7 +238,7 @@ A component which allows you to embed CodePen demo.
 
 A demo with user and slug hash:
 
-<CodePen user="kowlor" slug-hash="ZYYQoy" title="Solar System animation - Pure CSS" :default-tab="['css','result']" :theme="$isDarkMode? 'dark': 'light'" />
+<CodePen user="kowlor" slug-hash="ZYYQoy" title="Solar System animation - Pure CSS" :default-tab="['css','result']" :theme="$isDarkmode? 'dark': 'light'" />
 
 ```md
 <CodePen
@@ -82,26 +246,26 @@ A demo with user and slug hash:
   slug-hash="ZYYQoy"
   title="Solar System animation - Pure CSS"
   :default-tab="['css','result']"
-  :theme="$isDarkMode? 'dark': 'light'"
+  :theme="$isDarkmode? 'dark': 'light'"
 />
 ```
 
 A demo with link:
 
-<CodePen link="https://codepen.io/kowlor/pen/ZYYQoy" title="Solar System animation - Pure CSS" :default-tab="['css','result']" :theme="$isDarkMode? 'dark': 'light'" />
+<CodePen link="https://codepen.io/kowlor/pen/ZYYQoy" title="Solar System animation - Pure CSS" :default-tab="['css','result']" :theme="$isDarkmode? 'dark': 'light'" />
 
 ```md
 <CodePen
   link="https://codepen.io/kowlor/pen/ZYYQoy"
   title="Solar System animation - Pure CSS"
   :default-tab="['css','result']"
-  :theme="$isDarkMode? 'dark': 'light'"
+  :theme="$isDarkmode? 'dark': 'light'"
 />
 ```
 
 A click to run demo:
 
-<CodePen link="https://codepen.io/keginaring/pen/XWZazwW" title="Solar System animation - Pure CSS" status="clicktorun" :theme="$isDarkMode? 'dark': 'light'" />
+<CodePen link="https://codepen.io/keginaring/pen/XWZazwW" title="Solar System animation - Pure CSS" status="clicktorun" :theme="$isDarkmode? 'dark': 'light'" />
 
 ```md
 <CodePen
@@ -109,25 +273,25 @@ A click to run demo:
   title="Envelope w/ Hearts"
   status="clicktorun"
   :default-tab="['css','result']"
-  :theme="$isDarkMode? 'dark': 'light'"
+  :theme="$isDarkmode? 'dark': 'light'"
 />
 ```
 
-See [CodePen][codepen] page for available props.
+See <ProjectLink name="components" path="/guide/codepen.html">CodePen</ProjectLink> page for available props.
 
 ## FontIcon
 
 Component which allows you to display font icons.
 
 - Home icon: <FontIcon icon="home" />
-- A big and red markdown icon: <FontIcon icon="markdown" color="red" :size="32" />
+- A big and green share icon: <FontIcon icon="share" color="#3eaf7c" size="32" />
 
 ```md
 - Home icon: <FontIcon icon="home" />
-- A big and red markdown icon: <FontIcon icon="markdown" color="red" :size="32" />
+- A big and green share icon: <FontIcon icon="share" color="#3eaf7c" size="32" />
 ```
 
-See [FontIcon][fonticon] page for available props.
+See <ProjectLink name="components" path="/guide/fonticon.html">FontIcon</ProjectLink> page for available props.
 
 ## PDF
 
@@ -135,29 +299,81 @@ PDF viewer component.
 
 Default PDF viewer:
 
-<PDF url="/sample.pdf" />
+<PDF url="/assets/sample.pdf" />
 
 ```md
-<PDF url="/sample.pdf" />
+<PDF url="/assets/sample.pdf" />
 ```
 
-PDF viewer without toolbar:
+PDF viewer starting with page 2 and without toolbar:
 
-<PDF url="/sample.pdf" :toolbar="false" />
+<PDF url="/assets/sample.pdf" page="2" no-toolbar />
 
 ```md
-<PDF url="/sample.pdf" :toolbar="false" />
+<PDF url="/assets/sample.pdf" page="2" no-toolbar />
 ```
 
-PDF viewer with initial page 2:
+See <ProjectLink name="components" path="/guide/pdf.html">PDF</ProjectLink> page for available props.
 
-<PDF url="/sample.pdf" :page="2" />
+## Replit
+
+An embedded repl:
+
+<Replit user="FuckDoctors" repl="Java-Test" />
 
 ```md
-<PDF url="/sample.pdf" :page="2" />
+<Replit user="FuckDoctors" repl="Java-Test" />
 ```
 
-See [PDF][pdf] page for available props.
+An embedded repl with opening file:
+
+<Replit user="FuckDoctors" repl="Java-Test" file="Main.java" />
+
+```md
+<Replit user="FuckDoctors" repl="Java-Test" file="Main.java" />
+```
+
+A repl link:
+
+<Replit user="FuckDoctors" repl="Java-Test" plain />
+
+```md
+<Replit user="FuckDoctors" repl="Java-Test" plain />
+```
+
+## SiteInfo
+
+Basic site info:
+
+<SiteInfo name="Mr.Hope’s Blog" url="https://mrhope.site" preview="https://theme-hope.vuejs.press/assets/image/mrhope.jpg" />
+
+```md
+<SiteInfo name="Mr.Hope’s Blog" url="https://mrhope.site" preview="https://theme-hope.vuejs.press/assets/image/mrhope.jpg" />
+```
+
+Site info with more properties:
+
+<SiteInfo
+  name="Mr.Hope’s Blog"
+  desc="Where there is light, there is hope"
+  url="https://mrhope.site"
+  logo="https://mrhope.site/logo.svg"
+  repo="https://github.com/Mister-Hope/Mister-Hope.github.io"
+  preview="https://theme-hope.vuejs.press/assets/image/mrhope.jpg"
+/>
+
+```md
+<SiteInfo
+  name="Mr.Hope’s Blog"
+  desc="Where there is light, there is hope"
+  url="https://mrhope.site"
+  logo="https://mrhope.site/logo.svg"
+  repo="https://github.com/Mister-Hope/Mister-Hope.github.io"
+  preview="https://theme-hope.vuejs.press/assets/image/mrhope.jpg"
+/>
+```
+
+See <ProjectLink name="components" path="/guide/siteinfo.html">SiteInfo</ProjectLink> page for available props.
 
 ## StackBlitz
 
@@ -173,13 +389,13 @@ A StackBlitz project:
 
 A StackBlitz project with custom settings:
 
-<StackBlitz id="vuepress-theme-hope" hideExplorer hideNavigation hidedevtools />
+<StackBlitz id="vuepress-theme-hope" hideExplorer hideNavigation hideDevtools />
 
 ```md
-<StackBlitz id="vuepress-theme-hope" hideExplorer hideNavigation hidedevtools />
+<StackBlitz id="vuepress-theme-hope" hideExplorer hideNavigation hideDevtools />
 ```
 
-See [StackBlitz][stackblitz] page for available props.
+See <ProjectLink name="components" path="/guide/stackblitz.html">StackBlitz</ProjectLink> page for available props.
 
 ## VideoPlayer
 
@@ -197,17 +413,17 @@ A video player with tracks and poster:
 
 <VideoPlayer
   src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm"
-  poster="/poster.svg"
+  poster="/assets/poster.svg"
   :tracks="[
     {
       default: true,
-      src: 'https://gist.githubusercontent.com/wheatjs/a85a65a82d87d7c098e1a0972ef1f726/raw',
+      src: '/assets/subtitles/en.vtt',
       kind: 'subtitles',
       label: 'English',
       srcLang: 'en',
     },
     {
-      src: 'https://gist.githubusercontent.com/wheatjs/38f32925d20c683bf77ba33ff737891b/raw',
+      src: '/assets/subtitles/fr.vtt',
       kind: 'subtitles',
       label: 'French',
       srcLang: 'fr',
@@ -218,17 +434,17 @@ A video player with tracks and poster:
 ```md
 <VideoPlayer
   src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f1/Sintel_movie_4K.webm/Sintel_movie_4K.webm.1080p.vp9.webm"
-  poster="/poster.svg"
+  poster="/assets/poster.svg"
   :tracks="[
     {
       default: true,
-      src: 'https://gist.githubusercontent.com/wheatjs/a85a65a82d87d7c098e1a0972ef1f726/raw',
+      src: '/assets/subtitles/en.vtt',
       kind: 'subtitles',
       label: 'English',
       srcLang: 'en',
     },
     {
-      src: 'https://gist.githubusercontent.com/wheatjs/38f32925d20c683bf77ba33ff737891b/raw',
+      src: '/assets/subtitles/fr.vtt',
       kind: 'subtitles',
       label: 'French',
       srcLang: 'fr',
@@ -237,7 +453,7 @@ A video player with tracks and poster:
 />
 ```
 
-See [VideoPlayer][videoplayer] page for available props.
+See <ProjectLink name="components" path="/guide/videoplayer.html">VideoPlayer</ProjectLink> page for available props.
 
 ## YouTube
 
@@ -267,13 +483,4 @@ A YouTube play list:
 <YouTube list-type="playlist" list="PLJNLwTPak6dhCRzVelZIs2-DfBp01NX_1" />
 ```
 
-See [YouTube][youtube] page for available props.
-
-[badge]: https://vuepress-theme-hope.github.io/v2/components/guide/badge.html
-[bilibili]: https://vuepress-theme-hope.github.io/v2/components/guide/bilibili.html
-[codepen]: https://vuepress-theme-hope.github.io/v2/components/guide/codepen.html
-[fonticon]: https://vuepress-theme-hope.github.io/v2/components/guide/fonticon.html
-[pdf]: https://vuepress-theme-hope.github.io/v2/components/guide/pdf.html
-[stackblitz]: https://vuepress-theme-hope.github.io/v2/components/guide/stackblitz.html
-[videoplayer]: https://vuepress-theme-hope.github.io/v2/components/guide/videoplayer.html
-[youtube]: https://vuepress-theme-hope.github.io/v2/components/guide/youtube.html
+See <ProjectLink name="components" path="/guide/youtube.html">YouTube</ProjectLink> page for available props.

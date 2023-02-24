@@ -1,5 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type IAnyObject = Record<string, any>;
+type IAnyObject = Record<any, any>;
+
+const isArray = Array.isArray;
+
+const isPlainObject = <T extends IAnyObject = IAnyObject>(
+  val: unknown
+): val is T => Object.prototype.toString.call(val) === "[object Object]";
 
 /** Deep merge objects to the first one */
 export const deepAssign = <
@@ -8,35 +14,29 @@ export const deepAssign = <
   V extends Partial<T> & Partial<U> = T & U
 >(
   originObject: T,
-  ...assignObjects: U[]
+  ...overrideObjects: (U | null | undefined)[]
 ): V => {
-  if (assignObjects.length === 0) return originObject as unknown as V;
+  if (overrideObjects.length === 0) return originObject as unknown as V;
 
   /** Object being merged */
-  const assignObject = (assignObjects.shift() as IAnyObject) || {};
+  const assignObject = overrideObjects.shift() || null;
 
-  Object.keys(assignObject).forEach((property) => {
-    if (
-      typeof originObject[property] === "object" &&
-      !Array.isArray(originObject[property]) &&
-      typeof assignObject[property] === "object" &&
-      !Array.isArray(assignObject[property])
-    )
-      deepAssign(originObject[property], assignObject[property]);
-    else if (typeof assignObject[property] === "object")
-      if (Array.isArray(assignObject[property]))
-        (originObject as IAnyObject)[property] = [
-          ...(assignObject[property] as unknown[]),
-        ];
-      else
+  if (assignObject)
+    Object.entries(assignObject).forEach(([property, value]) => {
+      if (property === "__proto__" || property === "constructor") return;
+      if (isPlainObject(originObject[property]) && isPlainObject(value))
+        deepAssign(originObject[property], value);
+      else if (isArray(value))
+        (originObject as IAnyObject)[property] = [...(<unknown[]>value)];
+      else if (isPlainObject(value))
         (originObject as IAnyObject)[property] = {
-          ...(assignObject[property] as Record<string, unknown>),
+          ...value,
         };
-    else
-      (originObject as IAnyObject)[property] = assignObject[
-        property
-      ] as unknown;
-  });
+      else
+        (originObject as IAnyObject)[property] = <unknown>(
+          assignObject[property]
+        );
+    });
 
-  return deepAssign(originObject, ...assignObjects);
+  return deepAssign(originObject, ...overrideObjects);
 };

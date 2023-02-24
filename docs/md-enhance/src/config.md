@@ -1,6 +1,6 @@
 ---
 title: Config
-icon: config
+icon: gears
 ---
 
 You can pass these options to the plugin:
@@ -159,14 +159,21 @@ Whether to enable footnote format support.
 
 Whether to enable mark support.
 
-## imageLazyload
+## figure
+
+- Type: `boolean`
+- Default: `false`
+
+Whether enable figure support.
+
+## imgLazyload
 
 - Type: `boolean`
 - Default: `false`
 
 Whether to lazy load every images in page in native way.
 
-## imageMark
+## imgMark
 
 - Type: `ImageMarkOptions | boolean`
 - Default: `false`
@@ -182,19 +189,19 @@ interface ImageMarkOptions {
 }
 ```
 
-## imageSize
+## imgSize
 
 - Type: `boolean`
 - Default: `false`
 
 Whether enable image size support.
 
-## imageTitle
+## obsidianImgSize
 
 - Type: `boolean`
 - Default: `false`
 
-Whether enable image title support.
+Whether enable obsidian image size support.
 
 ## tasklist
 
@@ -226,7 +233,7 @@ interface TaskListOptions {
 - Type: `KatexOptions & { mhchem?: boolean } | boolean`
 - Default: `false`
 
-Whether to enable $\TeX$ syntax support through $\KaTeX$. You can pass an object to config $\KaTeX$.
+Whether to enable $\TeX$ syntax support through KaTeX. You can pass an object to config KaTeX.
 
 In particular, you can enable the mhchem extension with `katex.mhchem: true`.
 
@@ -252,7 +259,7 @@ Please see [source code](https://github.com/vuepress-theme-hope/vuepress-theme-h
      *
      * @default (path) => path
      */
-    getPath?: (path: string) => string;
+    resolvePath?: (path: string, cwd: string) => string;
 
     /**
      * Whether deep include files in included Markdown files
@@ -290,10 +297,10 @@ Whether to enable flowchart support
 
 ## mermaid
 
-- Type: `boolean`
+- Type: `MermaidConfig | boolean`
 - Default: `false`
 
-Whether to enable [Mermaid](https://mermaid-js.github.io/mermaid/#/) support.
+Whether to enable [Mermaid](https://mermaid.js.org/) support.
 
 ## stylize
 
@@ -471,13 +478,6 @@ Playground options.
   ```ts
   interface VuePlaygroundOptions {
     /**
-     * Whether to show code in playground
-     *
-     * @default false
-     */
-    showCode?: boolean;
-
-    /**
      * specify the version of vue
      */
     vueVersion?: string;
@@ -527,9 +527,9 @@ Playground options.
     /**
      * Layout
      *
-     * @default 'vertical'
+     * @default 'horizontal'
      */
-    layout?: "vertical" | "horizontal";
+    layout?: "vertical" |layout?: "horizontal" | "vertical";
 
     /**
      * Options to configure the `vue/compiler-sfc`
@@ -667,7 +667,7 @@ Config which you want to pass to reveal.js.
 ## delay
 
 - Type: `number`
-- Default: `500`
+- Default: `800`
 
 The delay of operating dom, in ms.
 
@@ -728,7 +728,8 @@ Locales config for Markdown Enhance Plugin.
 - **Simplified Chinese** (zh-CN)
 - **Traditional Chinese** (zh-TW)
 - **English (United States)** (en-US)
-- **German** (de-AT)
+- **German** (de-DE)
+- **German (Australia)** (de-AT)
 - **Russian** (ru-RU)
 - **Ukrainian** (uk-UA)
 - **Vietnamese** (vi-VN)
@@ -740,5 +741,6 @@ Locales config for Markdown Enhance Plugin.
 - **Japanese** (ja-JP)
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
+- **Finnish** (fi-FI)
 
 :::

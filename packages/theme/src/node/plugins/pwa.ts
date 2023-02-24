@@ -1,13 +1,24 @@
-import { pwaPlugin } from "vuepress-plugin-pwa2";
+import { type Plugin } from "@vuepress/core";
+import { isPlainObject } from "@vuepress/shared";
+import { type PWAOptions, pwaPlugin } from "vuepress-plugin-pwa2";
 
-import type { Plugin } from "@vuepress/core";
-import type { PWAOptions } from "vuepress-plugin-pwa2";
-
+/**
+ * @private
+ *
+ * Resolve options for vuepress-plugin-pwa2
+ */
 export const getPWAPlugin = (
   options?: PWAOptions | boolean,
-  legacy = false
+  favicon?: string,
+  legacy = true
 ): Plugin | null => {
   if (!options) return null;
 
-  return pwaPlugin(typeof options === "object" ? options : {}, legacy);
+  return pwaPlugin(
+    {
+      ...(favicon ? { favicon } : {}),
+      ...(isPlainObject(options) ? options : {}),
+    },
+    legacy
+  );
 };

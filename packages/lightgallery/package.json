@@ -1,6 +1,6 @@
 {
   "name": "vuepress-plugin-lightgallery",
-  "version": "2.0.0-beta.130",
+  "version": "2.0.0-beta.181",
   "description": "Light Gallery plugin for VuePress",
   "keywords": [
     "vuepress",
@@ -11,7 +11,7 @@
     "preview",
     "zoom"
   ],
-  "homepage": "https://vuepress-theme-hope.github.io/v2/lightgallery/",
+  "homepage": "https://plugin-lightgallery.vuejs.press/",
   "bugs": {
     "url": "https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues"
   },
@@ -44,30 +44,46 @@
     "dev:copy": "pnpm copy -w",
     "dev:ts": "tsc -b tsconfig.build.json --watch"
   },
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0",
+    "npm": ">=8",
+    "pnpm": ">=7"
+  },
   "dependencies": {
-    "@vuepress/client": "2.0.0-beta.53",
-    "@vuepress/utils": "2.0.0-beta.53",
-    "lightgallery": "^2.7.0",
-    "vue": "^3.2.45",
+    "@vuepress/client": "2.0.0-beta.60",
+    "@vuepress/utils": "2.0.0-beta.60",
+    "lightgallery": "^2.7.1",
+    "vue": "^3.2.47",
     "vue-router": "^4.1.6",
     "vuepress-plugin-sass-palette": "workspace:*",
     "vuepress-shared": "workspace:*"
   },
   "devDependencies": {
-    "@vuepress/core": "2.0.0-beta.53",
-    "rimraf": "3.0.2"
+    "@vuepress/core": "2.0.0-beta.60"
   },
   "peerDependencies": {
+    "@vuepress/client": "2.0.0-beta.60",
     "sass-loader": "^13.2.0",
-    "vuepress": "2.0.0-beta.53",
-    "vuepress-vite": "2.0.0-beta.53",
-    "vuepress-webpack": "2.0.0-beta.53"
+    "vuepress": "2.0.0-beta.60",
+    "vuepress-plugin-sass-palette": "workspace:*",
+    "vuepress-shared": "workspace:*",
+    "vuepress-vite": "2.0.0-beta.60",
+    "vuepress-webpack": "2.0.0-beta.60"
   },
   "peerDependenciesMeta": {
+    "@vuepress/client": {
+      "optional": true
+    },
     "sass-loader": {
       "optional": true
     },
     "vuepress": {
+      "optional": true
+    },
+    "vuepress-plugin-sass-palette": {
+      "optional": true
+    },
+    "vuepress-shared": {
       "optional": true
     },
     "vuepress-vite": {

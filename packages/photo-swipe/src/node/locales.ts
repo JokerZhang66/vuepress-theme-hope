@@ -1,4 +1,4 @@
-import type { PhotoSwipeLocaleConfig } from "../shared/index.js";
+import { type PhotoSwipeLocaleConfig } from "../shared/index.js";
 
 export const photoSwipeLocales: PhotoSwipeLocaleConfig = {
   "/en/": {
@@ -26,6 +26,15 @@ export const photoSwipeLocales: PhotoSwipeLocaleConfig = {
     zoom: "縮放",
     arrowPrev: "上一個 (左箭頭)",
     arrowNext: "下一個 (右箭頭)",
+  },
+
+  "/de/": {
+    close: "Schließen",
+    download: "Download",
+    fullscreen: "Vollbild aktivieren",
+    zoom: "Rein / rauszoomen",
+    arrowPrev: "Zurück (Pfeil links)",
+    arrowNext: "Weiter (Pfeil rechts)",
   },
 
   "/de-at/": {
@@ -134,5 +143,23 @@ export const photoSwipeLocales: PhotoSwipeLocaleConfig = {
     zoom: "확대/축소",
     arrowPrev: "이전 (왼쪽 화살표)",
     arrowNext: "다음 (오른쪽 화살표)",
+  },
+
+  "/fi/": {
+    close: "Sulje",
+    download: "Lataa kuva",
+    fullscreen: "Vaihda kokoruututilaan",
+    zoom: "Lähennä/Työnnä",
+    arrowPrev: "Edellinen (Vasen nuoli)",
+    arrowNext: "Seuraava (Oikea nuoli)",
+  },
+
+  "/hu/": {
+    close: "Bezárás",
+    download: "Kép letöltése",
+    fullscreen: "Váltás teljes képernyőre",
+    zoom: "Nagyítás/kicsinyítés",
+    arrowPrev: "Előző (Balra nyíl)",
+    arrowNext: "Következő (Jobbra nyíl)",
   },
 };

@@ -1,6 +1,7 @@
 // Turkish [tr]
 import type dayjs from "dayjs";
-import type { Locale } from "./locale.js";
+
+import { type Locale } from "./locale.js";
 
 const locale: Partial<Locale> = {
   name: "tr",
@@ -22,6 +23,6 @@ const locale: Partial<Locale> = {
   },
 };
 
-export const loadTrLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("tr", locale);
+export const loadTrLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("tr", locale);
 };

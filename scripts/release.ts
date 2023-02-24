@@ -1,13 +1,14 @@
-import pc from "picocolors";
 import { execaCommand } from "execa";
-import ora from "ora";
 import inquirer from "inquirer";
+import ora from "ora";
+import pc from "picocolors";
+
 import pkg from "../package.json" assert { type: "json" };
 
 const { version: currentVersion } = pkg;
 const { prompt } = inquirer;
 
-const tags = ["next", "test", "alpha", "beta", "latest"];
+const tags = ["latest", "alpha", "beta", "next", "test"];
 
 const release = async (): Promise<void> => {
   ora(`Current version: ${pc.green(currentVersion)}`).info();

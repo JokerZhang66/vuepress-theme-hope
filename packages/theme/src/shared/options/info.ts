@@ -1,6 +1,13 @@
-import type { Author } from "vuepress-shared";
+import { type Author } from "vuepress-shared";
 
 export interface InfoOptions {
+  /**
+   * Site favicon
+   *
+   * 站点图标
+   */
+  favicon?: string;
+
   /**
    * Global default author
    *

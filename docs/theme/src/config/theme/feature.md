@@ -1,6 +1,6 @@
 ---
 title: Theme Feature Options
-icon: config
+icon: splotch
 order: 3
 category:
   - Config
@@ -15,7 +15,7 @@ The following options control features provided by theme.
 
 ## Blog Options
 
-The theme adds blog feature using [`vuepress-plugin-blog2`][blog2], and the feature is **disabled** by default.
+The theme adds blog feature using <ProjectLink name="blog2">`vuepress-plugin-blog2`</ProjectLink>, and the feature is **disabled** by default.
 
 To enable blog plugin and use default options, you can set `plugins.blog` to `true` in theme options.
 
@@ -82,6 +82,7 @@ The following social medias has built-in icons:
 - `"Bitbucket"`
 - `"Dingding"`
 - `"Discord"`
+- `"Douban"`
 - `"Dribbble"`
 - `"Email"`
 - `"Evernote"`
@@ -102,6 +103,8 @@ The following social medias has built-in icons:
 - `"Reddit"`
 - `"Rss"`
 - `"Steam"`
+- `"Skype"`
+- `"Telegram"`
 - `"Twitter"`
 - `"Wechat"`
 - `"Weibo"`
@@ -160,6 +163,12 @@ Available values for `ArticleInfo`:
 - `"ReadingTime"`
 - `"Word"`
 
+::: warning Limitation
+
+ReadingTime and Word are not available in devServer by default, [see reasons and how to enable it](./basic.md#hotreload).
+
+:::
+
 ## Encrypt Config <Badge text="Root only" type="warning" />
 
 For details, see [Encrypt Intro](../../guide/feature/encrypt.md).
@@ -203,5 +212,3 @@ The encryption configuration is an object with a key name matching the path and 
 ```
 
 :::
-
-[blog2]: https://vuepress-theme-hope.github.io/v2/blog/

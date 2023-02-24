@@ -1,9 +1,24 @@
-import { defineComponent, h } from "vue";
+/* eslint-disable vue/no-unused-properties */
+/**
+ * @see https://developer.stackblitz.com/platform/api/javascript-sdk
+ */
+import sdk, { type UiThemeOption, type UiViewOption } from "@stackblitz/sdk";
+import {
+  type PropType,
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  onMounted,
+} from "vue";
+
 import { useSize } from "../composables/index.js";
 
-import type { VNode, PropType } from "vue";
-
 import "../styles/stack-blitz.scss";
+
+// FIXME: This is an issue of ts NodeNext
+const stackblitzSDK = sdk as unknown as typeof sdk.default;
+
 export default defineComponent({
   name: "StackBlitz",
 
@@ -12,106 +27,206 @@ export default defineComponent({
      * StackBlitz id
      *
      * @description Full StackBlitz url is also supported
+     *
+     * StackBlitz ID
+     *
+     * @description 也支持完整的 StackBlitz 链接
      */
     id: {
       type: String,
       required: true,
     },
 
+    /**
+     * StackBlitz type
+     *
+     * StackBlitz 类型
+     */
+    type: {
+      type: String as PropType<"project" | "github">,
+      default: "project",
+    },
+
+    /**
+     * Component width
+     *
+     * 组件宽度
+     */
     width: {
       type: [String, Number],
       default: "100%",
     },
 
+    /**
+     * Component height
+     *
+     * 组件高度
+     */
     height: {
       type: [String, Number],
       default: undefined,
     },
 
+    /**
+     * Component width / height ratio
+     *
+     * 组件长宽比
+     */
     ratio: {
-      type: Number,
+      type: [String, Number],
       default: 16 / 9,
     },
 
     /**
-     * The default file to have open in the editor
+     * The default file to open in the editor
+     *
+     * 默认打开的文件
      */
     file: {
-      type: String,
+      type: [String, Array] as PropType<string | string[]>,
       default: "",
     },
 
     /**
      * The initial URL path the preview should open
+     *
+     * 预览的初始 URL 路径
      */
-    initialpath: {
+    initialPath: {
       type: String,
       default: "",
     },
 
     /**
-     * Force embed view regardless of screen size
+     * embed editor
+     *
+     * 嵌入编辑器
      */
-    embed: {
-      type: Boolean,
-      default: true,
-    },
+    embed: Boolean,
 
     /**
-     * Require user to 'click to load' the embed demo
+     * Whether load embed demo directly
+     *
+     * 是否直接加载嵌入演示
      */
-    clickToLoad: {
-      type: Boolean,
-      default: true,
-    },
+    load: Boolean,
 
     /**
      * Which view to open by default
+     *
+     * 默认打开的视图
      */
     view: {
-      type: String as PropType<"editor" | "preview">,
+      type: String as PropType<UiViewOption>,
       default: "preview",
     },
 
     /**
      * Hide file explorer panel in embed view
+     *
+     * 在嵌入视图中隐藏文件资源管理器面板
      */
     hideExplorer: Boolean,
 
     /**
      * Hide file explorer panel in embed view
+     *
+     * 在嵌入视图中隐藏文件资源管理器面板
      */
     hideNavigation: Boolean,
 
     /**
      * Hide the debugging console in the editor preview
+     *
+     * 隐藏编辑器预览中的调试控制台
      */
-    hidedevtools: Boolean,
+    hideDevtools: Boolean,
+
+    /**
+     * Height of the Terminal panel below the editor (as a percentage number).
+     */
+    terminalHeight: {
+      type: [String, Number],
+      default: 30,
+    },
+
+    /**
+     * Height of the Terminal panel below the editor (as a percentage number).
+     */
+    devToolsHeight: {
+      type: [String, Number],
+      default: 30,
+    },
+
+    /**
+     * Button text
+     *
+     * 按钮文字
+     */
+    text: {
+      type: String,
+      default: "Open in StackBlitz",
+    },
+
+    /**
+     * Theme
+     *
+     * 主题
+     */
+    theme: {
+      type: String as PropType<UiThemeOption>,
+      default: "dark",
+    },
   },
 
   setup(props) {
     const { el, width, height } = useSize<HTMLIFrameElement>(props);
 
+    const options = computed(() => ({
+      openFile: props.file,
+      view: props.view,
+      theme: props.theme,
+      clickToLoad: props.load,
+      hideExplorer: props.hideExplorer,
+      hideNavigation: props.hideNavigation,
+      hideDevTools: props.hideDevtools,
+      initialPath: props.initialPath,
+    }));
+
+    onMounted(() => {
+      if (props.embed)
+        void stackblitzSDK[
+          props.type === "github" ? "embedGithubProject" : "embedProjectId"
+        ](el.value!, props.id, options.value);
+    });
+
     return (): VNode =>
-      h("iframe", {
-        ref: el,
-        class: "stack-blitz-iframe",
-        src: `https://stackblitz.com/edit/${props.id}?embed=${
-          props.embed ? 1 : 0
-        }${props.file ? `&file=${props.file}` : ""}${
-          props.initialpath
-            ? `&initialpath=${encodeURI(props.initialpath)}`
-            : ""
-        }&ctl=${props.clickToLoad ? 1 : 0}&view=${props.view}${
-          props.hideExplorer ? "&hideExplorer=1" : ""
-        }${props.hideNavigation ? "&hideNavigation=1" : ""}${
-          props.hidedevtools ? "&hidedevtools=1" : ""
-        }`,
-        allow: "clipboard-write",
-        style: {
-          width: width.value,
-          height: height.value,
-        },
-      });
+      props.embed
+        ? h("div", {
+            ref: el,
+            class: "stackblitz-container",
+            style: {
+              width: width.value,
+              height: height.value,
+            },
+          })
+        : h(
+            "div",
+            { class: "stackblitz-container" },
+            h(
+              "button",
+              {
+                class: "stackblitz-button",
+                onClick: () => {
+                  stackblitzSDK[
+                    props.type === "github"
+                      ? "openGithubProject"
+                      : "openProjectId"
+                  ](props.id, options.value);
+                },
+              },
+              props.text
+            )
+          );
   },
 });

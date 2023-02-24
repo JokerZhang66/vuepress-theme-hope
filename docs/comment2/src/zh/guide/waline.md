@@ -1,6 +1,6 @@
 ---
 title: Waline
-icon: waline
+icon: w
 ---
 
 欢迎使用 Waline，只需几个步骤，你就可以在你的网站中启用 Waline 提供评论与浏览量服务。
@@ -99,7 +99,7 @@ icon: waline
 
 ### 使用插件
 
-在插件选项中设置 `provider: "waline"`，同时设置服务端地址 `serverURL` 为上一步获取到的值。
+在插件选项中设置 `provider: "Waline"`，同时设置服务端地址 `serverURL` 为上一步获取到的值。
 
 此时，将 `<CommentService>` 组件放置在你网站中合适的位置 (通常是页面的底部)，即可使用 Waline 评论功能。
 

@@ -1,6 +1,6 @@
 ---
 title: 评论插件配置
-icon: comment
+icon: comment-dots
 order: 3
 category:
   - 配置
@@ -16,6 +16,7 @@ tag:
 
 `vuepress-plugin-comment2` 目前支持 3 种评论服务:
 
+- Artalk
 - Giscus
 - Twikoo
 - Waline
@@ -28,6 +29,4 @@ tag:
 
 ## 选项
 
-对于每个评论服务对应选项的详细信息，请参考[vuepress-plugin-comment2 文档][comment-config]。
-
-[comment-config]: https://vuepress-theme-hope.github.io/v2/comment/zh/config/
+对于每个评论服务对应选项的详细信息，请参考 <ProjectLink name="comment2" path="/zh/config/">vuepress-plugin-comment2 文档</ProjectLink>。

@@ -13,7 +13,7 @@ actions:
   - text: 配置 🛠
     link: /zh/config.html
 
-footer: 使用 <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> 主题 | MIT 协议, 版权所有 © 2019-present Mr.Hope
+footer: 使用 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VuePress Theme Hope</a> 主题 | MIT 协议, 版权所有 © 2019-present Mr.Hope
 
 copyright: false
 ---
@@ -27,19 +27,19 @@ copyright: false
 @tab pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-remove-pwa@next
+pnpm add -D vuepress-plugin-remove-pwa
 ```
 
 @tab yarn
 
 ```bash
-yarn add -D vuepress-plugin-remove-pwa@next
+yarn add -D vuepress-plugin-remove-pwa
 ```
 
 @tab npm
 
 ```bash
-npm i -D vuepress-plugin-remove-pwa@next
+npm i -D vuepress-plugin-remove-pwa
 ```
 
 :::
@@ -52,11 +52,11 @@ npm i -D vuepress-plugin-remove-pwa@next
 
 ```ts
 // .vuepress/config.ts
-import { pwaPlugin } from "vuepress-plugin-remove-pwa";
+import { removePWAPlugin } from "vuepress-plugin-remove-pwa";
 
 export default {
   plugins: [
-    pwaPlugin({
+    removePWAPlugin({
       // 你的选项
     }),
   ],
@@ -67,11 +67,11 @@ export default {
 
 ```js
 // .vuepress/config.js
-import { pwaPlugin } from "vuepress-plugin-remove-pwa";
+import { removePWAPlugin } from "vuepress-plugin-remove-pwa";
 
 export default {
   plugins: [
-    pwaPlugin({
+    removePWAPlugin({
       // 你的选项
     }),
   ],
@@ -79,3 +79,9 @@ export default {
 ```
 
 :::
+
+<NetlifyBadge alt="通过 Netlify 部署" />
+
+<script setup lang="ts">
+import NetlifyBadge from "@NetlifyBadge";
+</script>

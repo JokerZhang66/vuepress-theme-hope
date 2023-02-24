@@ -1,6 +1,6 @@
 ---
 title: Установка / Использование
-icon: install
+icon: download
 order: 2
 category:
   - Начало работы
@@ -19,13 +19,43 @@ tag:
 @tab pnpm
 
 ```bash
-pnpm create vuepress-theme-hope@next [dir]
+pnpm create vuepress-theme-hope [dir]
+```
+
+@tab yarn
+
+```bash
+yarn create vuepress-theme-hope [dir]
 ```
 
 @tab npm
 
 ```bash
-npm init vuepress-theme-hope@next [dir]
+npm init vuepress-theme-hope [dir]
+```
+
+:::
+
+To add vuepress-theme-hope as docs builder to an existing project, run the following command in the project root directory:
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm create vuepress-theme-hope add [dir]
+```
+
+@tab yarn
+
+```bash
+yarn create vuepress-theme-hope add [dir]
+```
+
+@tab npm
+
+```bash
+npm init vuepress-theme-hope add [dir]
 ```
 
 :::

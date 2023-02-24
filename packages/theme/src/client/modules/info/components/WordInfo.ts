@@ -1,12 +1,10 @@
-import { computed, defineComponent, h } from "vue";
+import { type PropType, type VNode, computed, defineComponent, h } from "vue";
+import { type ReadingTime } from "vuepress-plugin-reading-time2";
 import { useLocaleConfig } from "vuepress-shared/client";
 
-import { WordIcon } from "@theme-hope/modules/info/components/icons.js";
-import { useMetaLocale } from "@theme-hope/modules/info/composables/index.js";
-import { readingTimeLocales } from "@theme-hope/modules/info/utils/index.js";
-
-import type { PropType, VNode } from "vue";
-import type { ReadingTime } from "vuepress-plugin-reading-time2";
+import { WordIcon } from "@theme-hope/modules/info/components/icons";
+import { useMetaLocale } from "@theme-hope/modules/info/composables/index";
+import { readingTimeLocales } from "@theme-hope/modules/info/utils/index";
 
 export default defineComponent({
   name: "ReadTimeInfo",
@@ -14,11 +12,21 @@ export default defineComponent({
   inheritAttrs: false,
 
   props: {
+    /**
+     * Reading time information
+     *
+     * 阅读时间信息
+     */
     readingTime: {
       type: Object as PropType<ReadingTime | null>,
       default: () => null,
     },
 
+    /**
+     * Whether in pure mode
+     *
+     * 是否处于纯净模式
+     */
     pure: Boolean,
   },
 
@@ -37,7 +45,7 @@ export default defineComponent({
         ? h(
             "span",
             {
-              class: "words-info",
+              class: "page-word-info",
               "aria-label": `${metaLocale.value.words}${
                 props.pure ? "" : "🔠"
               }`,

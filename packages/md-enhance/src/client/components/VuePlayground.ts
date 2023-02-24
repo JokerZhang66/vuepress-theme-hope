@@ -1,10 +1,16 @@
-import { computed, defineComponent, h, onMounted, ref, shallowRef } from "vue";
+import { type Repl, type ReplProps, type ReplStore } from "@vue/repl";
+import {
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  onMounted,
+  ref,
+  shallowRef,
+} from "vue";
+import { LoadingIcon } from "vuepress-shared/client";
 
-import { CODE_SVG, LoadingIcon } from "./icons.js";
-import { getVuePlaygroundSettings } from "../utils/index.js";
-
-import type { Repl, ReplProps, ReplStore } from "@vue/repl";
-import type { VNode } from "vue";
+import { getVuePlaygroundSettings } from "../utils/playground.js";
 
 import "@vue/repl/style.css";
 import "../styles/vue-playground.scss";
@@ -13,8 +19,28 @@ export default defineComponent({
   name: "VuePlayground",
 
   props: {
-    title: { type: String, default: "" },
+    /**
+     * Playground title
+     *
+     * 演示标题
+     */
+    title: {
+      type: String,
+      default: "",
+    },
+
+    /**
+     * Playground file data
+     *
+     * 演示文件数据
+     */
     files: { type: String, required: true },
+
+    /**
+     * Playground settings
+     *
+     * 演示设置
+     */
     settings: { type: String, default: "{}" },
   },
 
@@ -27,15 +53,14 @@ export default defineComponent({
       getVuePlaygroundSettings(props.settings)
     );
 
-    const showCode = ref(playgroundOptions.value.showCode || false);
-
     const setupRepl = async (): Promise<void> => {
-      const { ReplStore, Repl } = await import("@vue/repl");
+      const { ReplStore, Repl } = await import(
+        /* webpackChunkName: "vue-repl" */ "@vue/repl"
+      );
 
       component.value = Repl;
       store.value = new ReplStore({
         serializedState: decodeURIComponent(props.files),
-        showOutput: true,
       });
 
       if (playgroundOptions.value.vueVersion)
@@ -49,36 +74,24 @@ export default defineComponent({
 
     return (): (VNode | null)[] => [
       h("div", { class: "vue-playground-wrapper" }, [
-        h("div", { class: "title-wrapper" }, [
-          props.title
-            ? h("div", { class: "title" }, decodeURIComponent(props.title))
-            : null,
-          h("div", { class: "actions" }, [
-            h("action", {
-              class: "button",
-              innerHTML: CODE_SVG,
-              onClick: () => {
-                showCode.value = !showCode.value;
-              },
-            }),
-          ]),
-        ]),
+        props.title
+          ? h("div", { class: "header" }, decodeURIComponent(props.title))
+          : null,
         h(
           "div",
           {
-            class: [
-              "repl-container",
-              showCode.value ? "show-code" : "hide-code",
-            ],
+            class: "repl-container",
           },
           [
             loading.value
-              ? h("div", { class: "preview-loading-wrapper" }, h(LoadingIcon))
+              ? h(LoadingIcon, { class: "preview-loading", height: 192 })
               : null,
             component.value
               ? h(component.value, <ReplProps>{
                   store: store.value,
+                  autoResize: true,
                   ...playgroundOptions.value,
+                  layout: "horizontal",
                 })
               : null,
           ]

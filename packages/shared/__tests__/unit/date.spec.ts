@@ -1,5 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { getDate } from "../../src/shared/utils/date";
+import { describe, expect, it } from "vitest";
+
+import { getDate } from "../../src/shared/utils/date.js";
 
 const getCurrentDate = (date: Date): Date =>
   new Date(date.getTime() + new Date().getTimezoneOffset() * 60 * 1000);

@@ -1,6 +1,6 @@
 ---
 title: 指南
-icon: creative
+icon: lightbulb
 ---
 
 此插件会使页面正文内的图片在点击时进入浏览模式浏览。
@@ -35,7 +35,7 @@ icon: creative
 
 ## 操作延迟
 
-如果你的主题在页面切换时会添加动画，你可能需要延迟 photo-swipe 重新查找页面图片的时间点。你可以通过 `delay` 选项来配置这一延迟，默认的值为 `500` (单位为毫秒)。
+如果你的主题在页面切换时会添加动画，你可能需要延迟 photo-swipe 重新查找页面图片的时间点。你可以通过 `delay` 选项来配置这一延迟，默认的值为 `800` (单位为毫秒)。
 
 ## 多语言配置
 
@@ -58,8 +58,8 @@ export default defineUserConfig({
   },
 
   plugins: [
-    copyCodePlugin({
-      photoSwipePlugin: {
+    photoSwipePlugin({
+      locales: {
         "/": {
           // 覆盖分享标签文字
           share: "分享给伙伴",

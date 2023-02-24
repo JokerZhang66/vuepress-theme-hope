@@ -1,6 +1,6 @@
 ---
 title: Изображение
-icon: pic
+icon: image
 category:
   - Markdown
 tag:
@@ -27,14 +27,14 @@ export default defineUserConfig({
   theme: hopeTheme({
     plugins: {
       mdEnhance: {
+        // Enable figure
+        figure: true,
         // Enable image lazyload
-        imageLazyload: true,
+        imgLazyload: true,
         // Enable image mark
-        imageMark: true,
+        imgMark: true,
         // Enable image size
-        imageSize: true,
-        // Enable image title
-        imageTitle: true,
+        imgSize: true,
       },
     },
   }),
@@ -51,14 +51,14 @@ export default {
   theme: hopeTheme({
     plugins: {
       mdEnhance: {
+        // Enable figure
+        figure: true,
         // Enable image lazyload
-        imageLazyload: true,
+        imgLazyload: true,
         // Enable image mark
-        imageMark: true,
+        imgMark: true,
         // Enable image size
-        imageSize: true,
-        // Enable image title
-        imageTitle: true,
+        imgSize: true,
       },
     },
   }),
@@ -69,7 +69,7 @@ export default {
 
 ## Отложенная загрузка изображений
 
-Если вы хотите отложено загружать изображения на своих страницах, вы можете установить `imageLazyload: true` в настройках плагина.
+Если вы хотите отложено загружать изображения на своих страницах, вы можете установить `imgLazyload: true` в настройках плагина.
 
 ::: note
 
@@ -81,7 +81,7 @@ export default {
 
 GFM поддерживает маркировку изображений суффиксом идентификатора, чтобы изображения отображались только в определенном режиме. Мы поддерживаем как разметку GitHub, так и простую разметку `#light` и `#dark`.
 
-Вы можете включить его, установив `plugins.mdEnhance.imageMark: true` в опциях темы.
+Вы можете включить его, установив `plugins.mdEnhance.imgMark: true` в опциях темы.
 
 ```md
 ![GitHub Light](/assets/icon/github-light.png#gh-dark-mode-only)
@@ -107,7 +107,7 @@ GFM поддерживает маркировку изображений суф�
 
 ### Расширенный
 
-Вы можете передать объект в `imageMark` для настройки идентификационных меток. Доступны следующие варианты:
+Вы можете передать объект в `imgMark` для настройки идентификационных меток. Доступны следующие варианты:
 
 ```ts
 interface ImageMarkOptions {
@@ -120,7 +120,7 @@ interface ImageMarkOptions {
 
 ## Размер изображения
 
-Вы можете использовать `=widthxheight`, чтобы указать размер изображения при установке `plugins.mdEnhance.imageSize: true` в параметрах темы.
+Вы можете использовать `=widthxheight`, чтобы указать размер изображения при установке `plugins.mdEnhance.imgSize: true` в параметрах темы.
 
 ```md
 ![Alt](/example.png =200x300)
@@ -137,20 +137,36 @@ interface ImageMarkOptions {
 <img src="/example.bmp" height="300" />
 ```
 
-## Заголовок изображения
+## Figure
 
-Иногда вам может понадобиться добавить описание с изображением, в этом случае вы должны установить `plugins.mdEnhance.imageTitle: true`.
+Sometimes, you may want to add a description with image and place it between contents, in this case you should set `figure: true` in plugin options.
 
-Затем, когда вы добавите заголовок к изображению, изображение будет отображаться как `<figure>`, а заголовок будет отображаться как `<figcaption>`.
+If the image is standalone in a line, wrapped or not wrapped by link, it will be displayed as `<figure>` and title (or alt) will be displayed as `<figcaption>`.
 
 ```md
-![GitHub Logo](/assets/icon/github-light.png "Github Logo")
+![VuePress Hope Logo](/favicon.ico)
+
+[![VuePress Hope Logo](/favicon.ico)](https://theme-hope.vuejs.press/)
+
+![VuePress Hope Logo](/favicon.ico "VuePress Hope Logo")
+
+[![VuePress Hope Logo](/favicon.ico "VuePress Hope Logo")](https://theme-hope.vuejs.press/)
+
+![VuePress Hope Logo](/logo.svg "VuePress Hope Logo" =300x300)
 ```
 
-Будет отображаться как:
+Will be rendered as:
 
-![GitHub Logo](/assets/icon/github-light.png "Github Logo")
+![VuePress Hope Logo](/favicon.ico)
+
+[![VuePress Hope Logo](/favicon.ico)](https://theme-hope.vuejs.press/)
+
+![VuePress Hope Logo](/favicon.ico "VuePress Hope Logo")
+
+[![VuePress Hope Logo](/favicon.ico "VuePress Hope Logo")](https://theme-hope.vuejs.press/)
+
+![VuePress Hope Logo](/logo.svg "VuePress Hope Logo" =300x300)
 
 <script setup lang="ts">
-import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch.js"
+import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch"
 </script>

@@ -1,12 +1,12 @@
 ---
 title: 插件选项
-icon: config
+icon: gears
 ---
 
 ## selector
 
-- 类型: `string`
-- 默认值: `".theme-default-content :not(a) > img"`
+- 类型: `string | string[]`
+- 默认值: `".theme-default-content :not(a) > img:not(no-view)"`
 
 图片选择器
 
@@ -17,7 +17,7 @@ icon: config
 ## delay
 
 - 类型: `number`
-- 默认值: `500`
+- 默认值: `800`
 
 操作页面 DOM 的延时，单位 ms。
 
@@ -83,7 +83,8 @@ Photo Swipe 插件的国际化配置。
 - **简体中文** (zh-CN)
 - **繁体中文** (zh-TW)
 - **英文(美国)** (en-US)
-- **德语** (de-AT)
+- **德语** (de-DE)
+- **德语(澳大利亚)** (de-AT)
 - **俄语** (ru-RU)
 - **乌克兰语** (uk-UA)
 - **越南语** (vi-VN)
@@ -95,5 +96,6 @@ Photo Swipe 插件的国际化配置。
 - **日语** (ja-JP)
 - **土耳其语** (tr-TR)
 - **韩语** (ko-KR)
+- **芬兰语** (fi-FI)
 
 :::

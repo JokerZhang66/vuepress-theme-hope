@@ -1,5 +1,5 @@
 import { deprecatedLogger, droppedLogger } from "./utils.js";
-import type { MarkdownEnhanceOptions } from "../options.js";
+import { type MarkdownEnhanceOptions } from "../options.js";
 
 /** @deprecated */
 export const convertOptions = (
@@ -13,7 +13,22 @@ export const convertOptions = (
   deprecatedLogger({
     options,
     deprecatedOption: "lazyload",
-    newOption: "imageLazyload",
+    newOption: "imgLazyload",
+  });
+  deprecatedLogger({
+    options,
+    deprecatedOption: "imageLazyload",
+    newOption: "imgLazyload",
+  });
+  deprecatedLogger({
+    options,
+    deprecatedOption: "imageMark",
+    newOption: "imgMark",
+  });
+  deprecatedLogger({
+    options,
+    deprecatedOption: "imageSize",
+    newOption: "imgSize",
   });
   deprecatedLogger({
     options,
@@ -29,6 +44,11 @@ export const convertOptions = (
     options,
     deprecatedOption: "vpre",
     newOption: "vPre",
+  });
+  deprecatedLogger({
+    options,
+    deprecatedOption: "imageTitle",
+    newOption: "figure",
   });
   droppedLogger(options, "enableAll");
   droppedLogger(options, "lineNumbers");

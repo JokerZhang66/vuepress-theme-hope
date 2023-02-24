@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { fs, pwa, theme } from "docs-shared";
+import { fs, theme } from "docs-shared";
 
 const { version } = fs.readJsonSync(
   createRequire(import.meta.url).resolve(
@@ -18,7 +18,7 @@ export default theme("photo-swipe", {
         "/demo",
         {
           text: version,
-          icon: "note",
+          icon: "bookmark",
           children: [
             {
               text: "V1 Docs",
@@ -40,7 +40,7 @@ export default theme("photo-swipe", {
         "/zh/demo",
         {
           text: version,
-          icon: "note",
+          icon: "bookmark",
           children: [
             {
               text: "V1 文档",
@@ -58,10 +58,5 @@ export default theme("photo-swipe", {
     mdEnhance: {
       codetabs: true,
     },
-
-    pwa: pwa({
-      name: "vuepress-plugin-photo-swipe",
-      shortName: "VuePress2 Photoswipe plugin",
-    }),
   },
 });

@@ -1,37 +1,33 @@
+import { type PluginFunction } from "@vuepress/core";
 import { getDirname, path } from "@vuepress/utils";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
 import {
   addCustomElement,
-  addViteSsrExternal,
   addViteOptimizeDepsExclude,
   addViteOptimizeDepsInclude,
+  addViteSsrExternal,
   getLocales,
-  noopModule,
 } from "vuepress-shared/node";
 
+import { getProvider } from "./alias.js";
 import { convertOptions } from "./compact.js";
 import { walineLocales } from "./locales.js";
+import { applyDemo } from "./options.js";
 import { logger } from "./utils.js";
-
-import type { CommentOptions } from "../shared/index.js";
-import type { PluginFunction } from "@vuepress/core";
+import { type CommentOptions } from "../shared/index.js";
 
 const __dirname = getDirname(import.meta.url);
 
 /** Comment Plugin */
 export const commentPlugin =
-  (options: CommentOptions, legacy = false): PluginFunction =>
+  (options: CommentOptions, legacy = true): PluginFunction =>
   (app) => {
     // TODO: Remove this in v2 stable
     if (legacy)
       convertOptions(options as CommentOptions & Record<string, unknown>);
-    if (app.env.isDebug) logger.info(`Options: ${options.toString()}`);
+    if (app.env.isDebug) logger.info("Options:", options);
 
-    const provider =
-      options.provider &&
-      ["Giscus", "Waline", "Twikoo"].includes(options.provider)
-        ? options.provider
-        : "None";
+    applyDemo(options, app);
 
     const userWalineLocales =
       options.provider === "Waline"
@@ -39,12 +35,13 @@ export const commentPlugin =
             app,
             name: "waline",
             default: walineLocales,
-            config: options.walineLocales,
+            config: options.locales,
           })
         : {};
 
     // remove locales so that they won’t be injected in client twice
-    if ("walineLocales" in options) delete options.walineLocales;
+    if (options.provider === "Waline" && "locales" in options)
+      delete options.locales;
 
     useSassPalettePlugin(app, { id: "hope" });
 
@@ -53,10 +50,7 @@ export const commentPlugin =
 
       alias: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "vuepress-plugin-comment2/provider":
-          provider === "None"
-            ? noopModule
-            : path.resolve(__dirname, `../client/components/${provider}.js`),
+        "vuepress-plugin-comment2/provider": getProvider(options.provider),
       },
 
       define: () => ({
@@ -69,21 +63,32 @@ export const commentPlugin =
           : {}),
       }),
 
-      extendsBundlerOptions: (config: unknown, app): void => {
-        if (provider === "Giscus") {
-          addCustomElement({ app, config }, "GiscusWidget");
-          addViteSsrExternal({ app, config }, "giscus");
-        }
+      extendsBundlerOptions: (bundlerOptions: unknown, app): void => {
+        switch (options.provider) {
+          case "Artalk": {
+            addViteOptimizeDepsInclude(bundlerOptions, app, "artalk");
+            addViteSsrExternal(bundlerOptions, app, "artalk");
+            break;
+          }
 
-        if (provider === "Waline") {
-          addViteOptimizeDepsInclude({ app, config }, "autosize");
-          addViteOptimizeDepsExclude({ app, config }, "@waline/client");
-          addViteSsrExternal({ app, config }, "@waline/client");
-        }
+          case "Giscus": {
+            addCustomElement(bundlerOptions, app, "GiscusWidget");
+            addViteSsrExternal(bundlerOptions, app, "giscus");
+            break;
+          }
 
-        if (provider === "Twikoo") {
-          addViteOptimizeDepsInclude({ app, config }, "twikoo");
-          addViteSsrExternal({ app, config }, "twikoo");
+          case "Waline": {
+            addViteOptimizeDepsInclude(bundlerOptions, app, "autosize");
+            addViteOptimizeDepsExclude(bundlerOptions, app, "@waline/client");
+            addViteSsrExternal(bundlerOptions, app, "@waline/client");
+            break;
+          }
+
+          case "Twikoo": {
+            addViteOptimizeDepsInclude(bundlerOptions, app, "twikoo");
+            addViteSsrExternal(bundlerOptions, app, "twikoo");
+            break;
+          }
         }
       },
 

@@ -1,11 +1,12 @@
 {
   "name": "sitemap2-demo",
-  "version": "2.0.0-beta.130",
+  "version": "2.0.0-beta.181",
   "private": true,
   "description": "Demo for vuepress-plugin-sitemap2",
   "license": "MIT",
   "author": "Mr.Hope",
   "scripts": {
+    "demo:serve": "http-server -a localhost src/.vuepress/dist -o",
     "demo:vite-build": "vuepress-vite build src",
     "demo:vite-clean-dev": "vuepress-vite dev src --clean-cache",
     "demo:vite-dev": "vuepress-vite dev src",
@@ -14,13 +15,13 @@
     "demo:webpack-dev": "vuepress-webpack dev src"
   },
   "devDependencies": {
-    "@vuepress/cli": "2.0.0-beta.53",
-    "@vuepress/client": "2.0.0-beta.53",
-    "@vuepress/theme-default": "2.0.0-beta.53",
+    "@vuepress/cli": "2.0.0-beta.60",
+    "@vuepress/client": "2.0.0-beta.60",
+    "@vuepress/theme-default": "2.0.0-beta.60",
     "sass-loader": "13.2.0",
-    "vue": "3.2.45",
+    "vue": "3.2.47",
     "vuepress-plugin-sitemap2": "workspace:*",
-    "vuepress-vite": "2.0.0-beta.53",
-    "vuepress-webpack": "2.0.0-beta.53"
+    "vuepress-vite": "2.0.0-beta.60",
+    "vuepress-webpack": "2.0.0-beta.60"
   }
 }

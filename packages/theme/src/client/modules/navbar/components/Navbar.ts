@@ -1,23 +1,29 @@
-import { computed, defineComponent, h, ref, resolveComponent } from "vue";
-import { isComponentRegistered } from "vuepress-shared/client";
+import {
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  ref,
+  resolveComponent,
+} from "vue";
+import { hasGlobalComponent } from "vuepress-shared/client";
 
 import {
-  useMobile,
   useThemeLocaleData,
-} from "@theme-hope/composables/index.js";
-import LanguageDropdown from "@theme-hope/modules/navbar/components/LanguageDropdown.js";
-import NavbarBrand from "@theme-hope/modules/navbar/components/NavbarBrand.js";
-import NavbarLinks from "@theme-hope/modules/navbar/components/NavbarLinks.js";
-import NavScreen from "@theme-hope/modules/navbar/components/NavScreen.js";
-import OutlookButton from "@theme-hope/modules/outlook/components/OutlookButton.js";
-import ToggleNavbarButton from "@theme-hope/modules/navbar/components/ToggleNavbarButton.js";
-import ToggleSidebarButton from "@theme-hope/modules/navbar/components/ToggleSidebarButton.js";
-import RepoLink from "@theme-hope/modules/navbar/components/RepoLink.js";
+  useWindowSize,
+} from "@theme-hope/composables/index";
+import LanguageDropdown from "@theme-hope/modules/navbar/components/LanguageDropdown";
+import NavScreen from "@theme-hope/modules/navbar/components/NavScreen";
+import NavbarBrand from "@theme-hope/modules/navbar/components/NavbarBrand";
+import NavbarLinks from "@theme-hope/modules/navbar/components/NavbarLinks";
+import RepoLink from "@theme-hope/modules/navbar/components/RepoLink";
+import ToggleNavbarButton from "@theme-hope/modules/navbar/components/ToggleNavbarButton";
+import ToggleSidebarButton from "@theme-hope/modules/navbar/components/ToggleSidebarButton";
+import OutlookButton from "@theme-hope/modules/outlook/components/OutlookButton";
 
-import type { VNode } from "vue";
-import type {
-  NavbarComponent,
-  NavbarLocaleOptions,
+import {
+  type NavbarComponent,
+  type NavbarLocaleOptions,
 } from "../../../../shared/index.js";
 
 import "../styles/navbar.scss";
@@ -27,16 +33,18 @@ declare const HAS_MULTIPLE_LANGUAGES: boolean;
 export default defineComponent({
   name: "NavBar",
 
-  emits: ["toggle-sidebar"],
+  emits: {
+    toggleSidebar: () => true,
+  },
 
   setup(_props, { emit, slots }) {
     const themeLocale = useThemeLocaleData();
+    const { isMobile } = useWindowSize();
 
-    const isMobile = useMobile();
     const showScreen = ref(false);
 
     const autoHide = computed(() => {
-      const { navbarAutoHide } = themeLocale.value;
+      const { navbarAutoHide = "mobile" } = themeLocale.value;
 
       return (
         navbarAutoHide !== "none" &&
@@ -49,9 +57,9 @@ export default defineComponent({
     >(
       () =>
         themeLocale.value.navbarLayout || {
-          left: ["Brand"],
+          start: ["Brand"],
           center: ["Links"],
-          right: ["Language", "Repo", "Outlook", "Search"],
+          end: ["Language", "Repo", "Outlook", "Search"],
         }
     );
 
@@ -62,11 +70,11 @@ export default defineComponent({
         Links: h(NavbarLinks),
         Repo: h(RepoLink),
         Outlook: h(OutlookButton),
-        Search: isComponentRegistered("Docsearch")
+        Search: hasGlobalComponent("Docsearch")
           ? h(resolveComponent("Docsearch"))
-          : isComponentRegistered("SearchBox")
+          : hasGlobalComponent("SearchBox")
           ? h(resolveComponent("SearchBox"))
-          : isComponentRegistered("SearchBox")
+          : hasGlobalComponent("SearchBox")
           ? h(resolveComponent("SearchBox"))
           : null,
       };
@@ -79,34 +87,35 @@ export default defineComponent({
               "navbar",
               {
                 "auto-hide": autoHide.value,
-                "hide-icon": !themeLocale.value.navbarIcon,
+                "hide-icon": themeLocale.value.navbarIcon === false,
               },
             ],
+            id: "navbar",
           },
           [
-            h("div", { class: "navbar-left" }, [
+            h("div", { class: "navbar-start" }, [
               // @ts-ignore
               h(ToggleSidebarButton, {
                 onToggle: () => {
                   if (showScreen.value) showScreen.value = false;
-                  emit("toggle-sidebar");
+                  emit("toggleSidebar");
                 },
               }),
-              slots["leftStart"]?.(),
-              ...navbarLayout.value.left.map((item) => map[item]),
-              slots["leftEnd"]?.(),
+              slots["startBefore"]?.(),
+              ...(navbarLayout.value.start || []).map((item) => map[item]),
+              slots["startAfter"]?.(),
             ]),
 
             h("div", { class: "navbar-center" }, [
-              slots["centerStart"]?.(),
-              ...navbarLayout.value.center.map((item) => map[item]),
-              slots["centerEnd"]?.(),
+              slots["centerBefore"]?.(),
+              ...(navbarLayout.value.center || []).map((item) => map[item]),
+              slots["centerAfter"]?.(),
             ]),
 
-            h("div", { class: "navbar-right" }, [
-              slots["rightStart"]?.(),
-              ...navbarLayout.value.right.map((item) => map[item]),
-              slots["rightEnd"]?.(),
+            h("div", { class: "navbar-end" }, [
+              slots["endBegin"]?.(),
+              ...(navbarLayout.value.end || []).map((item) => map[item]),
+              slots["endAfter"]?.(),
 
               h(ToggleNavbarButton, {
                 active: showScreen.value,
@@ -120,7 +129,7 @@ export default defineComponent({
         h(
           NavScreen,
           {
-            active: showScreen.value,
+            show: showScreen.value,
             onClose: () => {
               showScreen.value = false;
             },

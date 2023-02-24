@@ -1,6 +1,7 @@
-import type { LocaleConfig } from "@vuepress/core";
-import type { GenerateSWOptions } from "workbox-build";
-import type { ManifestOption, PWALocaleData } from "../shared/index.js";
+import { type LocaleConfig } from "@vuepress/core";
+import { type GenerateSWOptions } from "workbox-build";
+
+import { type ManifestOption, type PWALocaleData } from "../shared/index.js";
 
 interface ApplePWAOptions {
   /**
@@ -19,7 +20,7 @@ interface ApplePWAOptions {
    *
    * 状态栏的颜色
    *
-   * @default 'black'
+   * @default "black"
    */
   statusBarColor?: "black" | "white";
 
@@ -58,7 +59,7 @@ export interface PWAOptions {
    *
    * Service Worker 文件路径
    *
-   * @default 'service-worker.js'
+   * @default "service-worker.js"
    */
   swPath?: string;
 
@@ -168,7 +169,7 @@ export interface PWAOptions {
    *
    * 用于替换默认提示弹出组件的自定义组件。
    *
-   * @default 'SWHintPopup'
+   * @default "SWHintPopup"
    */
   hintComponent?: string;
 
@@ -177,7 +178,7 @@ export interface PWAOptions {
    *
    * 用于替换默认更新弹出组件的自定义组件。
    *
-   * @default 'SWUpdatePopup'
+   * @default "SWUpdatePopup"
    */
   updateComponent?: string;
 

@@ -6,6 +6,32 @@ Embed YouTube videos in Markdown files.
 
 <!-- more -->
 
+## Demo
+
+A YouTube video:
+
+<YouTube id="0JJPfz5dg20" />
+
+```md
+<YouTube id="0JJPfz5dg20" />
+```
+
+A YouTube video with custom settings:
+
+<YouTube id="0JJPfz5dg20" disable-fullscreen />
+
+```md
+<YouTube id="0JJPfz5dg20" disable-fullscreen />
+```
+
+A YouTube play list:
+
+<YouTube list-type="playlist" list="PLJNLwTPak6dhCRzVelZIs2-DfBp01NX_1" />
+
+```md
+<YouTube list-type="playlist" list="PLJNLwTPak6dhCRzVelZIs2-DfBp01NX_1" />
+```
+
 ## Props
 
 ### id
@@ -21,6 +47,13 @@ It is ONLY not required, when you are setting `listType` to `"playlist"` and pro
 
 :::
 
+### title
+
+- Type: `string`
+- Required: No
+
+YouTube video title
+
 ### width
 
 - Type: `string | number`
@@ -35,12 +68,12 @@ YouTube component width.
 
 YouTube component height
 
-### radio
+### ratio
 
 - Type: `number`
 - Default: `16 / 9`
 
-YouTube component radio, ONLY valid when `height` not set.
+YouTube component ratio, ONLY valid when `height` not set.
 
 ### autoplay
 
@@ -145,29 +178,3 @@ Whether disable fullscreen button of the video.
 - Default: `false`
 
 Whether disable keyboard control of the video.
-
-## Demo
-
-A YouTube video:
-
-<YouTube id="0JJPfz5dg20" />
-
-```md
-<YouTube id="0JJPfz5dg20" />
-```
-
-A YouTube video with custom settings:
-
-<YouTube id="0JJPfz5dg20" disable-fullscreen />
-
-```md
-<YouTube id="0JJPfz5dg20" disable-fullscreen />
-```
-
-A YouTube play list:
-
-<YouTube list-type="playlist" list="PLJNLwTPak6dhCRzVelZIs2-DfBp01NX_1" />
-
-```md
-<YouTube list-type="playlist" list="PLJNLwTPak6dhCRzVelZIs2-DfBp01NX_1" />
-```

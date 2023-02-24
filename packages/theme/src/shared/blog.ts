@@ -1,5 +1,5 @@
-import type { ReadingTime } from "vuepress-plugin-reading-time2";
-import type { Author } from "vuepress-shared";
+import { type ReadingTime } from "vuepress-plugin-reading-time2";
+import { type Author } from "vuepress-shared";
 
 export const enum ArticleInfoType {
   type = "y",
@@ -17,6 +17,8 @@ export const enum ArticleInfoType {
   excerpt = "e",
   sticky = "u",
   cover = "v",
+  index = "I",
+  order = "O",
 }
 
 export const enum PageType {
@@ -46,6 +48,18 @@ export interface ArticleInfo extends Record<string, unknown> {
    * Page icon
    */
   [ArticleInfoType.icon]?: string;
+
+  /**
+   * Whether this page should be indexed
+   *
+   * used in other functions, e.g.: sidebar and catalog
+   */
+  [ArticleInfoType.index]?: boolean;
+
+  /**
+   * The order of this page in same directory
+   */
+  [ArticleInfoType.order]?: number;
 
   /**
    * Article author

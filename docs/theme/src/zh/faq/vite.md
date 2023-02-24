@@ -1,6 +1,6 @@
 ---
 title: Vite 常见问题
-icon: light
+icon: circle-question
 category:
   - FAQ
 ---
@@ -60,7 +60,7 @@ export default defineUserConfig({
         rel: "preload",
         as: "style",
         onload: 'this.onload=null;this.rel="stylesheet"',
-        href: "//at.alicdn.com/t/font_2410206_a0xb9hku9iu.css",
+        href: "//at.alicdn.com/t/c/font_2410206_5vb9zlyghj.css",
       },
     ],
   ],

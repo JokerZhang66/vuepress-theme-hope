@@ -1,6 +1,6 @@
 ---
 title: Markdown
-icon: markdown
+icon: fab fa-markdown
 order: 3
 category:
   - Начало работы
@@ -41,7 +41,7 @@ Frontmatter — важная концепция в VuePress. Если вы эт�
 
 ### Улучшение темы
 
-Используя [`vuepress-plugin-md-enhance`][md-enhance], тема расширяет синтаксис Markdown и предоставляет более богатые функции записи.
+Используя <ProjectLink name="md-enhance">`vuepress-plugin-md-enhance`</ProjectLink>, тема расширяет синтаксис Markdown и предоставляет более богатые функции записи.
 
 #### Пользовательский контейнер
 
@@ -302,6 +302,9 @@ cond(no)->e
 #### Mermaid
 
 ```mermaid
+---
+title: Flowchart
+---
 flowchart TB
     c1-->a2
     subgraph one
@@ -331,7 +334,7 @@ $$
 
 #### Включение файлов
 
-@include(../markdown/demo.snippet.md{5-9})
+@include(../markdown/demo.snippet.md{9-13})
 
 - [Посмотреть детали](../markdown/include.md)
 
@@ -441,5 +444,3 @@ $$
 @slideend
 
 - [Посмотреть детали](../markdown/presentation.md)
-
-[md-enhance]: https://vuepress-theme-hope.github.io/v2/md-enhance/

@@ -1,24 +1,9 @@
 ---
 title: Список эмодзи
-icon: emoji
+icon: face-smile
+dir:
+  order: 3
+article: false
 ---
 
-## Люди
-
-- [Посмотреть детали](people.md)
-
-## Природа
-
-- [Посмотреть детали](nature.md)
-
-## Объект
-
-- [Посмотреть детали](object.md)
-
-## Расположение
-
-- [Посмотреть детали](place.md)
-
-## Символ
-
-- [Посмотреть детали](symbol.md)
+<AutoCatalog />

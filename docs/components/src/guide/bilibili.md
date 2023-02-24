@@ -4,6 +4,34 @@ title: BiliBili
 
 Embed BiliBili videos in Markdown files.
 
+<!-- more -->
+
+## Demo
+
+A bilibili video:
+
+<BiliBili bvid="BV1kt411o7C3" />
+
+```md
+<BiliBili bvid="BV1kt411o7C3" />
+```
+
+A bilibili video with ratio, start time and page:
+
+<BiliBili bvid="BV1kt411o7C3" ratio="16:9" time="60" page="2" />
+
+```md
+<BiliBili bvid="BV1kt411o7C3" ratio="16:9" time="60" page="2" />
+```
+
+A bilibili video with custom settings:
+
+<BiliBili bvid="BV1kt411o7C3" ratio="16:9" low-quality no-danmaku />
+
+```md
+<BiliBili bvid="BV1kt411o7C3" ratio="16:9" low-quality no-danmaku />
+```
+
 ## Props
 
 ### bvid
@@ -12,6 +40,13 @@ Embed BiliBili videos in Markdown files.
 - Required: Yes
 
 BiliBili video id.
+
+### title
+
+- Type: `string`
+- Required: No
+
+BiliBili video title
 
 ### page
 
@@ -34,12 +69,12 @@ BiliBili component width.
 
 BiliBili component height
 
-### radio
+### ratio
 
 - Type: `number`
 - Default: `16 / 9`
 
-BiliBili component radio, ONLY valid when `height` not set.
+BiliBili component ratio, ONLY valid when `height` not set.
 
 ### time
 
@@ -48,35 +83,16 @@ BiliBili component radio, ONLY valid when `height` not set.
 
 Start time of the video (in seconds).
 
-### danmaku
+### lowQuality
 
 - Type: `boolean`
-- Default: `true`
+- Default: `false`
 
-Whether to enable danmaku
+Whether to use source having low quality.
 
-## Demo
+### noDanmaku
 
-A bilibili video:
+- Type: `boolean`
+- Default: `false`
 
-<BiliBili bvid="BV1kt411o7C3" />
-
-```md
-<BiliBili bvid="BV1kt411o7C3" />
-```
-
-A bilibili video with radio, start time and page:
-
-<BiliBili bvid="BV1kt411o7C3" :ratio="9/16" :time="60" :page="2" />
-
-```md
-<BiliBili bvid="BV1kt411o7C3" :ratio="9/16" :time="60" :page="2" />
-```
-
-A bilibili video with custom settings:
-
-<BiliBili bvid="BV1kt411o7C3" :auto-height="[9 / 16, 20]" :high-quality="false" :danmaku="false" />
-
-```md
-<BiliBili bvid="BV1kt411o7C3" :auto-height="[9 / 16, 20]" :high-quality="false" :danmaku="false" />
-```
+Whether to disable danmaku

@@ -1,6 +1,6 @@
 ---
 title: Plugin Config
-icon: config
+icon: gears
 ---
 
 ## hostname
@@ -52,7 +52,7 @@ Set the maximum number of items in the feed. After all pages are sorted, the fir
 
 If your site has a lot of articles, you may consider this option to reduce feed file size.
 
-## customElements
+## removedElements
 
 - Type: `string[]`
 - Default: `["ExternalLinkIcon"]`
@@ -99,23 +99,51 @@ For available options, please see [Config → Channel](channel.md)
 ## atomOutputFilename
 
 - Type: `string`
-- Default: `atom.xml`
+- Default: `"atom.xml"`
 
-Atom syntax output filename, relative to output directory.
+Atom syntax output filename, relative to dest folder.
+
+## atomXslTemplate
+
+- Type: `string`
+- Default: `"vuepress-plugin-feed2/templates/atom.xsl"`
+
+Atom xsl template file path
+
+## atomXslFilename
+
+- Type: `string`
+- Default: `"atom.xsl"`
+
+Atom xsl filename, relative to dest folder.
 
 ## jsonOutputFilename
 
 - Type: `string`
-- Default: `feed.json`
+- Default: `"feed.json"`
 
-JSON syntax output filename, relative to output directory.
+JSON syntax output filename, relative to dest folder.
 
 ## rssOutputFilename
 
 - Type: `string`
-- Default: `rss.xml`
+- Default: `"rss.xml"`
 
-RSS syntax output filename, relative to output directory.
+RSS syntax output filename, relative to dest folder.
+
+## rssXslTemplate
+
+- Type: `string`
+- Default: `'vuepress-plugin-feed2/templates/rss.xsl'`
+
+RSS xsl template file path
+
+## rssXslFilename
+
+- Type: `string`
+- Default: `"rss.xsl"`
+
+RSS syntax xsl filename, relative to dest folder.
 
 ## getter
 

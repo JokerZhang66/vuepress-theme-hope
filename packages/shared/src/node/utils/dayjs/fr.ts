@@ -1,5 +1,6 @@
 import type dayjs from "dayjs";
-import type { Locale } from "./locale.js";
+
+import { type Locale } from "./locale.js";
 
 const locale: Partial<Locale> = {
   name: "fr",
@@ -44,6 +45,6 @@ const locale: Partial<Locale> = {
   },
 };
 
-export const loadFrLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("fr", locale);
+export const loadFrLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("fr", locale);
 };

@@ -1,9 +1,9 @@
+import { type App } from "@vuepress/core";
 import { utoa } from "vuepress-shared/node";
-import { generatePageIndex } from "./generateIndex.js";
 
-import type { App } from "@vuepress/core";
-import type { SearchProOptions } from "./options.js";
-import type { PageIndex, SearchIndex } from "../shared/index.js";
+import { generatePageIndex, getSearchIndex } from "./generateIndex.js";
+import { type SearchProOptions } from "./options.js";
+import { type SearchIndex } from "../shared/index.js";
 
 const HMR_CODE = `
 if (import.meta.webpackHot) {
@@ -22,52 +22,23 @@ if (import.meta.hot) {
 let previousSearchIndex: SearchIndex | null = null;
 
 export const prepareSearchIndex = async (
-  { env, pages, options: appOptions, writeTemp }: App,
+  app: App,
   options: SearchProOptions
 ): Promise<void> => {
-  const pagesSearchIndex = pages
-    .map((page) => {
-      const pageIndex = generatePageIndex(
-        page,
-        options.customFields,
-        options.indexContent
-      );
+  if (app.env.isDev) {
+    const searchIndex = getSearchIndex(app, options);
 
-      return pageIndex
-        ? { path: page.path, index: pageIndex, localePath: page.pathLocale }
-        : null;
-    })
-    .filter(
-      (item): item is { path: string; index: PageIndex; localePath: string } =>
-        item !== null
-    );
+    previousSearchIndex = searchIndex;
 
-  const searchIndex = Object.fromEntries(
-    Object.keys(
-      // locales should at least have root locales
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      { "/": {}, ...appOptions.locales }
-    ).map((localePath) => [
-      localePath,
-      Object.fromEntries(
-        pagesSearchIndex
-          .filter((item) => item.localePath === localePath)
-          .map((item) => [item.path, item.index])
-      ),
-    ])
-  );
+    // search index file content
+    const content = `\
+export const database = "${utoa(JSON.stringify(searchIndex))}";
 
-  previousSearchIndex = searchIndex;
-
-  // search index file content
-  let content = `\
-export const database = "${utoa(JSON.stringify(searchIndex))}"
+${HMR_CODE}
 `;
 
-  // inject HMR code
-  if (env.isDev) content += HMR_CODE;
-
-  await writeTemp("search-pro/index.js", content);
+    await app.writeTemp("search-pro/database.js", content);
+  }
 };
 
 export const updateSearchIndex = async (
@@ -107,7 +78,7 @@ export const database = "${utoa(JSON.stringify(previousSearchIndex))}"
         // inject HMR code
         if (env.isDev) content += HMR_CODE;
 
-        await writeTemp("search-pro/index.js", content);
+        await writeTemp("search-pro/database.js", content);
 
         return;
       }
@@ -147,7 +118,7 @@ export const database = "${utoa(JSON.stringify(previousSearchIndex))}"
       // inject HMR code
       if (env.isDev) content += HMR_CODE;
 
-      await writeTemp("search-pro/index.js", content);
+      await writeTemp("search-pro/database.js", content);
 
       return;
     }

@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { createBaseApp } from "@vuepress/core";
 import { path } from "@vuepress/utils";
-import { describe, it, expect } from "vitest";
-import { getLocales } from "../../src/node/locales";
+import { describe, expect, it } from "vitest";
+
 import { emptyTheme } from "./__fixtures__/theme/empty.js";
+import { getLocales } from "../../src/node/locales/helpers.js";
 
 const defaultLocaleConfig = {
   "/en/": {

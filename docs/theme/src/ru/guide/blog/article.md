@@ -1,6 +1,6 @@
 ---
 title: Список статей
-icon: article
+icon: clipboard-list
 order: 3
 category:
   - Блог
@@ -33,13 +33,23 @@ tag:
 
 ## Выдержка
 
-Если вы хотите добавить отрывок к статье, вы можете использовать комментарий `<!-- more -->`, чтобы пометить его. Все содержимое до комментария будет считаться выдержкой. Кроме того, вы можете указать его с помощью `excerpt` во вступительном слове со строкой HTML.
+### Adding Excerpt
 
-::: info Авто выдержка
+If you want to add an excerpt for an article, you can mark contents with `<!-- more -->` comment. Any content before this comment will be considered as an excerpt.
 
-По умолчанию тема будет отображать только тот отрывок или описание, которое вы укажете в списке статей.
+Meanwhile, if the excerpt you want to set is not what you want to show at the beginning of the article, you can also set the HTML string through the `excerpt` option in Frontmatter.
 
-Если вы хотите, чтобы тема автоматически извлекала отрывки, установите `plugins.blog.autoExcerpt: true` в параметрах темы.
+### Automatically Generate Excerpt
+
+By default, the theme extract article excerpts for you automatically,.
+
+If you want the theme only display excerpt which you specify, set `plugins.blog.excerptLength: 0` in theme options.
+
+::: warning Excerpt Limitation
+
+We recommend you to use `<!-- more -->` to mark excerpt as first choice. If you do need a special excerpt, set it in frontmatter yourself.
+
+In addition, excerpt is directly inserted into the DOM through `innerHTML`, this means that no Vue features are available.
 
 :::
 
@@ -61,10 +71,76 @@ tag:
 
 :::
 
-## Шифрование и слайды
+## Other types of articles <Badge text="Advanced" type="info" />
 
-Тема предоставляет отдельные списки для двух специальных страниц: зашифрованной страницы статьи и страницы слайда. Вы можете просмотреть их на страницах `/encrypt/` и `/slide/`.
+The theme provides separate lists for additional article type.
 
-В то же время, чтобы помочь посетителям различать эти две категории страниц, их категории будут четко обозначены значками в списке статей.
+To add additional article type, you should set `plugins.blog.type` in theme options with an array of objects describing type you want.
 
-![Советы по категориям](./assets/icon-type.png)
+Each type should have a unique key (without special characters), and a `filter` function to determine whether a page should be the type. The `filter` function should accept page object and return a boolean value.
+
+To sort pages in the type list, you can also set a `sorter` function. The `sorter` function should accept two page objects and return a number.
+
+By default, the type list path will be `/key/` (with `key` replaced by your actual key). You can also set a custom path by setting `path` in options.
+
+`frontmatter` option controls the frontmatter of the layout page, with is a function accepting `localePath` and returning a frontmatter object. This option is useful when setting the title of the layout page.
+
+::: note
+
+`layout` is the layout name, by default it will be `BlogType`, a layout `vuepress-theme-hope` registered. ONLY IF you build a custom layout for the type list, shall you set this option to your layout value.
+
+:::
+
+Also you need to set `blogLocales[key]` in theme locales with the actual type name, so that the theme can display the type name correctly.
+
+To get start with, we would like to show you some examples.
+
+::: details Examples
+
+1. Adding a type of slide pages.
+
+   All slide pages should have `layout: Slide` in frontmatter. And the sequence doesn't matter.
+
+1. Adding a original type.
+
+You shall set the following options:
+
+```ts
+import { defineUserConfig } from "vuepress";
+// you may need to install vuepress-shared to use its `compareDate`
+import { compareDate } from "vuepress-shared/node";
+import { hopeTheme } from "vuepress-theme-hope";
+
+export default defineUserConfig({
+  // other config
+  // ...
+
+  theme: hopeTheme({
+    blogLocales: {
+      slide: "Slides",
+      original: "Original",
+    },
+
+    plugins: {
+      blog: {
+        type: [
+          {
+            key: "slide",
+            filter: (page) => page.frontmatter.layout === "Slide",
+            frontmatter: () => ({ title: "Slides" }),
+          },
+          {
+            key: "original",
+            filter: (page) => page.frontmatter.original,
+            sorter: (pageA, pageB) =>
+              compareDate(pageA.frontmatter.date - pageB.frontmatter.date),
+            frontmatter: () => ({ title: "Original" }),
+          },
+        ],
+      },
+    },
+  }),
+});
+```
+
+:::

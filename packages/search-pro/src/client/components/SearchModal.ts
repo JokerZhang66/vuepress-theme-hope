@@ -1,7 +1,8 @@
 import { useEventListener } from "@vueuse/core";
 import {
-  defineComponent,
+  type VNode,
   defineAsyncComponent,
+  defineComponent,
   h,
   inject,
   onMounted,
@@ -11,11 +12,9 @@ import {
 import { checkIsMobile, useLocaleConfig } from "vuepress-shared/client";
 
 import { SearchLoading } from "./SearchLoading.js";
-import { SearchIcon } from "./icons.js";
+import { CloseIcon, SearchIcon } from "./icons.js";
 import { searchModalSymbol } from "../composables/setup.js";
 import { searchProLocales } from "../define.js";
-
-import type { VNode } from "vue";
 
 import "../styles/search-modal.scss";
 
@@ -24,7 +23,11 @@ const SearchResult = defineAsyncComponent({
     import(
       /* webpackChunkName: "search-pro-result" */ "vuepress-plugin-search-pro/result"
     ),
-  loadingComponent: SearchLoading,
+  loadingComponent: () => {
+    const localeConfig = useLocaleConfig(searchProLocales);
+
+    return h(SearchLoading, { hint: localeConfig.value.loading });
+  },
 });
 
 export default defineComponent({
@@ -60,18 +63,38 @@ export default defineComponent({
             }),
             h("div", { class: "search-pro-modal" }, [
               h("div", { class: "search-pro-box" }, [
-                h(SearchIcon),
-                h("input", {
-                  ref: inputElement,
-                  type: "text",
-                  class: "search-pro-input",
-                  placeholder: locale.value.placeholder,
-                  spellcheck: "false",
-                  value: input.value,
-                  onInput: ({ target }: InputEvent) => {
-                    input.value = (<HTMLInputElement>target).value;
-                  },
-                }),
+                h("form", [
+                  h(
+                    "label",
+                    { for: "search-pro", "aria-label": locale.value.search },
+                    h(SearchIcon)
+                  ),
+                  h("input", {
+                    ref: inputElement,
+                    type: "text",
+                    class: "search-pro-input",
+                    id: "search-pro",
+                    placeholder: locale.value.placeholder,
+                    spellcheck: "false",
+                    value: input.value,
+                    onInput: ({ target }: InputEvent) => {
+                      input.value = (<HTMLInputElement>target).value;
+                    },
+                  }),
+                  input.value
+                    ? h(
+                        "button",
+                        {
+                          type: "reset",
+                          class: "clear-button",
+                          onClick: () => {
+                            input.value = "";
+                          },
+                        },
+                        h(CloseIcon)
+                      )
+                    : null,
+                ]),
                 h(
                   "button",
                   {

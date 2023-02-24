@@ -1,6 +1,6 @@
 ---
 title: 安装/使用
-icon: install
+icon: download
 order: 2
 category:
   - 快速上手
@@ -19,13 +19,43 @@ tag:
 @tab pnpm
 
 ```bash
-pnpm create vuepress-theme-hope@next [dir]
+pnpm create vuepress-theme-hope [dir]
+```
+
+@tab yarn
+
+```bash
+yarn create vuepress-theme-hope [dir]
 ```
 
 @tab npm
 
 ```bash
-npm init vuepress-theme-hope@next [dir]
+npm init vuepress-theme-hope [dir]
+```
+
+:::
+
+要将 vuepress-theme-hope 作为文档构建器添加到现有项目中，请在项目根目录中运行以下命令:
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm create vuepress-theme-hope add [dir]
+```
+
+@tab yarn
+
+```bash
+yarn create vuepress-theme-hope add [dir]
+```
+
+@tab npm
+
+```bash
+npm init vuepress-theme-hope add [dir]
 ```
 
 :::

@@ -1,7 +1,8 @@
+import { type App, type Page } from "@vuepress/core";
 import { path } from "@vuepress/utils";
+import { startsWith } from "vuepress-shared/node";
 
-import type { App, Page } from "@vuepress/core";
-import type { SidebarSorterFunction } from "../../../shared/index.js";
+import { type SidebarSorterFunction } from "../../../shared/index.js";
 
 export interface FileInfo {
   type: "file";
@@ -24,11 +25,17 @@ export interface ThemeSidebarInfoOptions {
   nestingDepth?: number;
 }
 
-export const getStructure = (pages: Page[], scope: string): StructureInfo[] => {
+/**
+ * @private
+ */
+export const getStructureInfo = (
+  pages: Page[],
+  scope: string
+): StructureInfo[] => {
   const relatedPages = pages.filter(
     ({ filePathRelative, pathLocale }) =>
-      // generated from file and inside currect scope
-      filePathRelative?.startsWith(scope) &&
+      // generated from file and inside current scope
+      startsWith(filePathRelative, scope) &&
       // root dir should filter other locales
       (scope !== "" || pathLocale === "/")
   );
@@ -48,21 +55,24 @@ export const getStructure = (pages: Page[], scope: string): StructureInfo[] => {
     const relativePath = path.relative(scope, page.filePathRelative!);
     const filename = path.basename(relativePath);
 
-    let currectDir = structure;
+    let currentDir = structure;
     const levels = relativePath.split("/");
 
     levels.forEach((level, index) => {
       // already gets filename
-      if (index === levels.length - 1)
-        currectDir.push({ type: "file", filename, path: relativePath });
-      // still generateing dir
+      if (index === levels.length - 1) {
+        currentDir.push({ type: "file", filename, path: relativePath });
+      }
+      // still generating dir
       else {
-        const result = currectDir.find<DirInfo>(
+        const result = currentDir.find<DirInfo>(
           (item): item is DirInfo =>
             item.type === "dir" && item.dirname === level
         );
 
-        if (result) currectDir = result.children;
+        if (result) {
+          currentDir = result.children;
+        }
         // we shall create this dir
         else {
           const dirInfo: DirInfo = {
@@ -72,9 +82,9 @@ export const getStructure = (pages: Page[], scope: string): StructureInfo[] => {
             children: [],
           };
 
-          currectDir.push(dirInfo);
+          currentDir.push(dirInfo);
 
-          currectDir = dirInfo.children;
+          currentDir = dirInfo.children;
         }
       }
     });

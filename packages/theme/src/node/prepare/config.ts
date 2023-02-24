@@ -1,85 +1,69 @@
-import { ensureEndingSlash } from "@vuepress/shared";
-import { getDirname, path } from "@vuepress/utils";
+import { type App } from "@vuepress/core";
 
-import type { App } from "@vuepress/core";
-import type { ThemeStatus } from "../status.js";
-import type { PluginsOptions } from "../../shared/index.js";
+import { type ThemeStatus } from "../config/status.js";
+import { CLIENT_FOLDER } from "../utils.js";
 
-const __dirname = getDirname(import.meta.url);
-const CLIENT_FOLDER = ensureEndingSlash(
-  path.resolve(__dirname, "../../client")
-);
-
+/**
+ * @private
+ */
 export const prepareConfigFile = (
   app: App,
-  plugins: PluginsOptions,
-  { enableBlog, enableEncrypt }: ThemeStatus
+  { enableBlog, enableEncrypt, enableSlide }: ThemeStatus
 ): Promise<string> => {
-  let configImport = "";
-  let enhance = "";
-  let setup = "";
-  let layout = "";
+  const imports: string[] = [];
+  const enhances: string[] = [];
+  const setups: string[] = [];
+  const layouts = [];
 
   if (enableBlog) {
-    configImport += `\
-import BloggerInfo from "@theme-hope/modules/blog/components/BloggerInfo.js";
-import BlogHome from "@theme-hope/modules/blog/components/BlogHome.js";
-import BlogPage from "@theme-hope/modules/blog/components/BlogPage.js";
-import { setupBlog } from "@theme-hope/modules/blog/composables/index.js";
-import "${CLIENT_FOLDER}modules/blog/styles/layout.scss";
-`;
+    imports.push(
+      `import BloggerInfo from "@theme-hope/modules/blog/components/BloggerInfo";`,
+      `import { setupBlog } from "@theme-hope/modules/blog/composables/index";`,
+      `import BlogCategory from "${CLIENT_FOLDER}modules/blog/layouts/BlogCategory.js";`,
+      `import BlogHome from "${CLIENT_FOLDER}modules/blog/layouts/BlogHome.js";`,
+      `import BlogType from "${CLIENT_FOLDER}modules/blog/layouts/BlogType.js";`,
+      `import Timeline from "${CLIENT_FOLDER}modules/blog/layouts/Timeline.js";`,
+      `import "${CLIENT_FOLDER}modules/blog/styles/layout.scss";`
+    );
 
-    enhance += `\
-app.component("BloggerInfo", BloggerInfo);
-app.component("BlogHome", BlogHome);
-app.component("BlogPage", BlogPage);
-`;
+    enhances.push(`app.component("BloggerInfo", BloggerInfo);`);
 
-    setup += `\
-setupBlog();
-`;
+    setups.push("setupBlog();");
+
+    layouts.push("BlogCategory,", "BlogHome,", "BlogType,", "Timeline,");
   }
 
   if (enableEncrypt) {
-    configImport += `\
-import GlobalEncrypt from "@theme-hope/modules/encrypt/components/GlobalEncrypt.js";
-import LocalEncrypt from "@theme-hope/modules/encrypt/components/LocalEncrypt.js";
-`;
-    enhance += `\
-app.component("GlobalEncrypt", GlobalEncrypt);
-app.component("LocalEncrypt", LocalEncrypt);
-`;
+    imports.push(
+      `import GlobalEncrypt from "@theme-hope/modules/encrypt/components/GlobalEncrypt";`,
+      `import LocalEncrypt from "@theme-hope/modules/encrypt/components/LocalEncrypt";`
+    );
+    enhances.push(
+      `app.component("GlobalEncrypt", GlobalEncrypt);`,
+      `app.component("LocalEncrypt", LocalEncrypt);`
+    );
   }
 
-  if (plugins.mdEnhance && plugins.mdEnhance.presentation) {
-    configImport += `import Slide from "${CLIENT_FOLDER}layouts/Slide.js";\n`;
-    layout += "Slide,\n";
-  }
-
-  if (plugins.blog) {
-    configImport += `import Blog from "${CLIENT_FOLDER}modules/blog/layouts/Blog.js";\n`;
-    layout += "Blog,\n";
+  if (enableSlide) {
+    imports.push(`import Slide from "${CLIENT_FOLDER}layouts/Slide.js";`);
+    layouts.push("Slide,");
   }
 
   return app.writeTemp(
     `theme-hope/config.js`,
     `import { defineClientConfig } from "@vuepress/client";
 
-import CommonWrapper from "@theme-hope/components/CommonWrapper.js";
-import HomePage from "@theme-hope/components/HomePage.js";
-import NormalPage from "@theme-hope/components/NormalPage.js";
-import Navbar from "@theme-hope/modules/navbar/components/Navbar.js";
-import Sidebar from "@theme-hope/modules/sidebar/components/Sidebar.js";
+import HopeIcon from "@theme-hope/components/HopeIcon";
 import Layout from "${CLIENT_FOLDER}layouts/Layout.js";
 import NotFound from "${CLIENT_FOLDER}layouts/NotFound.js";
 
-import { useScrollPromise } from "@theme-hope/composables/index.js";
-import { injectDarkMode, setupDarkMode } from "@theme-hope/modules/outlook/composables/index.js";
-import { setupSidebarItems } from "@theme-hope/modules/sidebar/composables/index.js";
+import { useScrollPromise } from "@theme-hope/composables/index";
+import { injectDarkmode, setupDarkmode } from "@theme-hope/modules/outlook/composables/index";
+import { setupSidebarItems } from "@theme-hope/modules/sidebar/composables/index";
 
 import "${CLIENT_FOLDER}styles/index.scss";
 
-${configImport}
+${imports.join("\n")}
 
 export default defineClientConfig({
   enhance: ({ app, router }) => {
@@ -92,35 +76,22 @@ export default defineClientConfig({
     };
 
     // inject global properties
-    injectDarkMode(app);
+    injectDarkmode(app);
 
-    // register to inject styles
-    app.component("CommonWrapper", CommonWrapper);
-    app.component("HomePage", HomePage);
-    app.component("NormalPage", NormalPage);
-    app.component("Navbar", Navbar);
-    app.component("Sidebar", Sidebar);
+    // render icon for auto-catalog
+    app.component("HopeIcon", HopeIcon);
 
-${enhance
-  .split("\n")
-  .map((item) => `    ${item}`)
-  .join("\n")}
+${enhances.map((item) => `    ${item}`).join("\n")}
   },
   setup: () => {
-    setupDarkMode();
+    setupDarkmode();
     setupSidebarItems();
-${setup
-  .split("\n")
-  .map((item) => `    ${item}`)
-  .join("\n")}
+${setups.map((item) => `    ${item}`).join("\n")}
   },
   layouts: {
     Layout,
     NotFound,
-${layout
-  .split("\n")
-  .map((item) => `    ${item}`)
-  .join("\n")}
+${layouts.map((item) => `    ${item}`).join("\n")}
   }
 });`
   );

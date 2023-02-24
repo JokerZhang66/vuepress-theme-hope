@@ -1,6 +1,6 @@
 ---
 title: Contribution Guide
-icon: creative
+icon: lightbulb
 category:
   - FAQ
 ---
@@ -25,7 +25,7 @@ If you have not installed pnpm, please install it using the following command.
 
 ```sh
 corepack enable
-corepack prepare pnpm@7.17.0 --activate
+corepack prepare pnpm@7.27.1 --activate
 ```
 
 :::
@@ -46,6 +46,7 @@ The project is a monorepo, managed by pnpm.
 ├── demo → Demo projects
 │
 ├── docs → document directory
+│ ├── auto-catalog → auto-catalog plugin document
 │ ├── blog → blog2 plugin document
 │ ├── comment → comment2 plugin document
 │ ├── components → components plugin document
@@ -56,6 +57,7 @@ The project is a monorepo, managed by pnpm.
 │ ├── photo-swipe → photo-swipe document
 │ ├── pwa → pwa2 plugin document
 │ ├── reading-time → reading-time2 plugin document
+│ ├── rtl → rtl plugin document
 │ ├── remove-pwa → remove-pwa plugin document
 │ ├── sass-palette → sass-palette plugin document
 │ ├── search-pro → search-pro plugin document
@@ -63,6 +65,7 @@ The project is a monorepo, managed by pnpm.
 │ └── theme → theme document
 │
 ├── packages → project source code
+│ ├── auto-catalog → auto-catalog plugin
 │ ├── blog2 → blog2 plugin
 │ ├── comment2 → comment2 plugin
 │ ├── components → components plugin
@@ -75,6 +78,7 @@ The project is a monorepo, managed by pnpm.
 │ ├── pwa2 → pwa2 plugin
 │ ├── reading-time2 → reading-time2 plugin
 │ ├── remove-pwa → remove-pwa plugin
+│ ├── rtl → rtl plugin
 │ ├── sass-palette → sass-palette plugin
 │ ├── search-pro → search-pro plugin
 │ ├── seo2 → seo2 plugin
@@ -115,36 +119,29 @@ The structure of each project is as follows:
 ```
 .
 ├── lib → compiled output file
-│ │
-│ ├── client → client-side compiled code
-│ │
-│ └── node → Node.js side compiled code
+│    │
+│    ├── client → client-side compiled code
+│    │
+│    └── node → Node.js side compiled code
 │
 └── src → source file
-  │
-  ├── client → client-side source code
-  │
-  ├── node → Node.js side source code
-  │
-  └── shared → Shared files between node and client
+     │
+     ├── client → client-side source code
+     │
+     ├── node → Node.js side source code
+     │
+     └── shared → Shared files between node and client
 ```
 
-Since the client-side uses ES Module (import/export) and the Node.js side uses commonjs (require/exports), the code in the node and client directories cannot be cross-referenced.
+VuePress is running both in client side and node side. Node side has node module like `fs`, while client side is running in browser which has `document` `windows` `navigator` etc. globals, you should be aware of where a piece of code is running.
 
-- `client` directory stores the client code, compiled in esm format
-- `node` directory stores the Node.js code, compiled in cjs format
-- `shared` directory basically stores TypeScript types, and is compiled in cjs format. It can be referenced by the client and node directories.
+- `client` directory stores code running in browser
+- `node` directory stores code running in Node.js
+- `shared` directory stores files that are used in both client and node, so code shall not reference any browser globals or node module.
 
 For better performance, all plugins are packed and minified using rollup when they are published.
 
 ## Project Development
-
-### How to build
-
-- For better performance, all plugins are packed and minified using `rollup` when they are published.
-- Use `cpx` package to copy and watch files in other formats from the source file to the output directory.
-
-### Command
 
 1. Build project: `pnpm build`
 
@@ -166,7 +163,7 @@ For better performance, all plugins are packed and minified using rollup when th
 
 Please do not mix build and dev commands as they compile in completely different ways.
 
-You may need to execute the `pnpm clean` command to clear previous build results.
+You may need to execute the `pnpm clean` command to clear previous command result.
 
 :::
 

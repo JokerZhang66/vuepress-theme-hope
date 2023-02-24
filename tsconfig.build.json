@@ -1,7 +1,8 @@
 {
   "extends": "./tsconfig.build.base.json",
   "references": [
-    { "path": "./docs/shared/tsconfig.build.json" },
+    { "path": "./docs-shared/tsconfig.build.json" },
+    { "path": "./packages/auto-catalog/tsconfig.build.json" },
     { "path": "./packages/blog2/tsconfig.build.json" },
     { "path": "./packages/comment2/tsconfig.build.json" },
     { "path": "./packages/components/tsconfig.build.json" },
@@ -14,6 +15,7 @@
     { "path": "./packages/photo-swipe/tsconfig.build.json" },
     { "path": "./packages/pwa2/tsconfig.build.json" },
     { "path": "./packages/reading-time2/tsconfig.build.json" },
+    { "path": "./packages/rtl/tsconfig.build.json" },
     { "path": "./packages/redirect/tsconfig.build.json" },
     { "path": "./packages/sass-palette/tsconfig.build.json" },
     { "path": "./packages/search-pro/tsconfig.build.json" },

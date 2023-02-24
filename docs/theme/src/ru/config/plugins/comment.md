@@ -1,6 +1,6 @@
 ---
 title: Конфиг плагина комментариев
-icon: comment
+icon: comment-dots
 order: 3
 category:
   - Конфиг
@@ -16,6 +16,7 @@ tag:
 
 `vuepress-plugin-comment2` в настоящее время поддерживает 3 службы комментариев:
 
+- Artalk
 - Giscus
 - Twikoo
 - Waline
@@ -28,6 +29,4 @@ tag:
 
 ## Опции
 
-Для получения подробной информации о каждом параметре сервиса комментариев обратитесь к [документации vuepress-plugin-comment2][comment-config].
-
-[comment-config]: https://vuepress-theme-hope.github.io/v2/comment/config/
+Для получения подробной информации о каждом параметре сервиса комментариев обратитесь к <ProjectLink name="comment2" path="/config/">документации vuepress-plugin-comment2</ProjectLink>.

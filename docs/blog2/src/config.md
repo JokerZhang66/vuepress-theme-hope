@@ -1,6 +1,6 @@
 ---
 title: Options
-icon: config
+icon: gears
 ---
 
 ## Plugin Options
@@ -51,6 +51,67 @@ Blog type config, see [Blog Type Config](#blog-type-config)
 - Default: `(name) => name.replace(/ _/g, '-').replace(/[:?*|\\/<>]/g, "").toLowerCase()`
 
 Slugify function, used to convert key name which they are register in routes.
+
+### excerpt
+
+- Type: `boolean`
+- Default: `true`
+- Details:
+  - [Guide → Generating Excerpt](./guide.md#generating-excerpt)
+
+Whether generate excerpt for page.
+
+### excerptSeparator
+
+- Type: `string`
+- Default: `<!-- more -->`
+- Details:
+  - [Guide → Generating Excerpt](./guide.md#generating-excerpt)
+
+Separator used to split excerpt from page content.
+
+### excerptLength
+
+- Type: `number`
+- Default: `300`
+- Details:
+  - [Guide → Generating Excerpt](./guide.md#generating-excerpt)
+
+Length of excerpt when auto generating.
+
+::: note
+
+Excerpt length will be the minimal possible length reaching this value.
+
+You can set it to `0` to disable auto excerpt generation.
+
+:::
+
+### excerptFilter
+
+- Type: `(page: Page) => boolean`
+- Default: `filter` option
+- Details:
+  - [Guide → Generating Excerpt](./guide.md#generating-excerpt)
+
+Page filter, determine whether the plugin should generate excerpt for it.
+
+::: tip
+
+You should use this to skip pages that you don't need to generate excerpt for. E.g.: If users set `excerpt` or `description` in frontmatter, you may want to use them directly.
+
+:::
+
+### isCustomElement
+
+- Type: `(tagName: string) => boolean`
+- Default: `() => false`
+- Details:
+  - [Guide → Generating Excerpt](./guide.md#generating-excerpt)
+
+Tags which is considered as custom elements.
+
+This is used to determine whether a tag is a custom element since all vue components are removed in excerpt
 
 ### metaScope
 

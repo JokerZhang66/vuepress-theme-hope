@@ -1,20 +1,16 @@
 import {
+  type ThemeDataRef,
+  type ThemeLocaleDataRef,
   useThemeData as _useThemeData,
   useThemeLocaleData as _useThemeLocaleData,
 } from "@vuepress/plugin-theme-data/client";
-import { computed } from "vue";
-import { getAuthor } from "vuepress-shared/client";
+import { type ComputedRef, computed } from "vue";
+import { type AuthorInfo, getAuthor } from "vuepress-shared/client";
 
-import type { AuthorInfo } from "vuepress-shared";
-import type {
-  ThemeDataRef,
-  ThemeLocaleDataRef,
-} from "@vuepress/plugin-theme-data/client";
-import type { ComputedRef } from "vue";
-import type { ThemeConfig, ThemeLocaleConfig } from "../../shared/index.js";
+import { type ThemeData, type ThemeLocaleConfig } from "../../shared/index.js";
 
-export const useThemeData = (): ThemeDataRef<ThemeConfig> =>
-  _useThemeData<ThemeConfig>();
+export const useThemeData = (): ThemeDataRef<ThemeData> =>
+  _useThemeData<ThemeData>();
 export const useThemeLocaleData = (): ThemeLocaleDataRef<ThemeLocaleConfig> =>
   _useThemeLocaleData<ThemeLocaleConfig>();
 

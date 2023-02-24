@@ -21,27 +21,27 @@ actions:
 
 features:
   - title: Markdown 增强
-    icon: markdown
+    icon: fab fa-markdown
     details: 新增文字对齐、上下角标、脚注、标记、任务列表、数学公式、流程图、图表与幻灯片支持
     link: /zh/guide/markdown/
 
   - title: 幻灯片页面
-    icon: slides
+    icon: person-chalkboard
     details: 添加幻灯片页面以显示你喜欢的内容
     link: /zh/guide/layout/slides
 
   - title: 布局增强
-    icon: layout
+    icon: object-group
     details: 添加路径导航、页脚、改进的导航栏、改进的页面导航等。
     link: /zh/guide/layout/
 
   - title: 浏览量与评论
-    icon: comment
+    icon: comment-dots
     details: 配合 Waline 来开启阅读量统计与评论支持
     link: /zh/guide/feature/comment.html
 
   - title: 文章信息
-    icon: info
+    icon: circle-info
     details: 为你的文章添加作者、写作日期、预计阅读时间、字数统计等信息
     link: /zh/guide/feature/page-info.html
 
@@ -56,12 +56,12 @@ features:
     link: /zh/guide/interface/theme-color.html
 
   - title: 深色模式
-    icon: contrast
+    icon: circle-half-stroke
     details: 可以自由切换浅色模式与深色模式
     link: /zh/guide/interface/darkmode.html
 
   - title: 完整的无障碍支持
-    icon: support
+    icon: universal-access
     details: 为你的网站带来完整的无障碍支持
     link: /zh/guide/interface/accessibility.html
 
@@ -70,18 +70,23 @@ features:
     details: 你可以为你的特定页面或特定目录进行加密，以便陌生人不能随意访问它们
     link: /zh/guide/feature/encrypt.html
 
-  - title: 复制按钮
+  - title: 搜索支持
+    icon: search
+    details: 支持 docsearch 和基于客户端的搜索
+    link: /zh/guide/feature/search.html
+
+  - title: 代码复制
     icon: copy
     details: 一键复制代码块中的代码
     link: /zh/guide/feature/copy-code.html
 
   - title: 图片预览
-    icon: pic
+    icon: image
     details: 像相册一样允许你浏览、缩放并分享你的页面图片
     link: /zh/guide/feature/photo-swipe.html
 
   - title: SEO 增强
-    icon: config
+    icon: dumbbell
     details: 将最终生成的网页针对搜索引擎进行优化。
     link: /zh/guide/advanced/seo.html
 
@@ -96,12 +101,12 @@ features:
     link: /zh/guide/advanced/feed.html
 
   - title: PWA 支持
-    icon: mobile
+    icon: mobile-screen
     details: 让你的网站更像一个 APP
     link: /zh/guide/advanced/pwa.html
 
   - title: 更多新特性
-    icon: more
+    icon: ellipsis
     details: 包括图标支持、全屏按钮、返回顶部按钮等
     link: /zh/guide/feature/
 
@@ -118,13 +123,31 @@ footer: MIT Licensed | Copyright © 2019-present Mr.Hope
 @tab pnpm
 
 ```bash
-pnpm create vuepress-theme-hope@next [dir]
+pnpm create vuepress-theme-hope [dir]
 ```
 
 @tab npm
 
 ```bash
-npm init vuepress-theme-hope@next [dir]
+npm init vuepress-theme-hope [dir]
+```
+
+:::
+
+要将 vuepress-theme-hope 作为文档构建器添加到现有项目中，请在项目根目录中运行以下命令:
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm create vuepress-theme-hope add [dir]
+```
+
+@tab npm
+
+```bash
+npm init vuepress-theme-hope add [dir]
 ```
 
 :::

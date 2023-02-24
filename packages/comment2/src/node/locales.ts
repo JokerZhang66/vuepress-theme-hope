@@ -1,4 +1,4 @@
-import type { WalineLocaleConfig } from "../shared/index.js";
+import { type WalineLocaleConfig } from "../shared/index.js";
 
 /**
  * Default locale config for Waline
@@ -17,9 +17,14 @@ export const walineLocales: WalineLocaleConfig = {
     placeholder: "請留言。(填寫信箱可在被回覆時收到郵件提醒)",
   },
 
+  "/de/": {
+    placeholder:
+      "Schreibe ein Kommentar (Geben Sie die E-Mail-Adresse ein, um eine E-Mail-Benachrichtigung zu erhalten, wenn Sie eine Antwort erhalten)",
+  },
+
   "/de-at/": {
     placeholder:
-      "Schreibe ein Kommentar (Geben Sie die E-Mail-Adresse ein, um eine E-Mail-Benachrichtigung zu erhalten, wenn Sie geantwortet werden)",
+      "Schreibe ein Kommentar (Geben Sie die E-Mail-Adresse ein, um eine E-Mail-Benachrichtigung zu erhalten, wenn Sie eine Antwort erhalten)",
   },
 
   "/vi/": {
@@ -75,5 +80,14 @@ export const walineLocales: WalineLocaleConfig = {
   "/ko/": {
     placeholder:
       "댓글을 남겨주세요 (답변이 있을 경우 이메일로 알림을 받으려면 이메일 주소를 입력하세요)",
+  },
+
+  "/fi/": {
+    placeholder:
+      "Kirjoita kommentti tähän (täytä sähköpostiosoite saadaksesi sähköposti-ilmoituksen vastauksesta)",
+  },
+  "/hu/": {
+    placeholder:
+      "Írj kommentet itt! (Töltsd ki az email címet, hogy értesítést kapj, amikor válaszolnak.)",
   },
 };

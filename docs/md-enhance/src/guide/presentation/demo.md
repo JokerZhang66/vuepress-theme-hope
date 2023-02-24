@@ -1,6 +1,6 @@
 ---
 title: Demo
-icon: discover
+icon: laptop-code
 layout: Slide
 ---
 
@@ -331,7 +331,7 @@ Multiple elements can appear at the same index.
 
 <!-- .element: class="r-fit-text" -->
 
-Transition can be changed by setting the `transition` config option globally or `data-transition` attribute on specific slide.
+Transition can be changed by setting the `transition` config option globally or `data-transition` attribute on slide.
 
 Possible values:
 

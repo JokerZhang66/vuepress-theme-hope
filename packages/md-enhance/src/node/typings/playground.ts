@@ -1,4 +1,4 @@
-import type { CompilerOptions } from "typescript";
+import { type CompilerOptions } from "typescript";
 
 export interface PlaygroundCodeConfig {
   /**
@@ -33,7 +33,7 @@ export interface PlaygroundData {
    *
    * Import map 文件名
    *
-   * @default 'import-map.json'
+   * @default "import-map.json"
    */
   importMap?: string;
 
@@ -89,7 +89,7 @@ export interface PlaygroundOptions {
    *
    * 交互演示组件名称
    *
-   * @default 'Playground'
+   * @default "Playground"
    */
   component?: string;
 

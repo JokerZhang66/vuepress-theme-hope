@@ -1,11 +1,17 @@
-import type { CommentOptions } from "../shared/index.js";
+import { logger } from "./utils.js";
+import { type CommentOptions } from "../shared/index.js";
 
 /** @deprecated */
 export const convertOptions = (
-  options: CommentOptions & Record<string, unknown>
+  options: CommentOptions & {
+    /** @deprecated */
+    type?: "waline" | "giscus" | "twikoo" | "none";
+  }
 ): void => {
+  // v2 changes
   if ("type" in options) {
-    console.warn(`"type" is deprecated, please use "provider".`);
+    logger.warn(`"type" is deprecated, please use "provider".`);
+
     if (options["type"] === "waline") options.provider = "Waline";
     else if (options["type"] === "giscus") options.provider = "Giscus";
     else if (options["type"] === "twikoo") options.provider = "Twikoo";
@@ -29,7 +35,7 @@ export const convertOptions = (
       ["copyRight", "copyright"],
     ].forEach(([oldOptions, newOptions]) => {
       if (oldOptions in options) {
-        console.warn(
+        logger.warn(
           `"${oldOptions}" is deprecated in @waline/client@v2, you should use "${newOptions}" instead.`
         );
 
@@ -59,7 +65,7 @@ export const convertOptions = (
       "previewMath",
     ].forEach((option) => {
       if (option in options) {
-        console.warn(
+        logger.error(
           `"${option}" is no longer supported in @waline/client@v2.`
         );
 

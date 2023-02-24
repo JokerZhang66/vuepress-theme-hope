@@ -21,27 +21,27 @@ actions:
 
 features:
   - title: Улучшение разметки
-    icon: markdown
+    icon: fab fa-markdown
     details: Добавление выравнивания, надстрочного/подстрочного скрипта, сноски, списка задач, текста, блок-схемы, диаграммы, выделения и поддержка презентации в Markdown
     link: /ru/guide/markdown/
 
   - title: Слайд-страница
-    icon: slides
+    icon: person-chalkboard
     details: Добавление страниц слайдов для отображения того, что вам нравится
     link: /ru/guide/layout/slides
 
   - title: Улучшение макета
-    icon: layout
+    icon: object-group
     details: Добавление хлебных крошек, нижнего колонтитула, улучшенной панели навигации, улучшенной навигации по страницам и т. д.
     link: /ru/guide/layout/
 
   - title: Просмотры страниц и комментарии
-    icon: comment
+    icon: comment-dots
     details: Запустите статистику просмотров страниц и поддержку комментариев с помощью Waline
     link: /ru/guide/feature/comment.html
 
   - title: Информация о статье
-    icon: info
+    icon: circle-info
     details: Добавление автора, даты написания, время чтения, количество слов и другой информации в свою статью
     link: /ru/guide/feature/page-info.html
 
@@ -56,12 +56,12 @@ features:
     link: /ru/guide/interface/theme-color.html
 
   - title: Темный режим
-    icon: contrast
+    icon: circle-half-stroke
     details: Свободно переключайтесь между светлым и темным режимами
     link: /ru/guide/interface/darkmode.html
 
   - title: Полная поддержка A11y
-    icon: support
+    icon: universal-access
     details: Полная поддержка специальных возможностей на вашем сайте
     link: /ru/guide/interface/accessibility.html
 
@@ -70,18 +70,23 @@ features:
     details: Шифруйте свои статьи на основе ссылок на страницы, чтобы их мог видеть только тот, кому вы хотите
     link: /ru/guide/feature/encrypt.html
 
+  - title: Search
+    icon: search
+    details: Support docsearch and client search
+    link: /ru/guide/feature/search.html
+
   - title: Кнопка копирования
     icon: copy
     details: Копируйте коды одним кликом в блоках кодов
     link: /ru/guide/feature/copy-code.html
 
   - title: Предпросмотр изображения
-    icon: pic
+    icon: image
     details: Поддержка просмотра, масштабирования, обмена изображениями на странице, например, в галерее
     link: /ru/guide/feature/photo-swipe.html
 
   - title: СЕО-улучшения
-    icon: config
+    icon: dumbbell
     details: Оптимизация страниц для поисковых систем
     link: /ru/guide/advanced/seo.html
 
@@ -96,12 +101,12 @@ features:
     link: /ru/guide/advanced/feed.html
 
   - title: Поддержка PWA
-    icon: mobile
+    icon: mobile-screen
     details: Сделайте свой сайт больше похожим на APP
     link: /ru/guide/advanced/pwa.html
 
   - title: Больше новых функций
-    icon: more
+    icon: ellipsis
     details: Включая поддержку иконок, полноэкранную кнопку и т. д.
     link: /ru/guide/feature/
 
@@ -118,13 +123,43 @@ footer: MIT Licensed | Copyright © 2019-present Mr.Hope
 @tab pnpm
 
 ```bash
-pnpm create vuepress-theme-hope@next [dir]
+pnpm create vuepress-theme-hope [dir]
+```
+
+@tab yarn
+
+```bash
+yarn create vuepress-theme-hope [dir]
 ```
 
 @tab npm
 
 ```bash
-npm init vuepress-theme-hope@next [dir]
+npm init vuepress-theme-hope [dir]
+```
+
+:::
+
+To add vuepress-theme-hope as docs builder to an existing project, run the following command in the project root directory:
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm create vuepress-theme-hope add [dir]
+```
+
+@tab yarn
+
+```bash
+yarn create vuepress-theme-hope add [dir]
+```
+
+@tab npm
+
+```bash
+npm init vuepress-theme-hope add [dir]
 ```
 
 :::

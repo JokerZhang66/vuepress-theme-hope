@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 // Russian [ru]
-import type { Dayjs, default as dayjs } from "dayjs";
-import type { Locale } from "./locale.js";
+import { type Dayjs, type default as dayjs } from "dayjs";
+
+import { type Locale } from "./locale.js";
 
 const monthFormat =
   "января_февраля_марта_апреля_мая_июня_июля_августа_сентября_октября_ноября_декабря".split(
@@ -112,6 +112,6 @@ const locale: Partial<Locale> = {
     hour < 4 ? "ночи" : hour < 12 ? "утра" : hour < 17 ? "дня" : "вечера",
 };
 
-export const loadRuLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("ru", locale);
+export const loadRuLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("ru", locale);
 };

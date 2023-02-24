@@ -1,6 +1,6 @@
 ---
 title: Info Frontmatter Config
-icon: config
+icon: circle-info
 order: 1
 category:
   - Config
@@ -89,7 +89,7 @@ Whether the current article is original.
 
 - Type: `DateString`
 - Required: No
-- Format: `YYYY-MM-DD` or `YYYY/MM/DD hh:mm:ss`
+- Format: `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`
 
 Set the writing time of the current page.
 

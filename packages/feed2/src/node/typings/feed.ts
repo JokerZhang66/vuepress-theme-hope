@@ -1,4 +1,4 @@
-import type { Page } from "@vuepress/core";
+import { type Page } from "@vuepress/core";
 
 export interface FeedAuthor {
   /**
@@ -153,16 +153,16 @@ export interface FeedChannelOption {
   image?: string;
 
   /**
-   * icon of the channel
+   * Icon of the channel
    *
    * Probably your favicon
    */
   icon?: string;
 
   /**
-   * GLobal Author
+   * Global Author
    */
-  author?: FeedAuthor;
+  author?: FeedAuthor[] | FeedAuthor;
 
   /**
    * Link for websub
@@ -223,6 +223,28 @@ export interface FeedGetter {
    * 项目描述获取器
    */
   description?: <
+    ExtraPageData extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >,
+    ExtraPageFrontmatter extends Record<
+      string | number | symbol,
+      unknown
+    > = Record<string, unknown>,
+    ExtraPageFields extends Record<string | number | symbol, unknown> = Record<
+      never,
+      never
+    >
+  >(
+    page: Page<ExtraPageData, ExtraPageFrontmatter, ExtraPageFields>
+  ) => string | null;
+
+  /**
+   * Item excerpt getter
+   *
+   * 项目摘要获取器
+   */
+  excerpt?: <
     ExtraPageData extends Record<string | number | symbol, unknown> = Record<
       never,
       never

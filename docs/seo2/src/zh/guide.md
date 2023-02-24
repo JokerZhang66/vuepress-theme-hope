@@ -1,9 +1,11 @@
 ---
 title: 指南
-icon: guide
+icon: lightbulb
 ---
 
 本插件会通过向网站 `<head>` 注入标签，让你的网站完全支持 [开放内容协议 OGP](https://ogp.me/) 和 [JSON-LD 1.1](https://www.w3.org/TR/json-ld-api/)，以全面增强站点的搜索引擎优化性。
+
+<!-- more -->
 
 ## 开箱即用
 
@@ -213,7 +215,7 @@ function customHead<
 
 - [RDFa 1.1](https://www.w3.org/TR/rdfa-primer/)
 
-  RDFa 主要标记 HTML 结构。这是插件无法支持的内容，[vuepress-theme-hope](https://vuepress-theme-hope.github.io/v2/zh/) 使用了这一功能通过了谷歌的富媒体结构测试。你可以考虑搭配使用。
+  RDFa 主要标记 HTML 结构。这是插件无法支持的内容，<ProjectLink type="theme" name="hope" path="/zh/">vuepress-theme-hope</ProjectLink> 使用了这一功能通过了谷歌的富媒体结构测试。你可以考虑搭配使用。
 
 - [Schema.Org](https://schema.org/)
 

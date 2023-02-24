@@ -1,6 +1,6 @@
 ---
 title: Page information
-icon: info
+icon: circle-info
 category:
   - Feature
 tag:
@@ -83,6 +83,12 @@ Example:
 date: 2020-01-01
 ---
 ```
+
+::: note
+
+When running in a Git-based project, the writing date will fallback to first commit date of current file.
+
+:::
 
 ### Category and Tags
 

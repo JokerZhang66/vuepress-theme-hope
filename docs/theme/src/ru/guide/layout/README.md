@@ -1,6 +1,6 @@
 ---
 title: Макет
-icon: layout
+icon: object-group
 dir:
   order: 4
 ---
@@ -16,6 +16,8 @@ dir:
 - [Футер](footer.md)
 
 - [Страница](page.md)
+
+- [Catalog](catalog.md)
 
 - [Главная страница](home.md)
 

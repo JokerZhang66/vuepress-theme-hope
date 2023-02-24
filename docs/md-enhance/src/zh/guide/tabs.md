@@ -1,6 +1,6 @@
 ---
 title: 选项卡
-icon: tab
+icon: table-columns
 ---
 
 让你的 VuePress 站点中的 Markdown 文件支持选项卡。
@@ -126,7 +126,7 @@ npm 应该与 Node.js 被一同安装。
 如果你使用的是 Node.js v16+，你可以使用 corepack 来启用 pnpm:
 
 ```bash
-corepack prepare pnpm@7.17.0 --activated
+corepack prepare pnpm@7.27.1 --activated
 ```
 
 否则，你可以使用 npm 安装它:
@@ -144,13 +144,13 @@ npm i -g pnpm
 @tab 使用 npm#npm
 
 ```bash
-npm i -D vuepress-plugin-md-enhance@next
+npm i -D vuepress-plugin-md-enhance
 ```
 
 @tab 使用 pnpm#pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-md-enhance@next
+pnpm add -D vuepress-plugin-md-enhance
 ```
 
 :::

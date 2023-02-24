@@ -1,6 +1,8 @@
 ---
 title: 高级
-icon: advance
+icon: gem
+dir:
+  order: 5
 category:
   - 教程知识
   - 高级

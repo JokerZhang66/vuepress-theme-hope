@@ -1,6 +1,7 @@
 ---
 title: Использование компонентов
-icon: plugin
+icon: puzzle-piece
+order: 1
 category:
   - Руководство
   - Кастомизация
@@ -39,13 +40,7 @@ export default defineClientConfig({
 
 ## Использование синтаксиса и компонентов Vue в Markdown
 
-Вы можете использовать синтаксис Vue непосредственно в Markdown.
-
-::: info
-
-Для конкретного использования смотрите [VuePress → Markdown](../vuepress/markdown.md#Use -vue in -markdown-)
-
-:::
+Вы можете использовать синтаксис Vue непосредственно в Markdown. Для конкретного использования смотрите [VuePress → Markdown](../vuepress/markdown.md#Use -vue in -markdown-)
 
 Если вам нужно импортировать компоненты Vue в Markdown, обратите внимание, что вы не можете использовать относительные пути для импорта или писать несколько блоков `<script>`.
 

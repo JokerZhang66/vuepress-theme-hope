@@ -1,11 +1,7 @@
-import { ensureEndingSlash } from "@vuepress/shared";
-import { getDirname, path } from "@vuepress/utils";
+import { type App } from "@vuepress/core";
 
-import type { App } from "@vuepress/core";
-import type { PWAOptions } from "./options.js";
-
-const __dirname = getDirname(import.meta.url);
-const CLIENT_FOLDER = ensureEndingSlash(path.resolve(__dirname, "../client"));
+import { type PWAOptions } from "./options.js";
+import { CLIENT_FOLDER } from "./utils.js";
 
 export const prepareConfigFile = (
   app: App,

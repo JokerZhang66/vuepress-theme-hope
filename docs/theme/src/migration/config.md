@@ -1,6 +1,6 @@
 ---
 title: Config Migration Guide
-icon: config
+icon: gears
 category:
   - Migration
 tag:
@@ -107,6 +107,8 @@ tag:
 
 - remove `displayAllHeaders`
 
+- support generating sidebar automatically from file structure
+
 ### Navbar Sidebar Config Unified
 
 - change `items` in navbar config to `children`
@@ -163,7 +165,7 @@ Since the theme no longer has a built-in search:
 
 - rename `blog.perPage` to `blog.articlePerPage`
 
-- move `blog.autoExcerpt` to `plugins.blog.autoExcerpt`, and change default value from `true` to `false`
+- move `blog.autoExcerpt` to `plugins.blog.excerptLength`
 
 ### Encryption Config
 
@@ -201,13 +203,13 @@ Move all plugin related options under `plugins`.
 
 - move `comment` moved to `plugins.comment`
 
-  - Adds support for `twikoo` and `giscus` ![New](https://img.shields.io/badge/-New-brightgreen)
+  - Adds support for `artalk`, `twikoo` and `giscus` ![New](https://img.shields.io/badge/-New-brightgreen)
 
   - Vssue is currently missing ![warning](https://img.shields.io/badge/-warning-yellow)
 
     Vssue is written in Vue2, and the author [meteorlxy](https://github.com/meteorlxy) has not yet made it compatible with Vue3 yet
 
-  - Valine service is removed ![removed](https://img.shields.io/badge/-removed-red)
+  - Valine is removed ![removed](https://img.shields.io/badge/-removed-red)
 
     Valine is lack of maintenance and can leak your privacy. You should use [Waline](https://waline.js.org) instead.
 
@@ -219,7 +221,9 @@ Move all plugin related options under `plugins`.
 
 - move `feed` to `plugins.feed`
 
-  - Supports removing custom components and elements through `plugins.feed.customElements` options ![NEW](https://img.shields.io/badge/-new-brightgreen)
+  - Supports removing custom components and elements through `plugins.feed.removedElements` options ![NEW](https://img.shields.io/badge/-new-brightgreen)
+
+  - Visualized atom and rss feeds, configurable with `plugins.feed.atomXslFilename` `plugins.feed.atomXslTemplate` `plugins.feed.rssXslFilename` and `plugins.feed.rssXslTemplate` ![NEW](https://img.shields.io/badge/-new-brightgreen)
 
   - Customize feed generation via `plugins.feed.getter` option ![NEW](https://img.shields.io/badge/-new-brightgreen)
 
@@ -257,7 +261,7 @@ Move all plugin related options under `plugins`.
 
   - image mark support ![New](https://img.shields.io/badge/-New-brightgreen)
 
-    Use `#light` and `#dark` suffix to mark images to display them in light mode or dark mode via `plugins.mdEnhance.imageMark` option
+    Use `#light` and `#dark` suffix to mark images to display them in light mode or dark mode via `plugins.mdEnhance.imgMark` option
 
   - Chart.js support ![New](https://img.shields.io/badge/-New-brightgreen)
 
@@ -322,6 +326,10 @@ Move all plugin related options under `plugins`.
     - `@include(filename{start-end})`
     - `@include(filename{start-})`
     - `@include(filename{-end})`
+
+    Also you can include file region:
+
+    - `@include(filename#region)`
 
   - tabs support ![New](https://img.shields.io/badge/-New-brightgreen)
 
@@ -407,6 +415,8 @@ Move all plugin related options under `plugins`.
     are deployed in several places.
 
 - move `sitemap` to `plugins.sitemap`
+
+  - Visualized sitemap, configurable with `plugins.sitemap.sitemapXSLFilename` and `plugins.sitemap.sitemapXSLTemplate` ![New](https://img.shields.io/badge/-New-brightgreen)
 
   - `plugin.sitemap.priority` ![New](https://img.shields.io/badge/-New-brightgreen): setting default value for priority
 

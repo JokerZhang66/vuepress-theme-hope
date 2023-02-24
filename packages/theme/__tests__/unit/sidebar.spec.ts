@@ -1,18 +1,17 @@
 import { createBaseApp } from "@vuepress/core";
 import { path } from "@vuepress/utils";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
+import { emptyTheme } from "./__fixtures__/theme/empty.js";
+import { getStatus, getThemeData } from "../../src/node/config/index.js";
 import { getSidebarData } from "../../src/node/prepare/index.js";
-import { getStatus } from "../../src/node/status.js";
-import { getThemeConfig } from "../../src/node/themeConfig.js";
-import { ThemeOptions } from "../../src/shared/index.js";
-import { sidebarTheme } from "./__fixtures__/theme/sidebar.js";
+import { type ThemeOptions } from "../../src/shared/index.js";
 
 describe("should generate sidebarData correctly", async () => {
   const app = createBaseApp({
     bundler: {} as any,
     source: path.resolve(__dirname, "./__fixtures__/src"),
-    theme: sidebarTheme,
+    theme: emptyTheme,
   });
 
   await app.init();
@@ -22,13 +21,13 @@ describe("should generate sidebarData correctly", async () => {
       sidebar: "structure",
     };
 
-    const themeConfig = getThemeConfig(
+    const themeData = getThemeData(
       app,
       themeOptions,
       getStatus(app, themeOptions)
     );
 
-    expect(getSidebarData(app, themeConfig)).toMatchSnapshot();
+    expect(getSidebarData(app, themeData)).toMatchSnapshot();
   });
 
   it("Should resolve structure in dir", () => {
@@ -44,13 +43,13 @@ describe("should generate sidebarData correctly", async () => {
       },
     };
 
-    const themeConfig = getThemeConfig(
+    const themeData = getThemeData(
       app,
       themeOptions,
       getStatus(app, themeOptions)
     );
 
-    expect(getSidebarData(app, themeConfig)).toMatchSnapshot();
+    expect(getSidebarData(app, themeData)).toMatchSnapshot();
   });
 
   it("Should resolve structure in group options", () => {
@@ -68,12 +67,12 @@ describe("should generate sidebarData correctly", async () => {
       },
     };
 
-    const themeConfig = getThemeConfig(
+    const themeData = getThemeData(
       app,
       themeOptions,
       getStatus(app, themeOptions)
     );
 
-    expect(getSidebarData(app, themeConfig)).toMatchSnapshot();
+    expect(getSidebarData(app, themeData)).toMatchSnapshot();
   });
 });

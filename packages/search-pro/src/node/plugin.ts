@@ -1,18 +1,22 @@
-import { getDirname, path } from "@vuepress/utils";
+import { type PluginFunction } from "@vuepress/core";
 import { watch } from "chokidar";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
-import { addViteSsrNoExternal, getLocales } from "vuepress-shared/node";
+import {
+  addViteSsrNoExternal,
+  fromEntries,
+  getLocales,
+} from "vuepress-shared/node";
+
+import { setPageExcerpt } from "./excerpt.js";
+import { generateWorker } from "./generateWorker.js";
 import { searchProLocales } from "./locales.js";
+import { type SearchProOptions } from "./options.js";
 import {
   prepareSearchIndex,
   removeSearchIndex,
   updateSearchIndex,
 } from "./prepare.js";
-
-import type { PluginFunction } from "@vuepress/core";
-import type { SearchProOptions } from "./options.js";
-
-const __dirname = getDirname(import.meta.url);
+import { CLIENT_FOLDER } from "./utils.js";
 
 export const searchProPlugin =
   (options: SearchProOptions): PluginFunction =>
@@ -24,36 +28,41 @@ export const searchProPlugin =
 
       alias: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "vuepress-plugin-search-pro/result": path.resolve(
-          __dirname,
-          "../client/components/SearchResult.js"
-        ),
+        "vuepress-plugin-search-pro/result": `${CLIENT_FOLDER}components/SearchResult.js`,
       },
 
       define: {
-        SEARCH_PRO_CUSTOM_FIELDS: Object.fromEntries(
+        SEARCH_PRO_CUSTOM_FIELDS: fromEntries(
           (options.customFields || [])
             .map(({ formatter }, index) =>
-              formatter ? [(index.toString(), formatter)] : null
+              formatter ? [index.toString(), formatter] : null
             )
             .filter((item): item is [string, string] => item !== null)
         ),
-        SEARCH_PRO_DELAY: options.delay || 300,
-        SEARCH_PRO_HISTORY_COUNT: options.historyCount || 5,
-        SEARCH_PRO_HOTKEYS: options.hotKeys || [{ key: "k", ctrl: true }],
         SEARCH_PRO_LOCALES: getLocales({
           app,
           name: "search-pro",
           config: options.locales,
           default: searchProLocales,
         }),
+        SEARCH_PRO_OPTIONS: {
+          delay: options.delay || 300,
+          historyCount: options.historyCount || 5,
+          hotKeys: options.hotKeys || [{ key: "k", ctrl: true }],
+          worker: options.worker || "search-pro.worker.js",
+        },
       },
 
-      clientConfigFile: path.resolve(__dirname, "../client/config.js"),
+      clientConfigFile: `${CLIENT_FOLDER}config.js`,
 
-      extendsBundlerOptions: (config: unknown, app): void => {
-        addViteSsrNoExternal({ app, config }, ["fflate", "vuepress-shared"]);
+      extendsBundlerOptions: (bundlerOptions: unknown, app): void => {
+        addViteSsrNoExternal(bundlerOptions, app, [
+          "fflate",
+          "vuepress-shared",
+        ]);
       },
+
+      onInitialized: (app): void => setPageExcerpt(app),
 
       onPrepared: (app): Promise<void> => prepareSearchIndex(app, options),
 
@@ -81,5 +90,7 @@ export const searchProPlugin =
           watchers.push(searchIndexWatcher);
         }
       },
+
+      onGenerated: (app) => generateWorker(app, options),
     };
   };

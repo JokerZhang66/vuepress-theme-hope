@@ -1,5 +1,6 @@
 import type dayjs from "dayjs";
-import type { Locale } from "./locale.js";
+
+import { type Locale } from "./locale.js";
 
 const locale: Partial<Locale> = {
   name: "zh-tw",
@@ -41,6 +42,6 @@ const locale: Partial<Locale> = {
   },
 };
 
-export const loadZhTWLocale = (extendeddayjs: typeof dayjs): void => {
-  extendeddayjs.locale("zh-tw", locale);
+export const loadZhTWLocale = (extendedDayjs: typeof dayjs): void => {
+  extendedDayjs.locale("zh-tw", locale);
 };

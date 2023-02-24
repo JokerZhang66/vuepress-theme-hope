@@ -1,6 +1,6 @@
 ---
 title: Функции
-icon: discover
+icon: splotch
 index: false
 dir:
   order: 5

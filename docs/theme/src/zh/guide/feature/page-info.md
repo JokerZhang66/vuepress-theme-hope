@@ -1,6 +1,6 @@
 ---
 title: 页面信息
-icon: info
+icon: circle-info
 category:
   - 功能
 tag:
@@ -83,6 +83,12 @@ interface AuthorInfo {
 date: 2020-01-01
 ---
 ```
+
+::: note
+
+在基于 Git 的项目中运行时，写作日期将回退到当前文件的首次提交日期。
+
+:::
 
 ### 分类与标签
 

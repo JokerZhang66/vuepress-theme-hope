@@ -8,7 +8,7 @@ tag:
   - Поиск
 ---
 
-В тему добавлена встроенная поддержка [`vuepress-plugin-search-pro`][search-pro], [`@vuepress/plugin-docsearch`][docsearch] и [`@vuepress/plugin-search`][search]. Просто установите нужный плагин и настройте его, и вы получите окно поиска на панели навигации.
+В тему добавлена встроенная поддержка <ProjectLink name="search-pro">`vuepress-plugin-search-pro`</ProjectLink>, [`@vuepress/plugin-docsearch`][docsearch] и [`@vuepress/plugin-search`][search]. Просто установите нужный плагин и настройте его, и вы получите окно поиска на панели навигации.
 
 Чтобы использовать поисковый плагин, вам нужно применить его через `plugins` в [**файле конфигурации VuePress**](../../cookbook/vuepress/config.md).
 
@@ -37,19 +37,19 @@ tag:
    @tab pnpm
 
    ```bash
-   pnpm add -D vuepress-plugin-search-pro@next
+   pnpm add -D vuepress-plugin-search-pro
    ```
 
    @tab yarn
 
    ```bash
-   yarn add -D vuepress-plugin-search-pro@next
+   yarn add -D vuepress-plugin-search-pro
    ```
 
    @tab npm
 
    ```bash
-   npm i -D vuepress-plugin-search-pro@next
+   npm i -D vuepress-plugin-search-pro
    ```
 
    :::
@@ -62,8 +62,8 @@ tag:
 
    ```ts
    // .vuepress/config.ts
-   import { searchProPlugin } from "vuepress-plugin-search-pro";
    import { defineUserConfig } from "vuepress";
+   import { searchProPlugin } from "vuepress-plugin-search-pro";
 
    export default defineUserConfig({
      plugins: [
@@ -73,12 +73,10 @@ tag:
          // add supports for category and tags
          customFields: [
            {
-             name: "category",
              getter: (page) => page.frontmatter.category,
              formatter: "Category: $content",
            },
            {
-             name: "tag",
              getter: (page) => page.frontmatter.tag,
              formatter: "Tag: $content",
            },
@@ -96,18 +94,16 @@ tag:
 
    export default {
      plugins: [
-       searchPlugin({
+       searchProPlugin({
          // index all contents
          indexContent: true,
          // add supports for category and tags
          customFields: [
            {
-             name: "category",
              getter: (page) => page.frontmatter.category,
              formatter: "Category: $content",
            },
            {
-             name: "tag",
              getter: (page) => page.frontmatter.tag,
              formatter: "Tag: $content",
            },
@@ -121,7 +117,7 @@ tag:
 
 ::: info Еще
 
-Смотрите [Документацию по Плагинам][search-pro] для доступных опций.
+Смотрите <ProjectLink name="search-pro">Документацию по Плагинам</ProjectLink> для доступных опций.
 
 :::
 
@@ -415,4 +411,3 @@ tag:
 
 [docsearch]: https://v2.vuepress.vuejs.org/reference/plugin/docsearch.html
 [search]: https://v2.vuepress.vuejs.org/reference/plugin/search.html
-[search-pro]: https://vuepress-theme-hope.github.io/v2/search-pro/

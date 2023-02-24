@@ -1,6 +1,6 @@
 ---
 title: Конфиг стиля
-icon: style
+icon: wand-magic-sparkles
 order: 6
 category:
   - Конфиг
@@ -27,21 +27,16 @@ tag:
 - `$tablet`
 - `$mobile`
 
-Блок кода:
+Блок кода (shiki only):
 
-- `$code-light-theme`: тема блока кода в светлом режиме
-- `$code-dark-theme`: тема блока кода в темном режиме
-
-Класс контента: `$content-class`
+- `$code-bg-color`: background color for code blocks
+- `$code-color`: font color for code blocks
 
 Список цветов: `$colors`
 
 ::: details Демо
 
 ```scss
-// modify code theme in lightmode
-$code-light-theme: "coy";
-
 // update pc breakpoint
 $pc: 1920px;
 ```
@@ -76,6 +71,7 @@ $pc: 1920px;
 - `$text-color`: цвет текста
 - `$bg-color`: цвет фона
 - `$bg-color-secondary`: более светлый цвет фона
+- `$bg-color-tertiary`: более светлый цвет фона
 - `$border-color`: цвет границы
 - `$box-shadow`: использование цвета тени для элементов
 - `$card-shadow`: использование цвета тени на картах

@@ -1,6 +1,6 @@
 ---
 title: Code Demo
-icon: discover
+icon: splotch
 category:
   - Markdown
 tag:
@@ -257,6 +257,8 @@ span {
 
 :::
 ````
+
+::::
 
 ::: react-demo A function-based React Demo
 

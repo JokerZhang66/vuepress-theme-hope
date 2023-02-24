@@ -11,15 +11,15 @@ actions:
     type: primary
 
   - text: Docs
-    link: https://vuepress-theme-hope.github.io/v2/md-enhance/
+    link: https://plugin-md-enhance.vuejs.press
 
-footer: Theme by <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
+footer: MIT Licensed, Copyright © 2019-present Mr.Hope
 ---
 
 ### Install
 
 ```bash
-pnpm add -D vuepress-plugin-md-enhance@next
+pnpm add -D vuepress-plugin-md-enhance
 ```
 
 ### Usage

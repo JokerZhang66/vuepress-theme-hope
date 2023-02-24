@@ -1,17 +1,40 @@
-import { load } from "cheerio";
+import { type App, type Page } from "@vuepress/core";
+import { isArray } from "@vuepress/shared";
+import { type AnyNode, load } from "cheerio";
+import { fromEntries, keys } from "vuepress-shared/node";
 
-import type { Page } from "@vuepress/core";
-import type { AnyNode } from "cheerio";
-import type { SearchProCustomFieldOptions } from "./options.js";
-import type { PageHeaderContent, PageIndex } from "../shared/index.js";
+import {
+  type SearchProCustomFieldOptions,
+  type SearchProOptions,
+} from "./options.js";
+import {
+  type PageHeaderContent,
+  type PageIndex,
+  type SearchIndex,
+} from "../shared/index.js";
 
-const HEADING_TAGS = "h1,h2,h3,h4,h5,h6".split(",");
+/**
+ * These tags are valid HTML tags which can contain content.
+ */
 
-// These tags are valid HTML tags which can contain content.
+/**
+ * @description h1 is removed because it's the title of the page.
+ */
+const HEADING_TAGS = "h2,h3,h4,h5,h6".split(",");
+
+/**
+ * @description Not all the block tags are included, because some of them shall not be indexed
+ */
 const CONTENT_BLOCK_TAGS =
-  "header,h1,h2,h3,h4,h5,h6,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,li,main,ol,p,ul,caption,table,thead,tbody,th,tr,td,datalist,fieldset,form,legend,optgroup,option,select,details,dialog,menu,menuitem,summary,blockquote,tfoot".split(
+  "header,nav,section,div,dd,dl,dt,figcaption,figure,picture,hr,li,main,ol,p,ul,caption,table,thead,tbody,th,tr,td,datalist,fieldset,form,legend,optgroup,option,select,details,dialog,menu,menuitem,summary,blockquote,tfoot".split(
     ","
   );
+
+/**
+ * @description Not all the inline tags are included, because some of them shall not be indexed, e.g.: pre
+ *
+ * routerlink is added to the list, because it is a special link tag
+ */
 const CONTENT_INLINE_TAGS =
   "routerlink,a,b,abbr,bdi,bdo,cite,code,dfn,em,i,kbd,mark,q,rp,rt,ruby,s,samp,small,span,strong,sub,sup,time,u,var,wbr,del,ins,button,label,legend,meter,optgroup,option,output,progress,select".split(
     ","
@@ -20,11 +43,11 @@ const CONTENT_INLINE_TAGS =
 const $ = load("");
 
 export const generatePageIndex = (
-  page: Page,
+  page: Page<{ excerpt?: string }>,
   customFieldsGetter: SearchProCustomFieldOptions[] = [],
   indexContent = false
 ): PageIndex | null => {
-  const hasExcerpt = page.excerpt.length > 0;
+  const hasExcerpt = "excerpt" in page.data && page.data["excerpt"].length;
 
   const result: PageIndex = {
     title: page.title,
@@ -59,7 +82,9 @@ export const generatePageIndex = (
             result.contents.push(currentHeaderContent);
 
           isContentBeforeFirstHeader = false;
-        } else result.contents.push(currentHeaderContent);
+        } else {
+          result.contents.push(currentHeaderContent);
+        }
 
         // update header
         currentHeaderContent = {
@@ -79,11 +104,12 @@ export const generatePageIndex = (
           currentContent = "";
         }
         node.childNodes.forEach(render);
-      } else if (CONTENT_INLINE_TAGS.includes(node.name))
+      } else if (CONTENT_INLINE_TAGS.includes(node.name)) {
         node.childNodes.forEach(render);
-    } else if (node.type === "text")
+      }
+    } else if (node.type === "text") {
       currentContent += node.data.trim() ? node.data : "";
-    else if (
+    } else if (
       // we are expecting to stop at excerpt marker
       hasExcerpt &&
       !indexContent &&
@@ -98,12 +124,12 @@ export const generatePageIndex = (
   const nodes = $.parseHTML(page.contentRendered);
 
   // get custom fields
-  const customFields = Object.fromEntries(
+  const customFields = fromEntries(
     customFieldsGetter
       .map(({ getter }, index) => {
         const result = getter(page);
 
-        return Array.isArray(result)
+        return isArray(result)
           ? [index.toString(), result]
           : result
           ? [index.toString(), [result]]
@@ -113,7 +139,7 @@ export const generatePageIndex = (
   );
 
   // no content in page and no customFields
-  if (!nodes?.length && !Object.keys(customFields).length) return null;
+  if (!nodes?.length && !keys(customFields).length) return null;
 
   // walk through nodes and extract indexes
   nodes?.forEach((node) => {
@@ -130,6 +156,43 @@ export const generatePageIndex = (
 
   return {
     ...result,
-    ...(Object.keys(customFields).length ? { customFields } : {}),
+    ...(keys(customFields).length ? { customFields } : {}),
   };
+};
+
+export const getSearchIndex = (
+  app: App,
+  options: SearchProOptions
+): SearchIndex => {
+  const pagesSearchIndex = app.pages
+    .map((page) => {
+      const pageIndex = generatePageIndex(
+        page,
+        options.customFields,
+        options.indexContent
+      );
+
+      return pageIndex
+        ? { path: page.path, index: pageIndex, localePath: page.pathLocale }
+        : null;
+    })
+    .filter(
+      (item): item is { path: string; index: PageIndex; localePath: string } =>
+        item !== null
+    );
+
+  return fromEntries(
+    keys(
+      // locales should at least have root locales
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      { "/": {}, ...app.options.locales }
+    ).map((localePath) => [
+      localePath,
+      fromEntries(
+        pagesSearchIndex
+          .filter((item) => item.localePath === localePath)
+          .map((item) => [item.path, item.index])
+      ),
+    ])
+  );
 };

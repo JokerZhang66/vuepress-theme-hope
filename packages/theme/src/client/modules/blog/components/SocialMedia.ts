@@ -1,9 +1,9 @@
-import { computed, defineComponent, h } from "vue";
-import { icons } from "@temp/theme-hope/socialMedia";
-import { usePure } from "@theme-hope/composables/index.js";
-import { useBlogOptions } from "@theme-hope/modules/blog/composables/index.js";
+import { type VNode, computed, defineComponent, h } from "vue";
+import { entries } from "vuepress-shared/client";
 
-import type { VNode } from "vue";
+import { icons } from "@temp/theme-hope/socialMedia";
+import { usePure } from "@theme-hope/composables/index";
+import { useBlogOptions } from "@theme-hope/modules/blog/composables/index";
 
 import "../styles/social-media.scss";
 
@@ -18,7 +18,7 @@ export default defineComponent({
       const config = blogOptions.value.medias;
 
       return config
-        ? Object.entries(config).map(([media, url]) => ({
+        ? entries(config).map(([media, url]) => ({
             name: media,
             icon: icons[media],
             url,

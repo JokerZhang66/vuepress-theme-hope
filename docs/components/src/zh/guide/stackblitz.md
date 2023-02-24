@@ -6,6 +6,24 @@ title: StackBlitz
 
 <!-- more -->
 
+## 示例
+
+一个 StackBlitz 项目:
+
+<StackBlitz id="vuepress-theme-hope" />
+
+```md
+<StackBlitz id="vuepress-theme-hope" />
+```
+
+一个自定义设置的 StackBlitz 项目:
+
+<StackBlitz id="vuepress-theme-hope" hideExplorer hideNavigation hideDevtools />
+
+```md
+<StackBlitz id="vuepress-theme-hope" hideExplorer hideNavigation hideDevtools />
+```
+
 ## Props
 
 ### id
@@ -14,6 +32,13 @@ title: StackBlitz
 - 必填: 是
 
 StackBlitz id
+
+### type
+
+- 类型: `"project" | "github"`
+- 默认值: `"project"`
+
+StackBlitz 项目类型。
 
 ### width
 
@@ -27,9 +52,9 @@ StackBlitz 组件宽度。
 - 类型: `string | number`
 - 必填：否
 
-StackBlitz 组件高度
+StackBlitz 组件高度。
 
-### radio
+### ratio
 
 - 类型: `number`
 - 默认值: `16 / 9`
@@ -38,12 +63,12 @@ StackBlitz 组件高度宽高比，只有当未指定 `height` 时有效。
 
 ### file
 
-- 类型: `string`
+- 类型: `string[] | string`
 - 必填: 否
 
 在编辑器中打开的默认文件。
 
-### initialpath
+### initialPath
 
 - 类型: `string`
 - 必填: 否
@@ -53,23 +78,37 @@ StackBlitz 组件高度宽高比，只有当未指定 `height` 时有效。
 ### embed
 
 - 类型: `boolean`
-- 默认值: `true`
+- 默认值: `false`
 
-无论屏幕大小如何，都强制嵌入视图。
+嵌入 StackBlitz 演示。
 
-### clickToLoad
+### load
 
 - 类型: `boolean`
-- 默认值: `true`
+- 默认值: `false`
 
-要求用户 "点击加载" 嵌入演示。
+是否直接加载嵌入演示。(仅在嵌入视图中有效)
+
+### theme
+
+- 类型: `"dark" | "light"`
+- 默认值: `"dark"`
+
+编辑器主题。(仅在嵌入视图中有效)
 
 ### view
 
-- 类型: `"editor" | "preview"`
+- 类型: `"default" | "editor" | "preview"`
 - 默认值: `"preview"`
 
 默认打开的视图。
+
+### text
+
+- 类型: `string`
+- 默认值: `"Open in StackBlitz"`
+
+打开 StackBlitz 按钮的文本。
 
 ### hideExplorer
 
@@ -85,27 +124,9 @@ StackBlitz 组件高度宽高比，只有当未指定 `height` 时有效。
 
 在嵌入视图中隐藏导航面板。
 
-### hidedevtools
+### hideDevtools
 
 - 类型: `boolean`
 - 默认值: `false`
 
 在编辑器预览中隐藏调试控制台。
-
-## 演示
-
-一个 StackBlitz 项目:
-
-<StackBlitz id="vuepress-theme-hope" />
-
-```md
-<StackBlitz id="vuepress-theme-hope" />
-```
-
-一个自定义设置的 StackBlitz 项目:
-
-<StackBlitz id="vuepress-theme-hope" hideExplorer hideNavigation hidedevtools />
-
-```md
-<StackBlitz id="vuepress-theme-hope" hideExplorer hideNavigation hidedevtools />
-```

@@ -1,6 +1,6 @@
 ---
 title: Миграция версии 2
-icon: change
+icon: code-compare
 ---
 
 Это руководство поможет вам перейти с версии 1 на версию 2.
@@ -23,7 +23,7 @@ icon: change
 
 Все, что вам нужно сделать, это:
 
-1. Установите `vuepress@next` и `vuepress-theme-hope@next`;
+1. Установите `vuepress@next` и `vuepress-theme-hope`;
 
 1. Попробуйте запустить проект и прочитать логи;
 

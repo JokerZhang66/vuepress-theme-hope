@@ -3,20 +3,19 @@ import theme from "./theme.js";
 
 export default config(
   {
-    base: `copy-code`,
-    indexName: "vuepress-theme-hope-copy-code2",
+    name: "copy-code2",
   },
   {
     locales: {
       "/": {
         lang: "en-US",
-        title: "Quick Code Copy",
+        title: "Copy Code Block",
         description: "Quick Code Copy Plugin for vuepress",
       },
 
       "/zh/": {
         lang: "zh-CN",
-        title: "代码一键复制",
+        title: "复制代码块",
         description: "VuePress 的代码一键复制插件",
       },
     },

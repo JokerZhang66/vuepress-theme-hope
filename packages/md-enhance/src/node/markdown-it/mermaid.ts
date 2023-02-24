@@ -1,6 +1,6 @@
-import { utoa } from "vuepress-shared/node";
-import type { PluginSimple } from "markdown-it";
+import { type PluginSimple } from "markdown-it";
 import type Renderer from "markdown-it/lib/renderer.js";
+import { utoa } from "vuepress-shared/node";
 
 const mermaidRender: Renderer.RenderRule = (tokens, index) => {
   const token = tokens[index];
@@ -51,6 +51,8 @@ export const mermaid: PluginSimple = (md) => {
       return mermaidHackRender("C4Context", content, index);
     if (info.trim() === "mindmap")
       return mermaidHackRender("mindmap", content, index);
+    if (info.trim() === "timeline")
+      return mermaidHackRender("timeline", content, index);
 
     return fence!(...args);
   };

@@ -1,6 +1,6 @@
 ---
 title: MdEnhance Plugin Config
-icon: markdown
+icon: fab fa-markdown
 order: 6
 category:
   - Config
@@ -26,7 +26,7 @@ If you don’t need this feature, please set to `false`.
 
 `vuepress-theme-hope` will set the `container` option to `true` by default.
 
-See the [md-enhance documentation][md-enhance-config] for more details.
+See <ProjectLink name="md-enhance" path="/config.html">Plugin documentation</ProjectLink> for more details.
 
 :::
 
@@ -140,7 +140,14 @@ Whether to lazy load every images in page in native way.
 
 Whether to enable mark support.
 
-### imageMark
+### figure
+
+- Type: `boolean`
+- Default: `false`
+
+Whether enable figure support.
+
+### imgMark
 
 - Type: `ImageMarkOptions | boolean`
 - Default: `false`
@@ -156,19 +163,19 @@ interface ImageMarkOptions {
 }
 ```
 
-### imageSize
+### imgSize
 
 - Type: `boolean`
 - Default: `false`
 
 Whether enable image size support.
 
-### imageTitle
+### obsidianImgSize
 
 - Type: `boolean`
 - Default: `false`
 
-Whether enable image title support.
+Whether enable obsidian image size support.
 
 ### tasklist
 
@@ -200,7 +207,7 @@ interface TaskListOptions {
 - Type: `KatexOptions & { mhchem?: boolean } | boolean`
 - Default: `false`
 
-Whether to enable $\TeX$ syntax support through $\KaTeX$. You can pass an object to config $\KaTeX$.
+Whether to enable $\TeX$ syntax support through KaTeX. You can pass an object to config KaTeX.
 
 In particular, you can enable the mhchem extension with `katex.mhchem: true`.
 
@@ -227,7 +234,7 @@ Whether to enable flowchart support
 - Type: `boolean`
 - Default: `false`
 
-Whether to enable [Mermaid](https://mermaid-js.github.io/mermaid/#/) support.
+Whether to enable [Mermaid](https://mermaid.js.org/) support.
 
 ### stylize
 
@@ -405,13 +412,6 @@ Playground options.
   ```ts
   interface VuePlaygroundOptions {
     /**
-     * Whether to show code in playground
-     *
-     * @default false
-     */
-    showCode?: boolean;
-
-    /**
      * specify the version of vue
      */
     vueVersion?: string;
@@ -461,9 +461,9 @@ Playground options.
     /**
      * Layout
      *
-     * @default 'vertical'
+     * @default 'horizontal'
      */
-    layout?: "vertical" | "horizontal";
+    layout?: "vertical" |layout?: "horizontal" | "vertical";
 
     /**
      * Options to configure the `vue/compiler-sfc`
@@ -601,7 +601,7 @@ Config which you want to pass to reveal.js.
 ### delay
 
 - Type: `number`
-- Default: `500`
+- Default: `800`
 
 The delay of operating dom, in ms.
 
@@ -656,5 +656,3 @@ If the theme you are using has a switching animation, it is recommended to confi
 - Required: No
 
 Locales config for Markdown Enhance Plugin.
-
-[md-enhance-config]: https://vuepress-theme-hope.github.io/v2/md-enhance/config.html

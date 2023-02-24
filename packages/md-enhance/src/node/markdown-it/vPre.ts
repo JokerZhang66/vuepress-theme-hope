@@ -1,6 +1,5 @@
-import { container } from "./container.js";
-
-import type { PluginSimple } from "markdown-it";
+import { container } from "@mdit/plugin-container";
+import { type PluginSimple } from "markdown-it";
 
 export const vPre: PluginSimple = (md) => {
   container(md, {

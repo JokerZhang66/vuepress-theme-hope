@@ -1,6 +1,8 @@
 ---
 title: VuePress
-icon: vue
+icon: fab fa-vuejs
+dir:
+  order: 3
 category:
   - 教程知识
   - VuePress

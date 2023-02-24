@@ -7,7 +7,7 @@ heroText: vuepress-plugin-redirect
 tagline: Redirect plugin for VuePress2
 actions:
   - text: Docs
-    link: https://vuepress-theme-hope.github.io/v2/redirect/
+    link: https://plugin-redirect.vuejs.press
 
 footer: MIT Licensed | Copyright © 2022-present Mr.Hope
 ---
@@ -17,7 +17,7 @@ footer: MIT Licensed | Copyright © 2022-present Mr.Hope
 ### Install
 
 ```bash
-pnpm add -D vuepress-plugin-redirect@next
+pnpm add -D vuepress-plugin-redirect
 ```
 
 ### Usage

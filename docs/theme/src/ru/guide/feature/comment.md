@@ -1,6 +1,6 @@
 ---
 title: Сервис комментариев
-icon: comment
+icon: comment-dots
 category:
   - Функция
 tag:
@@ -8,7 +8,7 @@ tag:
   - Функция
 ---
 
-`vuepress-theme-hope` реализует функцию комментариев со встроенным [`vuepress-plugin-comment2`][comment2].
+`vuepress-theme-hope` реализует функцию комментариев со встроенным <ProjectLink name="comment2">`vuepress-plugin-comment2`</ProjectLink>.
 
 ::: info
 
@@ -33,7 +33,7 @@ export default defineUserConfig({
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
 
         // waline 模式下
         serverURL: "...", // your serverURL
@@ -53,7 +53,7 @@ export default {
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
 
         // waline 模式下
         serverURL: "...", // your serverURL
@@ -69,13 +69,13 @@ export default {
 
 ::: tip
 
-Полный элемент конфигурации плагина смотрите в [документации по плагину][comment2].
+Полный элемент конфигурации плагина смотрите в <ProjectLink name="comment2">документации по плагину</ProjectLink>.
 
 :::
 
 ## Поставщик комментариев
 
-В настоящее время вы можете выбирать из Giscus, Waline и Twikoo.
+В настоящее время вы можете выбирать из Giscus, Waline, Twikoo и Artalk.
 
 ::: tip Выбор службы комментариев
 
@@ -99,7 +99,7 @@ Giscus — это система комментариев на основе GitH
 
 Пожалуйста, передайте `data-repo`, `data-repo-id`, `data-category` и `data-category-id` в качестве параметров плагина как `repo`, `repoId`, `category` `categoryId`.
 
-Другие параметры смотрите в [Конфиге Giscus][comment2-giscus-config].
+Другие параметры смотрите в <ProjectLink name="comment2" path="/config/giscus.html">Конфиге Giscus</ProjectLink>.
 
 ## Waline
 
@@ -128,7 +128,7 @@ export default defineUserConfig({
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
         serverURL: "YOUR_SERVER_URL", // your server url
       },
     },
@@ -146,7 +146,7 @@ export default {
   theme: hopeTheme({
     plugins: {
       comment: {
-        provider: "waline",
+        provider: "Waline",
         serverURL: "YOUR_SERVER_URL", // your server url
       },
     },
@@ -158,7 +158,7 @@ export default {
 
 ::: tip
 
-Конфигурация будет указана в [Конфигурация плагина][comment2-waline-config].
+Конфигурация будет указана в <ProjectLink name="comment2" path="/config/waline.html">Конфигурация плагина</ProjectLink>.
 
 Для получения более подробной информации смотрите [Документацию Waline Docs](https://waline.js.org/en/)。
 
@@ -180,6 +180,22 @@ export default {
 1. Перейдите в Overview, щелкните ссылку в разделе Domains, если конфигурация среды верна, вы увидите сообщение "Twikoo cloud function is running normally"
 1. Домены Vercel (с префиксом `https://`, например, `https://xxx.vercel.app`) – это идентификатор вашей среды
 
-[comment2]: https://vuepress-theme-hope.github.io/v2/comment/
-[comment2-giscus-config]: https://vuepress-theme-hope.github.io/v2/comment/config/giscus.html
-[comment2-waline-config]: https://vuepress-theme-hope.github.io/v2/comment/config/waline.html
+## Artalk
+
+### Deploy Artalk Server
+
+See the [Artalk documentation](https://artalk.js.org/guide/deploy.html) for deploying artalk server.
+
+### Artalk Configuration
+
+Please set `provider: "Artalk"` and pass your server link to `server` in the plugin options.
+
+For other configuration items, see [Artalk Configuration](https://artalk.js.org/guide/frontend/config.html).
+
+::: note
+
+The plugin retains the `el` option and inserts Artalk itself on the page. At the same time, the plugin will automatically set the `pageTitle`, `pageKey` and `site` options for you according to the VuePress information.
+
+Before VuePress2 provides client configuration, the two function options `imgUploader` and `avatarURLBuilder` are not supported.
+
+:::

@@ -1,65 +1,66 @@
-import { getDirname, path } from "@vuepress/utils";
+import { type ThemeFunction } from "@vuepress/core";
+import { watch } from "chokidar";
 
-import { resolveAlias } from "./alias.js";
+import { getAlias } from "./alias.js";
 import { extendsBundlerOptions } from "./bundler.js";
-import { extendsPage } from "./extendsPage.js";
+import { checkLegacyStyle, convertThemeOptions } from "./compact/index.js";
 import {
-  checkStyle,
-  convertFrontmatter,
-  convertThemeConfig,
-} from "./compact/index.js";
-import { getPluginConfig, usePlugin } from "./plugins/index.js";
+  checkSocialMediaIcons,
+  getStatus,
+  getThemeData,
+} from "./config/index.js";
+import { checkPlugins, getPluginConfig, usePlugin } from "./plugins/index.js";
 import {
   prepareConfigFile,
+  prepareHighLighterScss,
   prepareSidebarData,
   prepareSocialMediaIcons,
+  prepareThemeColorScss,
 } from "./prepare/index.js";
-import { checkSocialMediaIcons } from "./socialMedia.js";
-import { getStatus } from "./status.js";
-import { getThemeConfig } from "./themeConfig.js";
-import { prepareThemeColorScss } from "./themeColor.js";
-
-import type { Page, ThemeFunction } from "@vuepress/core";
-import type { ThemeOptions, ThemePageData } from "../shared/index.js";
-
-const __dirname = getDirname(import.meta.url);
+import { TEMPLATE_FOLDER } from "./utils.js";
+import { type ThemeOptions } from "../shared/index.js";
 
 export const hopeTheme =
   (
     options: ThemeOptions,
     // TODO: Remove this in v2 stable
-    legacy = false
+    legacy = true
   ): ThemeFunction =>
   (app) => {
+    const { isDebug } = app.env;
     const {
+      favicon,
+      hotReload = isDebug,
       plugins = {},
       hostname,
       iconAssets,
       iconPrefix,
-      addThis,
       backToTop,
       sidebarSorter,
       ...themeOptions
     } = legacy
-      ? convertThemeConfig(options as ThemeOptions & Record<string, unknown>)
+      ? convertThemeOptions(options as ThemeOptions & Record<string, unknown>)
       : options;
 
-    if (legacy) checkStyle(app);
+    if (legacy) checkLegacyStyle(app);
+
+    checkPlugins(app, plugins);
 
     const status = getStatus(app, options);
-    const themeConfig = getThemeConfig(app, themeOptions, status);
-    const icons = status.enableBlog ? checkSocialMediaIcons(themeConfig) : {};
+    const themeData = getThemeData(app, themeOptions, status);
+    const icons = status.enableBlog ? checkSocialMediaIcons(themeData) : {};
 
-    usePlugin(app, plugins);
+    usePlugin(app, themeData, plugins, legacy, hotReload);
 
-    if (app.env.isDebug) console.log("Theme plugin options:", plugins);
+    if (isDebug) console.log("Theme plugin options:", plugins);
 
     return {
       name: "vuepress-theme-hope",
 
-      alias: resolveAlias(app.env.isDebug),
+      alias: getAlias(isDebug),
 
       define: () => ({
+        BLOG_TYPE_INFO: status.blogType,
         ENABLE_BLOG: status.enableBlog,
         ENABLE_READING_TIME: status.enableReadingTime,
         HAS_MULTIPLE_LANGUAGES: status.hasMultipleLanguages,
@@ -68,50 +69,75 @@ export const hopeTheme =
 
       extendsBundlerOptions,
 
-      extendsPage: (page): void => {
-        if (legacy)
-          page.frontmatter = convertFrontmatter(
-            page.frontmatter,
-            page.filePathRelative || ""
-          );
+      onInitialized: (app): void => {
+        if (favicon) {
+          const { base, head } = app.options;
+          const faviconLink = favicon.replace(/^\/?/, base);
 
-        extendsPage(
-          themeConfig,
-          plugins,
-          <Page<ThemePageData>>page,
-          app.env.isDebug
-        );
+          // ensure favicon is not injected
+          if (
+            head.every(
+              ([tag, attrs]) =>
+                !(
+                  tag === "link" &&
+                  attrs["rel"] === "icon" &&
+                  attrs["href"] === faviconLink
+                )
+            )
+          )
+            head.push(["link", { rel: "icon", href: faviconLink }]);
+        }
       },
 
-      onPrepared: (): Promise<void> =>
+      onPrepared: (app): Promise<void> =>
         Promise.all([
-          prepareSidebarData(app, themeConfig, sidebarSorter),
-          prepareThemeColorScss(app, themeConfig),
+          prepareSidebarData(app, themeData, sidebarSorter),
+          prepareHighLighterScss(app, plugins),
+          prepareThemeColorScss(app, themeData),
           prepareSocialMediaIcons(app, icons),
         ]).then(() => void 0),
 
+      onWatched: (app, watchers): void => {
+        if (hotReload) {
+          // this ensure the page is generated or updated
+          const structureSidebarWatcher = watch("pages/**/*.vue", {
+            cwd: app.dir.temp(),
+            ignoreInitial: true,
+          });
+
+          structureSidebarWatcher.on("add", () => {
+            void prepareSidebarData(app, themeData, sidebarSorter);
+          });
+          structureSidebarWatcher.on("change", () => {
+            void prepareSidebarData(app, themeData, sidebarSorter);
+          });
+          structureSidebarWatcher.on("unlink", () => {
+            void prepareSidebarData(app, themeData, sidebarSorter);
+          });
+
+          watchers.push(structureSidebarWatcher);
+        }
+      },
+
       plugins: getPluginConfig(
+        app,
         plugins,
-        themeConfig,
+        themeData,
 
         // @ts-ignore
         {
-          addThis,
           backToTop,
           hostname,
+          hotReload,
           iconAssets,
           iconPrefix,
+          favicon,
         },
         legacy
       ),
 
-      templateBuild: path.resolve(
-        __dirname,
-        "../../templates/index.build.html"
-      ),
+      templateBuild: `${TEMPLATE_FOLDER}index.build.html`,
 
-      clientConfigFile: (app) => prepareConfigFile(app, plugins, status),
+      clientConfigFile: (app) => prepareConfigFile(app, status),
     };
   };
-
-export const hope = hopeTheme;

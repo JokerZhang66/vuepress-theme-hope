@@ -1,6 +1,6 @@
 ---
 title: Darkmode
-icon: contrast
+icon: circle-half-stroke
 order: 1
 category:
   - Interface
@@ -33,8 +33,8 @@ Available options:
 
 ## Global Variables
 
-`$isDarkMode` is available in all Markdown files.
+`$isDarkmode` is available in all Markdown files.
 
 <script setup lang="ts">
-import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch.js"
+import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch"
 </script>

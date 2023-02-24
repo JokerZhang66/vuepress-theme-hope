@@ -1,27 +1,31 @@
-import { defineComponent, resolveComponent, h } from "vue";
+import {
+  type PropType,
+  type VNode,
+  defineComponent,
+  h,
+  resolveComponent,
+} from "vue";
+import { type ReadingTime } from "vuepress-plugin-reading-time2";
+import {
+  type AuthorInfo as AuthorInfoType,
+  type DateInfo as DateInfoType,
+} from "vuepress-shared/client";
 
-import { usePure } from "@theme-hope/composables/index.js";
+import { usePure } from "@theme-hope/composables/index";
+import AuthorInfo from "@theme-hope/modules/info/components/AuthorInfo";
+import CategoryInfo from "@theme-hope/modules/info/components/CategoryInfo";
+import DateInfo from "@theme-hope/modules/info/components/DateInfo";
+import OriginalInfo from "@theme-hope/modules/info/components/OriginalInfo";
+import PageViewInfo from "@theme-hope/modules/info/components/PageViewInfo";
+import ReadingTimeInfo from "@theme-hope/modules/info/components/ReadingTimeInfo";
+import TagInfo from "@theme-hope/modules/info/components/TagInfo";
+import WordInfo from "@theme-hope/modules/info/components/WordInfo";
+import {
+  type PageCategory,
+  type PageTag,
+} from "@theme-hope/modules/info/utils/index";
 
-import AuthorInfo from "@theme-hope/modules/info/components/AuthorInfo.js";
-import CategoryInfo from "@theme-hope/modules/info/components/CategoryInfo.js";
-import DateInfo from "@theme-hope/modules/info/components/DateInfo.js";
-import PageViewInfo from "@theme-hope/modules/info/components/PageViewInfo.js";
-import ReadingTimeInfo from "@theme-hope/modules/info/components/ReadingTimeInfo.js";
-import TagInfo from "@theme-hope/modules/info/components/TagInfo.js";
-import OriginalInfo from "@theme-hope/modules/info/components/OriginalMark.js";
-import WordInfo from "@theme-hope/modules/info/components/WordInfo.js";
-
-import type { PropType, VNode } from "vue";
-import type { ReadingTime } from "vuepress-plugin-reading-time2";
-import type {
-  AuthorInfo as AuthorInfoType,
-  DateInfo as DateInfoType,
-} from "vuepress-shared";
-import type {
-  PageCategory,
-  PageTag,
-} from "@theme-hope/modules/info/utils/index.js";
-import type { PageInfo } from "../../../../shared/index.js";
+import { type PageInfo } from "../../../../shared/index.js";
 
 import "balloon-css/balloon.css";
 import "../styles/page-info.scss";
@@ -106,19 +110,30 @@ export default defineComponent({
   },
 
   props: {
+    /**
+     * Article information to display
+     *
+     * 待展示的文章信息
+     */
     items: {
       type: [Array, Boolean] as PropType<PageInfo[] | false>,
       default: (): PageInfo[] => [
         "Author",
         "Original",
         "Date",
+        "PageView",
+        "ReadingTime",
         "Category",
         "Tag",
-        "ReadingTime",
       ],
     },
 
-    config: {
+    /**
+     * Article information
+     *
+     * 文章信息配置
+     */
+    info: {
       type: Object as PropType<PageInfoProps>,
       required: true,
     },
@@ -134,7 +149,7 @@ export default defineComponent({
             { class: "page-info" },
             props.items.map((item) =>
               h(resolveComponent(`${item}Info`), {
-                ...props.config,
+                ...props.info,
                 pure: pure.value,
               })
             )
